@@ -6,9 +6,20 @@ import { z } from "zod";
 import { UserRole } from "@prisma/client";
 
 const registerSchema = z.object({
-  fullName: z.string().min(2).max(150),
-  email: z.string().email().max(255),
-  password: z.string().min(8).max(100),
+  fullName: z
+    .string({ required_error: "Full name is required" })
+    .trim()
+    .min(2, "Full name must be at least 2 characters")
+    .max(150, "Full name cannot exceed 150 characters"),
+  email: z
+    .string({ required_error: "Email address is required" })
+    .trim()
+    .email("Please enter a valid email address with a domain (e.g. name@example.com)")
+    .max(255, "Email address is too long"),
+  password: z
+    .string({ required_error: "Password is required" })
+    .min(8, "Password must be at least 8 characters long")
+    .max(100, "Password cannot exceed 100 characters"),
   role: z.enum([UserRole.CLIENT, UserRole.PSYCHOLOGIST]).optional(),
 });
 
@@ -21,10 +32,13 @@ export async function POST(req: NextRequest) {
     const parsed = registerSchema.safeParse(body);
 
     if (!parsed.success) {
+      const fieldErrors = parsed.error.flatten().fieldErrors;
+      const firstErrorMessage =
+        Object.values(fieldErrors).flat()[0] || "Validation failed. Please check the form.";
       return NextResponse.json(
         {
-          error: "Validation failed",
-          details: parsed.error.flatten().fieldErrors,
+          error: firstErrorMessage,
+          details: fieldErrors,
         },
         { status: 400 }
       );

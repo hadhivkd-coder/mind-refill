@@ -1,0 +1,1034 @@
+// ==============================================================================
+// PSYCHOLOGY PLATFORM — PRODUCTION DATABASE SCHEMA
+// Engine: PostgreSQL with UTC Timestamps, UUID Primary Keys & Money in Minors
+// ==============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ------------------------------------------------------------------------------
+// ENUMS
+// ------------------------------------------------------------------------------
+
+enum UserRole {
+  CLIENT
+  PSYCHOLOGIST
+  COORDINATOR
+  ADMIN
+}
+
+enum VerificationStatus {
+  PENDING
+  UNDER_REVIEW
+  VERIFIED
+  REJECTED
+  SUSPENDED
+}
+
+enum CounselingRequestStatus {
+  NEW
+  CONTACTED
+  INTAKE_COMPLETED
+  MATCHING
+  PSYCHOLOGIST_SELECTED
+  AVAILABILITY_CONFIRMED
+  PAYMENT_PENDING
+  BOOKED
+  COMPLETED
+  FOLLOW_UP
+  CLOSED
+  CANCELLED
+  UNRESPONSIVE
+  DECLINED
+}
+
+enum AppointmentStatus {
+  REQUESTED
+  AWAITING_COORDINATION
+  AWAITING_AVAILABILITY
+  AWAITING_PAYMENT
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  EXPIRED
+  NO_SHOW
+  RESCHEDULED
+}
+
+enum BookingHoldStatus {
+  ACTIVE
+  CONSUMED
+  RELEASED
+  EXPIRED
+}
+
+enum SessionDeliveryType {
+  ONLINE_VIDEO
+  IN_PERSON
+}
+
+enum PaymentStatus {
+  CREATED
+  REQUIRES_ACTION
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  CANCELLED
+  REFUND_PENDING
+  PARTIALLY_REFUNDED
+  REFUNDED
+}
+
+enum SettlementStatus {
+  PENDING_SETTLEMENT
+  ELIGIBLE
+  IN_PAYOUT
+  PAID
+  ON_HOLD
+  ADJUSTED
+}
+
+enum PayoutStatus {
+  DRAFT
+  PENDING_APPROVAL
+  PROCESSING
+  PAID
+  FAILED
+}
+
+enum SubscriptionStatus {
+  PENDING_PAYMENT
+  ACTIVE
+  PAST_DUE
+  CANCELLING
+  CANCELLED
+  EXPIRED
+}
+
+enum ContentStatus {
+  DRAFT
+  IN_REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+// ------------------------------------------------------------------------------
+// 1. IDENTITY & AUTHENTICATION
+// ------------------------------------------------------------------------------
+
+model User {
+  id                   String                 @id @default(uuid()) @db.Uuid
+  email                String                 @unique @db.VarChar(255)
+  passwordHash         String?                @db.VarChar(255)
+  isEmailVerified      Boolean                @default(false)
+  emailVerifiedAt      DateTime?
+  isActive             Boolean                @default(true)
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+
+  roles                UserRoleAssignment[]
+  authAccounts         AuthAccount[]
+  sessions             Session[]
+  passwordResetTokens  PasswordResetToken[]
+  clientProfile        ClientProfile?
+  psychologistProfile  PsychologistProfile?
+  staffProfile         StaffProfile?
+  auditLogs            AuditLog[]             @relation("ActorAuditLogs")
+  notifications        Notification[]
+
+  @@index([email])
+}
+
+model UserRoleAssignment {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  role      UserRole
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, role])
+  @@index([role])
+}
+
+model AuthAccount {
+  id                String   @id @default(uuid()) @db.Uuid
+  userId            String   @db.Uuid
+  provider          String   @db.VarChar(50)
+  providerAccountId String   @db.VarChar(255)
+  createdAt         DateTime @default(now())
+
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @db.Uuid
+  tokenHash    String   @unique @db.VarChar(255)
+  ipAddress    String?  @db.VarChar(45)
+  userAgent    String?  @db.Text
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  lastActiveAt DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model EmailVerificationToken {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @db.VarChar(255)
+  tokenHash String   @unique @db.VarChar(255)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([expiresAt])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  tokenHash String   @unique @db.VarChar(255)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+// ------------------------------------------------------------------------------
+// 2. PROFILES & PROFESSIONAL INFORMATION
+// ------------------------------------------------------------------------------
+
+model ClientProfile {
+  id                 String              @id @default(uuid()) @db.Uuid
+  userId             String              @unique @db.Uuid
+  fullName           String              @db.VarChar(150)
+  phoneNumber        String?             @db.VarChar(30)
+  preferredLanguage  String?             @db.VarChar(20)
+  timezone           String              @default("UTC") @db.VarChar(50)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  counselingRequests CounselingRequest[]
+  appointments       Appointment[]
+  orders             Order[]
+  eventRegistrations EventRegistration[]
+}
+
+model PsychologistProfile {
+  id                  String                          @id @default(uuid()) @db.Uuid
+  userId              String                          @unique @db.Uuid
+  slug                String                          @unique @db.VarChar(100)
+  fullName            String                          @db.VarChar(150)
+  professionalTitle   String                          @db.VarChar(150)
+  profilePhotoUrl     String?                         @db.VarChar(500)
+  shortIntro          String?                         @db.VarChar(300)
+  bio                 String                          @db.Text
+  professionalApproach String?                        @db.Text
+  areasTheyHelpWith   Json?
+  yearsOfExperience   Int                             @default(0)
+  timezone            String                          @default("UTC") @db.VarChar(50)
+  location            String?                         @db.VarChar(150)
+  isPublic            Boolean                         @default(false)
+  profileState        String                          @default("ACTIVE") @db.VarChar(20) // DRAFT, ACTIVE, SUSPENDED, ARCHIVED
+  verificationStatus  VerificationStatus              @default(PENDING)
+  seoTitle            String?                         @db.VarChar(150)
+  seoDescription      String?                         @db.VarChar(300)
+  createdAt           DateTime                        @default(now())
+  updatedAt           DateTime                        @updatedAt
+
+  user                User                            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  specializations     PsychologistSpecialization[]
+  languages           PsychologistLanguage[]
+  qualifications      Qualification[]
+  experiences         ProfessionalExperience[]
+  services            Service[]
+  socialLinks         SocialLink[]
+  verificationApps    VerificationApplication[]
+  portfolio           Portfolio?
+  availabilityRules   AvailabilityRule[]
+  exceptions          AvailabilityException[]
+  bookingHolds        BookingHold[]
+  appointments        Appointment[]
+  settlementItems     SettlementItem[]
+  payouts             Payout[]
+  subscriptions       Subscription[]
+  contentItems        ContentItem[]
+  ebooks              Ebook[]
+  events              Event[]
+  targetedRequests    CounselingRequest[]             @relation("TargetPsychologist")
+
+  @@index([slug])
+  @@index([verificationStatus, isPublic, profileState])
+}
+
+model StaffProfile {
+  id                    String                  @id @default(uuid()) @db.Uuid
+  userId                String                  @unique @db.Uuid
+  fullName              String                  @db.VarChar(150)
+  department            String?                 @db.VarChar(100)
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+
+  user                  User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignedRequests      CoordinatorAssignment[]
+  coordinationNotes     CoordinationNote[]
+  verificationReviews   VerificationReview[]
+  coordinatedAppointments Appointment[]
+}
+
+model SocialLink {
+  id                    String              @id @default(uuid()) @db.Uuid
+  psychologistProfileId String              @db.Uuid
+  platform              String              @db.VarChar(50)
+  url                   String              @db.VarChar(500)
+  createdAt             DateTime            @default(now())
+
+  profile               PsychologistProfile @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)
+
+  @@index([psychologistProfileId])
+}
+
+model Specialization {
+  id            String                       @id @default(uuid()) @db.Uuid
+  name          String                       @unique @db.VarChar(100)
+  slug          String                       @unique @db.VarChar(100)
+  description   String?                      @db.Text
+  isHighRisk    Boolean                      @default(false)
+  isActive      Boolean                      @default(true)
+  displayOrder  Int                          @default(0)
+  createdAt     DateTime                     @default(now())
+
+  psychologists PsychologistSpecialization[]
+
+  @@index([isActive, displayOrder])
+}
+
+model PsychologistSpecialization {
+  id               String              @id @default(uuid()) @db.Uuid
+  psychologistId   String              @db.Uuid
+  specializationId String              @db.Uuid
+
+  psychologist     PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+  specialization   Specialization      @relation(fields: [specializationId], references: [id], onDelete: Cascade)
+
+  @@unique([psychologistId, specializationId])
+}
+
+model Language {
+  id            String                 @id @default(uuid()) @db.Uuid
+  code          String                 @unique @db.VarChar(10)
+  name          String                 @unique @db.VarChar(100)
+  nativeName    String?                @db.VarChar(100)
+  isActive      Boolean                @default(true)
+
+  psychologists PsychologistLanguage[]
+
+  @@index([isActive])
+}
+
+model PsychologistLanguage {
+  id             String              @id @default(uuid()) @db.Uuid
+  psychologistId String              @db.Uuid
+  languageId     String              @db.Uuid
+
+  psychologist   PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+  language       Language            @relation(fields: [languageId], references: [id], onDelete: Cascade)
+
+  @@unique([psychologistId, languageId])
+}
+
+model Qualification {
+  id             String              @id @default(uuid()) @db.Uuid
+  psychologistId String              @db.Uuid
+  degree         String              @db.VarChar(150)
+  institution    String              @db.VarChar(200)
+  yearObtained   Int
+  description    String?             @db.Text
+  isPublic       Boolean             @default(true)
+  createdAt      DateTime            @default(now())
+
+  psychologist   PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+
+  @@index([psychologistId])
+}
+
+model ProfessionalExperience {
+  id             String              @id @default(uuid()) @db.Uuid
+  psychologistId String              @db.Uuid
+  organization   String              @db.VarChar(200)
+  roleTitle      String              @db.VarChar(150)
+  startDate      DateTime
+  endDate        DateTime?
+  isCurrent      Boolean             @default(false)
+  description    String?             @db.Text
+  isPublic       Boolean             @default(true)
+  createdAt      DateTime            @default(now())
+
+  psychologist   PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+
+  @@index([psychologistId])
+}
+
+model Service {
+  id                  String              @id @default(uuid()) @db.Uuid
+  psychologistId      String              @db.Uuid
+  name                String              @db.VarChar(150)
+  description         String?             @db.Text
+  deliveryType        SessionDeliveryType @default(ONLINE_VIDEO)
+  durationMinutes     Int                 @default(50)
+  priceAmountMinor    BigInt
+  priceCurrency       String              @db.Char(3)
+  isActive            Boolean             @default(true)
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+
+  psychologist        PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+  appointments        Appointment[]
+  bookingHolds        BookingHold[]
+
+  @@index([psychologistId, isActive])
+}
+
+// ------------------------------------------------------------------------------
+// 3. VERIFICATION & SECURE PRIVATE STORAGE
+// ------------------------------------------------------------------------------
+
+model StoredFile {
+  id                    String                 @id @default(uuid()) @db.Uuid
+  storageKey            String                 @unique @db.VarChar(500)
+  bucket                String                 @db.VarChar(100)
+  originalName          String                 @db.VarChar(255)
+  mimeType              String                 @db.VarChar(100)
+  sizeBytes             BigInt
+  isScannedSafe         Boolean                @default(false)
+  uploadedById          String                 @db.Uuid
+  createdAt             DateTime               @default(now())
+
+  verificationDocuments VerificationDocument[]
+  ebookFile             Ebook?                 @relation("EbookFile")
+
+  @@index([uploadedById])
+}
+
+model VerificationApplication {
+  id             String                 @id @default(uuid()) @db.Uuid
+  psychologistId String                 @db.Uuid
+  status         VerificationStatus     @default(PENDING)
+  submittedAt    DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+
+  psychologist   PsychologistProfile    @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+  documents      VerificationDocument[]
+  reviews        VerificationReview[]
+
+  @@index([psychologistId])
+  @@index([status])
+}
+
+model VerificationDocument {
+  id            String                  @id @default(uuid()) @db.Uuid
+  applicationId String                  @db.Uuid
+  storedFileId  String                  @db.Uuid
+  documentType  String                  @db.VarChar(100) // License, Degree, ID
+  createdAt     DateTime                @default(now())
+
+  application   VerificationApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  file          StoredFile              @relation(fields: [storedFileId], references: [id], onDelete: Cascade)
+
+  @@index([applicationId])
+}
+
+model VerificationReview {
+  id            String                  @id @default(uuid()) @db.Uuid
+  applicationId String                  @db.Uuid
+  reviewerId    String                  @db.Uuid
+  outcomeStatus VerificationStatus
+  notes         String?                 @db.Text
+  createdAt     DateTime                @default(now())
+
+  application   VerificationApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  reviewer      StaffProfile            @relation(fields: [reviewerId], references: [id], onDelete: Cascade)
+
+  @@index([applicationId])
+}
+
+// ------------------------------------------------------------------------------
+// 4. PORTFOLIO & AI BUILDER
+// ------------------------------------------------------------------------------
+
+model Portfolio {
+  id                    String              @id @default(uuid()) @db.Uuid
+  psychologistProfileId String              @unique @db.Uuid
+  publishedVersionId    String?             @unique @db.Uuid
+  isPublished           Boolean             @default(false)
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  psychologist          PsychologistProfile @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)
+  versions              PortfolioVersion[]
+}
+
+model PortfolioTemplate {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique @db.VarChar(50) // 'minimal', 'warm', 'modern', 'elegant', 'professional'
+  displayName String   @db.VarChar(100)
+  description String?  @db.Text
+  isActive    Boolean  @default(true)
+}
+
+model PortfolioVersion {
+  id          String             @id @default(uuid()) @db.Uuid
+  portfolioId String             @db.Uuid
+  versionNum  Int
+  styleName   String             @db.VarChar(50)
+  contentJson Json               // Strictly validated against PortfolioContentSchema
+  changeNotes String?            @db.VarChar(255)
+  createdAt   DateTime           @default(now())
+
+  portfolio   Portfolio          @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  sections    PortfolioSection[]
+
+  @@unique([portfolioId, versionNum])
+  @@index([portfolioId])
+}
+
+model PortfolioSection {
+  id                 String           @id @default(uuid()) @db.Uuid
+  portfolioVersionId String           @db.Uuid
+  sectionType        String           @db.VarChar(50)
+  sectionOrder       Int
+  heading            String?          @db.VarChar(255)
+  payloadJson        Json
+
+  version            PortfolioVersion @relation(fields: [portfolioVersionId], references: [id], onDelete: Cascade)
+
+  @@index([portfolioVersionId])
+}
+
+// ------------------------------------------------------------------------------
+// 5. COUNSELING & COORDINATOR MATCHING
+// ------------------------------------------------------------------------------
+
+model CounselingRequest {
+  id                     String                           @id @default(uuid()) @db.Uuid
+  clientId               String                           @db.Uuid
+  targetPsychologistId   String?                          @db.Uuid
+  status                 CounselingRequestStatus          @default(NEW)
+  isDirectBookingRequest Boolean                          @default(false)
+  createdAt              DateTime                         @default(now())
+  updatedAt              DateTime                         @updatedAt
+
+  client                 ClientProfile                    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  targetPsychologist     PsychologistProfile?             @relation("TargetPsychologist", fields: [targetPsychologistId], references: [id], onDelete: SetNull)
+  intakeResponse         IntakeResponse?
+  assignments            CoordinatorAssignment[]
+  notes                  CoordinationNote[]
+  statusHistory          CounselingRequestStatusHistory[]
+  appointments           Appointment[]
+
+  @@index([clientId])
+  @@index([status])
+  @@index([targetPsychologistId])
+}
+
+model CounselingRequestStatusHistory {
+  id            String                  @id @default(uuid()) @db.Uuid
+  requestId     String                  @db.Uuid
+  oldStatus     CounselingRequestStatus
+  newStatus     CounselingRequestStatus
+  actorUserId   String?                 @db.Uuid
+  reason        String?                 @db.VarChar(255)
+  createdAt     DateTime                @default(now())
+
+  request       CounselingRequest       @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@index([requestId])
+}
+
+model IntakeResponse {
+  id                   String            @id @default(uuid()) @db.Uuid
+  requestId            String            @unique @db.Uuid
+  ageBand              String?           @db.VarChar(50)
+  contactPreference    String?           @db.VarChar(50)
+  preferredLanguage    String?           @db.VarChar(50)
+  concernCategories    Json              // Array of selected concern tags
+  rawConcernSummary    String            @db.Text // Encrypted or access-controlled
+  preferredTimeWindows Json?             // Flexible slots
+  isEscalated          Boolean           @default(false)
+  createdAt            DateTime          @default(now())
+
+  request              CounselingRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+}
+
+model CoordinatorAssignment {
+  id            String            @id @default(uuid()) @db.Uuid
+  requestId     String            @db.Uuid
+  coordinatorId String            @db.Uuid
+  assignedAt    DateTime          @default(now())
+  releasedAt    DateTime?
+
+  request       CounselingRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  coordinator   StaffProfile      @relation(fields: [coordinatorId], references: [id], onDelete: Cascade)
+
+  @@index([requestId])
+  @@index([coordinatorId])
+}
+
+model CoordinationNote {
+  id            String            @id @default(uuid()) @db.Uuid
+  requestId     String            @db.Uuid
+  authorId      String            @db.Uuid
+  noteText      String            @db.Text
+  createdAt     DateTime          @default(now())
+
+  request       CounselingRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  author        StaffProfile      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([requestId])
+}
+
+model ConcernCategory {
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String   @unique @db.VarChar(100)
+  slug         String   @unique @db.VarChar(100)
+  description  String?  @db.Text
+  isActive     Boolean  @default(true)
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  @@index([isActive, displayOrder])
+}
+
+// ------------------------------------------------------------------------------
+// 6. SCHEDULING, AVAILABILITY & APPOINTMENTS
+// ------------------------------------------------------------------------------
+
+model AvailabilityRule {
+  id             String              @id @default(uuid()) @db.Uuid
+  psychologistId String              @db.Uuid
+  dayOfWeek      Int                 // 0 = Sunday, 6 = Saturday
+  startTimeUtc   String              @db.VarChar(5) // "09:00"
+  endTimeUtc     String              @db.VarChar(5) // "17:00"
+  isActive       Boolean             @default(true)
+
+  psychologist   PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+
+  @@index([psychologistId, dayOfWeek])
+}
+
+model AvailabilityException {
+  id             String              @id @default(uuid()) @db.Uuid
+  psychologistId String              @db.Uuid
+  startDateTime  DateTime
+  endDateTime    DateTime
+  isUnavailable  Boolean             @default(true) // Blocked slot vs extra availability
+  reason         String?             @db.VarChar(255)
+
+  psychologist   PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+
+  @@index([psychologistId, startDateTime, endDateTime])
+}
+
+model BookingHold {
+  id             String              @id @default(uuid()) @db.Uuid
+  psychologistId String              @db.Uuid
+  serviceId      String              @db.Uuid
+  heldForUserId  String              @db.Uuid
+  startTime      DateTime
+  endTime        DateTime
+  status         BookingHoldStatus   @default(ACTIVE)
+  expiresAt      DateTime
+  createdAt      DateTime            @default(now())
+
+  psychologist   PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+  service        Service             @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  // Prevent double booking at database level
+  @@index([psychologistId, startTime, endTime])
+  @@index([status, expiresAt])
+}
+
+model Appointment {
+  id                    String                    @id @default(uuid()) @db.Uuid
+  counselingRequestId   String?                   @db.Uuid
+  clientId              String                    @db.Uuid
+  psychologistId        String                    @db.Uuid
+  coordinatorId         String?                   @db.Uuid
+  serviceId             String                    @db.Uuid
+  successorId           String?                   @unique @db.Uuid
+  status                AppointmentStatus         @default(REQUESTED)
+  deliveryType          SessionDeliveryType       @default(ONLINE_VIDEO)
+  meetingDetails        String?                   @db.Text
+  inPersonAddress       String?                   @db.VarChar(255)
+  notes                 String?                   @db.Text
+  timezone              String                    @default("UTC") @db.VarChar(50)
+  startTime             DateTime
+  endTime               DateTime
+  createdAt             DateTime                  @default(now())
+  updatedAt             DateTime                  @updatedAt
+
+  counselingRequest     CounselingRequest?        @relation(fields: [counselingRequestId], references: [id], onDelete: SetNull)
+  client                ClientProfile             @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  psychologist          PsychologistProfile       @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+  coordinator           StaffProfile?             @relation(fields: [coordinatorId], references: [id], onDelete: SetNull)
+  service               Service                   @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  successor             Appointment?              @relation("AppointmentSuccessor", fields: [successorId], references: [id])
+  predecessor           Appointment?              @relation("AppointmentSuccessor")
+  statusHistory         AppointmentStatusHistory[]
+  paymentTransaction    PaymentTransaction?
+  settlementItem        SettlementItem?
+
+  @@index([psychologistId, startTime, endTime])
+  @@index([clientId])
+  @@index([coordinatorId])
+  @@index([status])
+}
+
+model AppointmentStatusHistory {
+  id            String            @id @default(uuid()) @db.Uuid
+  appointmentId String            @db.Uuid
+  oldStatus     AppointmentStatus
+  newStatus     AppointmentStatus
+  actorUserId   String?           @db.Uuid
+  reason        String?           @db.VarChar(255)
+  changedAt     DateTime          @default(now())
+
+  appointment   Appointment       @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+
+  @@index([appointmentId])
+}
+
+// ------------------------------------------------------------------------------
+// 7. BILLING, PAYMENTS, COMMISSIONS & PAYOUTS
+// ------------------------------------------------------------------------------
+
+model PaymentIntent {
+  id             String               @id @default(uuid()) @db.Uuid
+  provider       String               @db.VarChar(50)
+  providerRef    String               @unique @db.VarChar(255)
+  amountMinor    BigInt
+  currency       String               @db.Char(3)
+  status         PaymentStatus        @default(CREATED)
+  idempotencyKey String               @unique @db.VarChar(255)
+  metadataJson   Json?
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+
+  transactions   PaymentTransaction[]
+
+  @@index([status])
+}
+
+model PaymentTransaction {
+  id                    String             @id @default(uuid()) @db.Uuid
+  paymentIntentId       String             @db.Uuid
+  appointmentId         String?            @unique @db.Uuid
+  orderId               String?            @unique @db.Uuid
+  grossAmountMinor      BigInt
+  commissionAmountMinor BigInt
+  netPayableMinor       BigInt
+  currency              String             @db.Char(3)
+  status                PaymentStatus      @default(SUCCEEDED)
+  providerTransactionId String             @unique @db.VarChar(255)
+  createdAt             DateTime           @default(now())
+
+  paymentIntent         PaymentIntent      @relation(fields: [paymentIntentId], references: [id], onDelete: Cascade)
+  appointment           Appointment?       @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+  order                 Order?             @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  settlementItem        SettlementItem?
+
+  @@index([paymentIntentId])
+  @@index([status])
+}
+
+model CommissionRule {
+  id              String   @id @default(uuid()) @db.Uuid
+  name            String   @db.VarChar(100)
+  percentageBasis Int      // e.g. 1000 = 10.00%
+  fixedMinor      BigInt   @default(0)
+  currency        String   @default("INR") @db.Char(3)
+  isActive        Boolean  @default(true)
+  effectiveFrom   DateTime @default(now())
+  effectiveTo     DateTime?
+
+  @@index([isActive])
+}
+
+model SettlementItem {
+  id                    String              @id @default(uuid()) @db.Uuid
+  transactionId         String              @unique @db.Uuid
+  psychologistProfileId String              @db.Uuid
+  appointmentId         String?             @unique @db.Uuid
+  payoutId              String?             @db.Uuid
+  grossAmountMinor      BigInt
+  commissionAmountMinor BigInt
+  netPayableMinor       BigInt
+  currency              String              @db.Char(3)
+  status                SettlementStatus    @default(PENDING_SETTLEMENT)
+  eligibleAt            DateTime
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  transaction           PaymentTransaction  @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  psychologist          PsychologistProfile @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)
+  appointment           Appointment?        @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+  payout                Payout?             @relation(fields: [payoutId], references: [id], onDelete: SetNull)
+
+  @@index([psychologistProfileId, status])
+  @@index([status, eligibleAt])
+}
+
+model Payout {
+  id                    String              @id @default(uuid()) @db.Uuid
+  psychologistProfileId String              @db.Uuid
+  totalAmountMinor      BigInt
+  currency              String              @db.Char(3)
+  status                PayoutStatus        @default(DRAFT)
+  payoutReference       String?             @unique @db.VarChar(255)
+  processedAt           DateTime?
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  psychologist          PsychologistProfile @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)
+  settlementItems       SettlementItem[]
+
+  @@index([psychologistProfileId])
+  @@index([status])
+}
+
+// ------------------------------------------------------------------------------
+// 8. PSYCHOLOGIST SUBSCRIPTIONS
+// ------------------------------------------------------------------------------
+
+model SubscriptionPlan {
+  id               String         @id @default(uuid()) @db.Uuid
+  code             String         @unique @db.VarChar(50) // e.g. "basic", "premium"
+  name             String         @db.VarChar(100)
+  description      String?        @db.Text
+  priceMinor       BigInt         // Configurable, e.g. 20000 = ₹200
+  currency         String         @db.Char(3)
+  intervalDays     Int            @default(30)
+  entitlementsJson Json
+  isActive         Boolean        @default(true)
+  createdAt        DateTime       @default(now())
+
+  subscriptions    Subscription[]
+
+  @@index([isActive])
+}
+
+model Subscription {
+  id                    String              @id @default(uuid()) @db.Uuid
+  psychologistProfileId String              @db.Uuid
+  planId                String              @db.Uuid
+  status                SubscriptionStatus  @default(PENDING_PAYMENT)
+  providerSubscriptionId String?            @unique @db.VarChar(255)
+  currentPeriodStart    DateTime
+  currentPeriodEnd      DateTime
+  cancelledAt           DateTime?
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  psychologist          PsychologistProfile @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)
+  plan                  SubscriptionPlan    @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@index([psychologistProfileId, status])
+}
+
+// ------------------------------------------------------------------------------
+// 9. CONTENT, EBOOKS & EVENTS
+// ------------------------------------------------------------------------------
+
+model ContentItem {
+  id                    String               @id @default(uuid()) @db.Uuid
+  authorPsychologistId  String?              @db.Uuid
+  slug                  String               @unique @db.VarChar(255)
+  title                 String               @db.VarChar(255)
+  summary               String?              @db.Text
+  body                  String               @db.Text
+  contentType           String               @db.VarChar(50) // ARTICLE, RESOURCE, VIDEO_REF
+  status                ContentStatus        @default(DRAFT)
+  publishedAt           DateTime?
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+
+  author                PsychologistProfile? @relation(fields: [authorPsychologistId], references: [id], onDelete: SetNull)
+
+  @@index([status, publishedAt])
+}
+
+model Ebook {
+  id                    String               @id @default(uuid()) @db.Uuid
+  authorPsychologistId  String?              @db.Uuid
+  storedFileId          String               @unique @db.Uuid
+  slug                  String               @unique @db.VarChar(255)
+  title                 String               @db.VarChar(255)
+  description           String               @db.Text
+  coverImageUrl         String?              @db.VarChar(500)
+  priceMinor            BigInt
+  currency              String               @db.Char(3)
+  isPublished           Boolean              @default(false)
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+
+  author                PsychologistProfile? @relation(fields: [authorPsychologistId], references: [id], onDelete: SetNull)
+  file                  StoredFile           @relation("EbookFile", fields: [storedFileId], references: [id], onDelete: Cascade)
+  orderItems            OrderItem[]
+  purchases             Purchase[]
+
+  @@index([isPublished])
+}
+
+model Order {
+  id           String              @id @default(uuid()) @db.Uuid
+  clientId     String              @db.Uuid
+  totalMinor   BigInt
+  currency     String              @db.Char(3)
+  status       PaymentStatus       @default(CREATED)
+  createdAt    DateTime            @default(now())
+
+  client       ClientProfile       @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  items        OrderItem[]
+  transaction  PaymentTransaction?
+  purchases    Purchase[]
+
+  @@index([clientId])
+}
+
+model OrderItem {
+  id           String   @id @default(uuid()) @db.Uuid
+  orderId      String   @db.Uuid
+  ebookId      String?  @db.Uuid
+  amountMinor  BigInt
+  currency     String   @db.Char(3)
+
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  ebook        Ebook?   @relation(fields: [ebookId], references: [id], onDelete: SetNull)
+
+  @@index([orderId])
+}
+
+model Purchase {
+  id           String        @id @default(uuid()) @db.Uuid
+  orderId      String        @db.Uuid
+  clientId     String        @db.Uuid
+  ebookId      String        @db.Uuid
+  grantedAt    DateTime      @default(now())
+
+  order        Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  ebook        Ebook         @relation(fields: [ebookId], references: [id], onDelete: Cascade)
+
+  @@unique([clientId, ebookId])
+  @@index([clientId])
+}
+
+model Event {
+  id                    String              @id @default(uuid()) @db.Uuid
+  hostPsychologistId    String?             @db.Uuid
+  slug                  String              @unique @db.VarChar(255)
+  title                 String              @db.VarChar(255)
+  description           String              @db.Text
+  startDateTimeUtc      DateTime
+  endDateTimeUtc        DateTime
+  timezone              String              @default("UTC") @db.VarChar(50)
+  maxCapacity           Int
+  priceMinor            BigInt
+  currency              String              @db.Char(3)
+  isPublished           Boolean             @default(false)
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  host                  PsychologistProfile? @relation(fields: [hostPsychologistId], references: [id], onDelete: SetNull)
+  registrations         EventRegistration[]
+
+  @@index([isPublished, startDateTimeUtc])
+}
+
+model EventRegistration {
+  id           String        @id @default(uuid()) @db.Uuid
+  eventId      String        @db.Uuid
+  clientId     String        @db.Uuid
+  registeredAt DateTime      @default(now())
+
+  event        Event         @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  client       ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, clientId])
+  @@index([clientId])
+}
+
+// ------------------------------------------------------------------------------
+// 10. NOTIFICATIONS, AUDIT & PLATFORM SETTINGS
+// ------------------------------------------------------------------------------
+
+model Notification {
+  id          String                 @id @default(uuid()) @db.Uuid
+  userId      String                 @db.Uuid
+  title       String                 @db.VarChar(255)
+  message     String                 @db.Text
+  linkUrl     String?                @db.VarChar(500)
+  isRead      Boolean                @default(false)
+  readAt      DateTime?
+  createdAt   DateTime               @default(now())
+
+  user        User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  deliveries  NotificationDelivery[]
+
+  @@index([userId, isRead])
+}
+
+model NotificationDelivery {
+  id             String       @id @default(uuid()) @db.Uuid
+  notificationId String       @db.Uuid
+  channel        String       @db.VarChar(50) // IN_APP, EMAIL
+  status         String       @db.VarChar(50) // DELIVERED, FAILED, PENDING
+  sentAt         DateTime     @default(now())
+
+  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+
+  @@index([notificationId])
+}
+
+model PlatformSetting {
+  id          String   @id @default(uuid()) @db.Uuid
+  key         String   @unique @db.VarChar(100)
+  valueJson   Json
+  description String?  @db.Text
+  updatedAt   DateTime @updatedAt
+}
+
+model AuditLog {
+  id           String   @id @default(uuid()) @db.Uuid
+  actorUserId  String?  @db.Uuid
+  action       String   @db.VarChar(100) // e.g. "AUTH_LOGIN", "VERIFICATION_APPROVED"
+  entityType   String   @db.VarChar(100) // e.g. "PsychologistProfile"
+  entityId     String?  @db.VarChar(100)
+  ipAddress    String?  @db.VarChar(45)
+  userAgent    String?  @db.Text
+  safeMetadata Json?    // Must NOT contain passwords, cards, intake details
+  createdAt    DateTime @default(now())
+
+  actorUser    User?    @relation("ActorAuditLogs", fields: [actorUserId], references: [id], onDelete: SetNull)
+
+  @@index([actorUserId])
+  @@index([action])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}

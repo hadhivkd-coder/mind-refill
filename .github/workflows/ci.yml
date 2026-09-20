@@ -1,0 +1,53 @@
+name: CI & Quality Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Lint, Typecheck, Test & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Typecheck (tsc --noEmit)
+        run: npm run typecheck
+
+      - name: Code Quality & Linting
+        run: npm run lint
+
+      - name: Unit, Integration & Security Tests
+        run: npm run test
+
+      - name: End-to-End Workflow Tests
+        run: npm run test:e2e
+
+      - name: Production Standalone Build
+        env:
+          NODE_ENV: production
+          NEXT_TELEMETRY_DISABLED: 1
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/mindbridge"
+          SESSION_SECRET: "ci-pipeline-mock-session-secret-32-chars-long!"
+          NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+        run: npm run build

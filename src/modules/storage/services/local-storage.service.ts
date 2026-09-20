@@ -15,21 +15,31 @@ export class LocalStorageService implements StorageProvider {
   private secret: string;
 
   constructor(baseDir?: string, secret?: string) {
-    this.baseDir =
-      baseDir ||
-      path.resolve(process.cwd(), "uploads");
+    const defaultDir =
+      process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
+        ? path.join("/tmp", "uploads")
+        : path.resolve(process.cwd(), "uploads");
+    this.baseDir = baseDir || defaultDir;
     this.secret = secret || env.SESSION_SECRET;
 
-    // Ensure uploads directory exists
-    if (!fs.existsSync(this.baseDir)) {
-      fs.mkdirSync(this.baseDir, { recursive: true });
+    // Ensure uploads directory exists safely in serverless & local envs
+    try {
+      if (!fs.existsSync(this.baseDir)) {
+        fs.mkdirSync(this.baseDir, { recursive: true });
+      }
+    } catch {
+      // Safe fallback for read-only serverless filesystems
     }
   }
 
   private getBucketPath(bucket: string): string {
     const bucketPath = path.join(this.baseDir, bucket);
-    if (!fs.existsSync(bucketPath)) {
-      fs.mkdirSync(bucketPath, { recursive: true });
+    try {
+      if (!fs.existsSync(bucketPath)) {
+        fs.mkdirSync(bucketPath, { recursive: true });
+      }
+    } catch {
+      // Safe fallback
     }
     return bucketPath;
   }

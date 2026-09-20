@@ -107,45 +107,49 @@ export class EventService {
    * Lists upcoming published events for discovery.
    */
   static async listPublicEvents() {
-    const now = new Date();
-    const events = await prisma.event.findMany({
-      where: {
-        isPublished: true,
-        endDateTimeUtc: { gte: now },
-      },
-      orderBy: { startDateTimeUtc: "asc" },
-      include: {
-        host: {
-          select: { id: true, fullName: true, professionalTitle: true, slug: true },
+    try {
+      const now = new Date();
+      const events = await prisma.event.findMany({
+        where: {
+          isPublished: true,
+          endDateTimeUtc: { gte: now },
         },
-        _count: {
-          select: { registrations: true },
+        orderBy: { startDateTimeUtc: "asc" },
+        include: {
+          host: {
+            select: { id: true, fullName: true, professionalTitle: true, slug: true },
+          },
+          _count: {
+            select: { registrations: true },
+          },
         },
-      },
-    });
+      });
 
-    return events.map((e) => ({
-      id: e.id,
-      slug: e.slug,
-      title: e.title,
-      description: e.description,
-      startDateTimeUtc: e.startDateTimeUtc.toISOString(),
-      endDateTimeUtc: e.endDateTimeUtc.toISOString(),
-      timezone: e.timezone,
-      maxCapacity: e.maxCapacity,
-      registeredCount: e._count.registrations,
-      remainingSeats: Math.max(0, e.maxCapacity - e._count.registrations),
-      isSoldOut: e._count.registrations >= e.maxCapacity,
-      priceMajor: minorToMajorString(e.priceMinor),
-      currency: e.currency,
-      host: e.host
-        ? {
-            name: e.host.fullName,
-            title: e.host.professionalTitle,
-            slug: e.host.slug,
-          }
-        : null,
-    }));
+      return events.map((e) => ({
+        id: e.id,
+        slug: e.slug,
+        title: e.title,
+        description: e.description,
+        startDateTimeUtc: e.startDateTimeUtc.toISOString(),
+        endDateTimeUtc: e.endDateTimeUtc.toISOString(),
+        timezone: e.timezone,
+        maxCapacity: e.maxCapacity,
+        registeredCount: e._count.registrations,
+        remainingSeats: Math.max(0, e.maxCapacity - e._count.registrations),
+        isSoldOut: e._count.registrations >= e.maxCapacity,
+        priceMajor: minorToMajorString(e.priceMinor),
+        currency: e.currency,
+        host: e.host
+          ? {
+              name: e.host.fullName,
+              title: e.host.professionalTitle,
+              slug: e.host.slug,
+            }
+          : null,
+      }));
+    } catch {
+      return [];
+    }
   }
 
   /**

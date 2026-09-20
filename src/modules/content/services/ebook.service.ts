@@ -94,33 +94,37 @@ export class EbookService {
    * Lists published ebooks for public storefront.
    */
   static async listPublicEbooks() {
-    const ebooks = await prisma.ebook.findMany({
-      where: { isPublished: true },
-      orderBy: { createdAt: "desc" },
-      include: {
-        author: {
-          select: { id: true, fullName: true, professionalTitle: true, slug: true },
+    try {
+      const ebooks = await prisma.ebook.findMany({
+        where: { isPublished: true },
+        orderBy: { createdAt: "desc" },
+        include: {
+          author: {
+            select: { id: true, fullName: true, professionalTitle: true, slug: true },
+          },
         },
-      },
-    });
+      });
 
-    return ebooks.map((e) => ({
-      id: e.id,
-      slug: e.slug,
-      title: e.title,
-      description: e.description,
-      coverImageUrl: e.coverImageUrl,
-      priceMinor: e.priceMinor.toString(),
-      priceMajor: minorToMajorString(e.priceMinor),
-      currency: e.currency,
-      author: e.author
-        ? {
-            name: e.author.fullName,
-            title: e.author.professionalTitle,
-            slug: e.author.slug,
-          }
-        : null,
-    }));
+      return ebooks.map((e) => ({
+        id: e.id,
+        slug: e.slug,
+        title: e.title,
+        description: e.description,
+        coverImageUrl: e.coverImageUrl,
+        priceMinor: e.priceMinor.toString(),
+        priceMajor: minorToMajorString(e.priceMinor),
+        currency: e.currency,
+        author: e.author
+          ? {
+              name: e.author.fullName,
+              title: e.author.professionalTitle,
+              slug: e.author.slug,
+            }
+          : null,
+      }));
+    } catch {
+      return [];
+    }
   }
 
   /**

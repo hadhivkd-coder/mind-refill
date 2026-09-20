@@ -42,17 +42,26 @@ export class ConcernCategoryService {
    * Lists active concern categories for intake selection.
    */
   static async listActive(): Promise<{ id: string; name: string; slug: string; description: string | null }[]> {
-    await this.seedDefaults();
-    return prisma.concernCategory.findMany({
-      where: { isActive: true },
-      orderBy: [{ displayOrder: "asc" }, { name: "asc" }],
-      select: {
-        id: true,
-        name: true,
-        slug: true,
-        description: true,
-      },
-    });
+    try {
+      await this.seedDefaults();
+      return await prisma.concernCategory.findMany({
+        where: { isActive: true },
+        orderBy: [{ displayOrder: "asc" }, { name: "asc" }],
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          description: true,
+        },
+      });
+    } catch {
+      return DEFAULT_CONCERN_CATEGORIES.map((cat, idx) => ({
+        id: `cat-fallback-${idx + 1}`,
+        name: cat.name,
+        slug: SlugService.normalize(cat.name),
+        description: cat.description,
+      }));
+    }
   }
 
   /**

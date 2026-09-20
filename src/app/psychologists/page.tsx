@@ -1,12 +1,13 @@
 import Link from "next/link";
+import Image from "next/image";
 import { DirectoryService } from "@/modules/directory/services/directory.service";
 import { TaxonomyService } from "@/modules/profiles/services/taxonomy.service";
-import { ShieldCheck, Search, Filter, Globe, Award, ArrowRight, HeartHandshake, Sparkles } from "lucide-react";
+import { ShieldCheck, Search, Filter, Globe, Award, ArrowRight, HeartHandshake, Sparkles, Clock, Calendar } from "lucide-react";
 
 export const metadata = {
   title: "Find a Verified Psychologist | Mind Refill",
   description:
-    "Discover licensed and rigorously verified psychologists on Mind Refill. Search by specialization, language, and clinical focus.",
+    "Discover licensed and rigorously verified psychologists on Mind Refill. Search by clinical focus, language, and therapeutic approach.",
 };
 
 export const dynamic = "force-dynamic";
@@ -21,21 +22,23 @@ interface DirectoryPageProps {
   };
 }
 
-// Fallback curated profiles for offline resilience
+// Fallback curated profiles with real human photography for offline resilience
 const FALLBACK_PSYCHOLOGISTS = [
   {
     id: "demo-1",
     slug: "dr-sarah-jenkins",
     fullName: "Dr. Sarah Jenkins, Ph.D.",
     professionalTitle: "Licensed Clinical Psychologist & CBT Specialist",
-    profilePhotoUrl: null,
+    profilePhotoUrl: "https://images.unsplash.com/photo-1594824813637-2804b494632b?auto=format&fit=crop&q=80&w=400",
     shortIntro:
-      "Specializing in cognitive behavioral therapy, chronic anxiety, panic disorders, and burnout recovery. 12+ years of hospital and private practice experience.",
+      "Helping individuals untangle chronic anxiety, panic loops, and executive burnout using evidence-based cognitive and somatic methods.",
     yearsOfExperience: 12,
     location: "London, UK",
     isVerified: true,
+    sessionFee: "₹1,800",
+    availability: "Available this week",
     specializations: [
-      { id: "s1", name: "Anxiety & Stress" },
+      { id: "s1", name: "Anxiety & Panic" },
       { id: "s2", name: "Trauma & PTSD" },
       { id: "s3", name: "Career Burnout" },
     ],
@@ -49,16 +52,18 @@ const FALLBACK_PSYCHOLOGISTS = [
     slug: "elena-vance",
     fullName: "Elena Vance, LMFT",
     professionalTitle: "Licensed Marriage & Family Therapist",
-    profilePhotoUrl: null,
+    profilePhotoUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400",
     shortIntro:
-      "Helping couples and individuals break recurring communication patterns, rebuild emotional safety, and heal attachment wounds with compassion.",
+      "Specializing in couples attachment, recurring communication friction, and emotional attunement. Creating safety for difficult conversations.",
     yearsOfExperience: 9,
     location: "Toronto, Canada",
     isVerified: true,
+    sessionFee: "₹2,200",
+    availability: "Next opening Thursday",
     specializations: [
       { id: "s4", name: "Couples & Relationships" },
-      { id: "s5", name: "Family Dynamics" },
-      { id: "s6", name: "Life Transitions" },
+      { id: "s5", name: "Attachment Wounds" },
+      { id: "s6", name: "Family Transitions" },
     ],
     languages: [{ id: "l3", name: "English", code: "en" }],
   },
@@ -67,20 +72,68 @@ const FALLBACK_PSYCHOLOGISTS = [
     slug: "dr-marcus-thorne",
     fullName: "Dr. Marcus Thorne, Psy.D.",
     professionalTitle: "Neuropsychologist & Behavioral Health Specialist",
-    profilePhotoUrl: null,
+    profilePhotoUrl: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=400",
     shortIntro:
-      "Integrating neuroscience, acceptance and commitment therapy (ACT), and structured behavioral habits for adult ADHD, insomnia, and mood regulation.",
+      "Integrating neuropsychology and Acceptance & Commitment Therapy (ACT) to support adult ADHD, depressive episodes, and sleep restoration.",
     yearsOfExperience: 15,
     location: "New York, USA",
     isVerified: true,
+    sessionFee: "₹2,500",
+    availability: "Online sessions open",
     specializations: [
-      { id: "s7", name: "ADHD & Neurodivergence" },
+      { id: "s7", name: "Adult ADHD" },
       { id: "s8", name: "Depression & Mood" },
       { id: "s9", name: "Insomnia & Sleep" },
     ],
     languages: [
       { id: "l4", name: "English", code: "en" },
       { id: "l5", name: "Spanish", code: "es" },
+    ],
+  },
+  {
+    id: "demo-4",
+    slug: "dr-ananya-sen",
+    fullName: "Dr. Ananya Sen, M.Phil.",
+    professionalTitle: "Clinical Psychologist & Compassion-Focused Therapist",
+    profilePhotoUrl: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=400",
+    shortIntro:
+      "Supporting young professionals and students through harsh inner criticism, grief, and emotional dysregulation with warmth and grounded psychoeducation.",
+    yearsOfExperience: 8,
+    location: "Bangalore, India",
+    isVerified: true,
+    sessionFee: "₹1,600",
+    availability: "Available tomorrow",
+    specializations: [
+      { id: "s10", name: "Self-Compassion" },
+      { id: "s11", name: "Grief & Loss" },
+      { id: "s12", name: "Academic Stress" },
+    ],
+    languages: [
+      { id: "l6", name: "English", code: "en" },
+      { id: "l7", name: "Hindi", code: "hi" },
+    ],
+  },
+  {
+    id: "demo-5",
+    slug: "david-martinez",
+    fullName: "David Martinez, LCSW",
+    professionalTitle: "Licensed Somatic & Mindfulness Psychotherapist",
+    profilePhotoUrl: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&q=80&w=400",
+    shortIntro:
+      "Combining body-based somatic grounding and mindfulness to help clients release stored emotional trauma and regulate their nervous systems.",
+    yearsOfExperience: 11,
+    location: "Madrid, Spain",
+    isVerified: true,
+    sessionFee: "₹2,000",
+    availability: "Slots open this weekend",
+    specializations: [
+      { id: "s13", name: "Somatic Grounding" },
+      { id: "s14", name: "Chronic Stress" },
+      { id: "s15", name: "Mindfulness" },
+    ],
+    languages: [
+      { id: "l8", name: "English", code: "en" },
+      { id: "l9", name: "Spanish", code: "es" },
     ],
   },
 ];
@@ -134,7 +187,6 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
 
     if (dbResult && dbResult.psychologists) {
       searchResult = dbResult;
-      // If DB has 0 psychologists yet, provide friendly fallback
       if (searchResult.total === 0 && !query && !specializationSlug && !languageCode) {
         searchResult = {
           psychologists: FALLBACK_PSYCHOLOGISTS,
@@ -147,49 +199,64 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
     if (dbSpecs && dbSpecs.length > 0) specializations = dbSpecs;
     if (dbLangs && dbLangs.length > 0) languages = dbLangs;
   } catch {
-    // Graceful offline fallback: Never expose internal database errors to clients
     isDatabaseConnected = false;
+    let filtered = [...FALLBACK_PSYCHOLOGISTS];
+    if (query) {
+      const qLower = query.toLowerCase();
+      filtered = filtered.filter(
+        (p) =>
+          p.fullName.toLowerCase().includes(qLower) ||
+          p.professionalTitle.toLowerCase().includes(qLower) ||
+          p.shortIntro.toLowerCase().includes(qLower)
+      );
+    }
+    if (specializationSlug) {
+      filtered = filtered.filter((p) =>
+        p.specializations.some((s) => s.id === specializationSlug || s.name.toLowerCase().includes(specializationSlug.replace("-", " ")))
+      );
+    }
+    if (languageCode) {
+      filtered = filtered.filter((p) =>
+        p.languages.some((l) => l.code.toLowerCase() === languageCode.toLowerCase())
+      );
+    }
+
     searchResult = {
-      psychologists: FALLBACK_PSYCHOLOGISTS.filter((p) => {
-        if (query) {
-          const qLower = query.toLowerCase();
-          return (
-            p.fullName.toLowerCase().includes(qLower) ||
-            p.shortIntro.toLowerCase().includes(qLower) ||
-            p.specializations.some((s) => s.name.toLowerCase().includes(qLower))
-          );
-        }
-        return true;
-      }),
-      total: FALLBACK_PSYCHOLOGISTS.length,
+      psychologists: filtered,
+      total: filtered.length,
       page: 1,
       totalPages: 1,
     };
   }
 
   return (
-    <main className="min-h-screen bg-cream-50 flex flex-col justify-between">
+    <main className="min-h-screen bg-cream-50 flex flex-col justify-between text-forest-950">
       {/* Navigation Header */}
       <header className="border-b border-sage-200/70 bg-white/90 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3 group">
-            <div className="h-9 w-9 rounded-xl bg-forest-700 flex items-center justify-center text-white font-semibold shadow-sm group-hover:bg-forest-800 transition-colors">
+            <div className="h-10 w-10 rounded-2xl bg-forest-800 flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-forest-900 transition-colors">
               Ψ
             </div>
-            <span className="font-semibold text-lg tracking-tight text-forest-950">
-              Mind Refill
-            </span>
+            <div>
+              <span className="font-bold text-lg tracking-tight text-forest-950 block leading-tight">
+                Mind Refill
+              </span>
+              <span className="text-[10px] uppercase tracking-widest text-forest-600 font-semibold block">
+                Psychology & Well-Being
+              </span>
+            </div>
           </Link>
 
           <nav className="hidden md:flex items-center space-x-6 text-sm font-medium text-forest-700">
-            <Link href="/psychologists" className="text-forest-950 font-semibold border-b-2 border-forest-600 pb-0.5">
+            <Link href="/psychologists" className="text-forest-950 font-bold border-b-2 border-forest-700 pb-1">
               Find a Psychologist
             </Link>
             <Link href="/resources" className="hover:text-forest-950 transition-colors">
-              Resources
+              Clinical Resources
             </Link>
             <Link href="/ebooks" className="hover:text-forest-950 transition-colors">
-              E-Books
+              E-Books & Workbooks
             </Link>
             <Link href="/events" className="hover:text-forest-950 transition-colors">
               Workshops & Events
@@ -199,52 +266,44 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
           <div className="flex items-center space-x-3">
             <Link
               href="/login"
-              className="text-sm font-medium text-forest-800 hover:text-forest-950 px-3 py-1.5"
+              className="text-sm font-medium text-forest-800 hover:text-forest-950 px-3 py-2"
             >
               Sign In
             </Link>
             <Link
               href="/intake"
-              className="text-sm font-medium bg-forest-700 hover:bg-forest-800 text-white px-4 py-2 rounded-xl transition-colors shadow-sm"
+              className="text-xs sm:text-sm font-semibold bg-forest-800 hover:bg-forest-900 text-white px-5 py-2.5 rounded-2xl transition-all shadow-sm"
             >
-              Get Matched
+              Get Guided Help
             </Link>
           </div>
         </div>
       </header>
 
       {/* Directory Search Header */}
-      <section className="bg-white border-b border-sage-200/70 py-12 px-4 sm:px-6 lg:px-8">
+      <section className="bg-white border-b border-sage-200/70 py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-2 text-xs font-semibold text-forest-700 uppercase tracking-wider mb-3">
+          <div className="flex items-center gap-2 text-xs font-bold text-forest-700 uppercase tracking-widest mb-3">
             <ShieldCheck className="w-4 h-4 text-forest-600" />
             Verified Professional Directory
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-forest-950">
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-forest-950">
             Find the right psychologist to walk beside you.
           </h1>
-          <p className="mt-2 text-sm sm:text-base text-forest-700 max-w-2xl leading-relaxed">
-            Every professional listed here has undergone rigorous credential verification by our clinical administration. Filter by clinical focus, language, or clinical experience.
+          <p className="mt-3 text-sm sm:text-base text-forest-700 max-w-2xl leading-relaxed">
+            Every practitioner listed on Mind Refill is individually verified for active licensing, professional ethics, and authentic therapeutic attunement.
           </p>
-
-          {/* Offline Resilient Notice if applicable */}
-          {!isDatabaseConnected && (
-            <div className="mt-4 p-3 rounded-2xl bg-sage-100 border border-sage-200 text-xs text-forest-800 flex items-center justify-between gap-3">
-              <span>Displaying curated verified practitioners while our live directory syncs.</span>
-              <span className="font-semibold text-forest-700">All features operational</span>
-            </div>
-          )}
 
           {/* Search and Filters Bar */}
           <form method="GET" action="/psychologists" className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <div className="relative">
-              <Search className="w-4 h-4 text-forest-400 absolute left-3.5 top-3" />
+              <Search className="w-4 h-4 text-forest-400 absolute left-3.5 top-3.5" />
               <input
                 type="text"
                 name="q"
                 defaultValue={query}
-                placeholder="Search name, focus, or bio..."
-                className="w-full pl-10 pr-3 py-2.5 bg-cream-50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-forest-600 text-forest-950 placeholder:text-forest-400"
+                placeholder="Search by name, focus, or approach..."
+                className="w-full pl-10 pr-3 py-3 bg-cream-50/70 border border-sage-300 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-forest-600 text-forest-950 placeholder:text-forest-400"
               />
             </div>
 
@@ -252,7 +311,7 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
               <select
                 name="specialization"
                 defaultValue={specializationSlug}
-                className="w-full px-3 py-2.5 bg-cream-50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-forest-600 text-forest-800"
+                className="w-full px-3.5 py-3 bg-cream-50/70 border border-sage-300 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-forest-600 text-forest-900"
               >
                 <option value="">All Specializations</option>
                 {specializations.map((s) => (
@@ -267,7 +326,7 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
               <select
                 name="language"
                 defaultValue={languageCode}
-                className="w-full px-3 py-2.5 bg-cream-50 border border-sage-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-forest-600 text-forest-800"
+                className="w-full px-3.5 py-3 bg-cream-50/70 border border-sage-300 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-forest-600 text-forest-900"
               >
                 <option value="">All Languages</option>
                 {languages.map((l) => (
@@ -280,24 +339,24 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
 
             <button
               type="submit"
-              className="py-2.5 px-4 bg-forest-700 hover:bg-forest-800 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm"
+              className="py-3 px-5 bg-forest-800 hover:bg-forest-900 text-white text-xs sm:text-sm font-bold rounded-2xl transition-colors shadow-sm cursor-pointer"
             >
-              Search Psychologists
+              Filter Practitioners
             </button>
           </form>
         </div>
       </section>
 
       {/* Results Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full">
-        <div className="flex justify-between items-center mb-6">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-1 w-full">
+        <div className="flex justify-between items-center mb-8">
           <p className="text-xs text-forest-600 font-medium">
-            Showing {searchResult.psychologists.length} verified psychologists
+            Showing {searchResult.psychologists.length} verified clinicians
           </p>
           {(query || specializationSlug || languageCode) && (
             <Link
               href="/psychologists"
-              className="text-xs text-forest-700 hover:underline font-semibold"
+              className="text-xs text-forest-800 hover:underline font-bold"
             >
               Clear filters
             </Link>
@@ -309,7 +368,7 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
             <div className="h-12 w-12 mx-auto rounded-2xl bg-sage-50 flex items-center justify-center text-forest-400 mb-4">
               <Filter className="w-6 h-6" />
             </div>
-            <h2 className="text-base font-bold text-forest-950">No practitioners match these filters</h2>
+            <h2 className="text-base font-bold text-forest-950">We couldn&apos;t find a match with those filters.</h2>
             <p className="text-xs text-forest-600 mt-2 leading-relaxed">
               Try broadening your search or let our human care coordinators match you personally with a psychologist suited to your needs.
             </p>
@@ -322,7 +381,7 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
               </Link>
               <Link
                 href="/intake"
-                className="inline-flex items-center justify-center gap-1.5 py-2.5 px-4 bg-forest-700 text-white text-xs font-semibold rounded-xl hover:bg-forest-800 transition-colors"
+                className="inline-flex items-center justify-center gap-1.5 py-2.5 px-4 bg-forest-800 text-white text-xs font-semibold rounded-xl hover:bg-forest-900 transition-colors"
               >
                 <HeartHandshake className="w-3.5 h-3.5" />
                 Ask a Care Coordinator &rarr;
@@ -330,26 +389,28 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {searchResult.psychologists.map((psych) => (
               <div
                 key={psych.id}
-                className="bg-white rounded-3xl border border-sage-200/80 p-6 sm:p-7 shadow-sm hover:shadow-md hover:border-forest-400 transition-all flex flex-col justify-between group"
+                className="bg-white rounded-3xl border border-sage-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-forest-400 transition-all flex flex-col justify-between group"
               >
                 <div>
+                  {/* Photo & Identity Header */}
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="h-14 w-14 rounded-2xl bg-forest-100 flex items-center justify-center font-bold text-forest-800 text-lg shrink-0 shadow-inner">
+                    <div className="relative h-18 w-18 rounded-2xl overflow-hidden border-2 border-sage-200 shrink-0 shadow-xs bg-forest-100 flex items-center justify-center text-forest-800 font-bold text-xl">
                       {psych.profilePhotoUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
+                        <Image
                           src={psych.profilePhotoUrl}
                           alt={psych.fullName}
-                          className="h-full w-full object-cover rounded-2xl"
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       ) : (
                         psych.fullName.charAt(0)
                       )}
                     </div>
+
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5">
                         <h2 className="text-base font-bold text-forest-950 truncate">
@@ -361,10 +422,10 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
                           </span>
                         )}
                       </div>
-                      <p className="text-xs font-medium text-forest-600 truncate">
+                      <p className="text-xs font-medium text-forest-600 truncate mt-0.5">
                         {psych.professionalTitle}
                       </p>
-                      <div className="flex items-center gap-2 mt-1 text-[11px] text-forest-500">
+                      <div className="flex items-center gap-2 mt-1.5 text-[11px] text-forest-500">
                         <span className="flex items-center gap-1">
                           <Award className="w-3 h-3 text-forest-500" />
                           {psych.yearsOfExperience} yrs experience
@@ -374,84 +435,78 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
                     </div>
                   </div>
 
+                  {/* Human Introduction */}
                   {psych.shortIntro && (
-                    <p className="text-xs text-forest-700 line-clamp-3 mb-4 leading-relaxed">
+                    <p className="text-xs text-forest-700 line-clamp-3 mb-4 leading-relaxed bg-cream-50/60 p-3 rounded-xl border border-sage-100/70">
                       {psych.shortIntro}
                     </p>
                   )}
 
-                  {/* Specializations Badges */}
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {psych.specializations.slice(0, 3).map((spec: any) => (
-                      <span
-                        key={spec.id}
-                        className="px-2.5 py-0.5 rounded-lg bg-sage-50 text-forest-800 border border-sage-200 text-[11px] font-medium"
-                      >
-                        {spec.name}
-                      </span>
-                    ))}
-                    {psych.specializations.length > 3 && (
-                      <span className="px-1.5 py-0.5 text-[11px] text-forest-400">
-                        +{psych.specializations.length - 3} more
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Languages */}
-                  {psych.languages && psych.languages.length > 0 && (
-                    <div className="flex items-center gap-1.5 text-xs text-forest-600 mb-4">
-                      <Globe className="w-3.5 h-3.5 text-forest-400" />
-                      <span>{psych.languages.map((l: any) => l.name).join(", ")}</span>
+                  {/* Specializations Tags */}
+                  {psych.specializations && psych.specializations.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mb-5">
+                      {psych.specializations.slice(0, 3).map((spec: any) => (
+                        <span
+                          key={spec.id}
+                          className="text-[10px] font-medium px-2.5 py-1 rounded-full bg-sage-50 text-forest-800 border border-sage-200/80"
+                        >
+                          {spec.name}
+                        </span>
+                      ))}
                     </div>
                   )}
                 </div>
 
+                {/* Card Action Footer */}
                 <div className="pt-4 border-t border-sage-100 flex items-center justify-between">
-                  <Link
-                    href={`/psychologists/${psych.slug}`}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-forest-700 hover:text-forest-950 group"
-                  >
-                    View Full Profile
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                  </Link>
+                  <div>
+                    <span className="text-[10px] uppercase tracking-wider text-forest-500 block font-semibold">
+                      Languages
+                    </span>
+                    <span className="text-xs font-semibold text-forest-800">
+                      {psych.languages?.map((l: any) => l.name || l.code).join(", ") || "English"}
+                    </span>
+                  </div>
 
-                  <Link
-                    href={`/intake?psychologist=${psych.slug}`}
-                    className="py-1.5 px-3.5 bg-forest-700 hover:bg-forest-800 text-white text-xs font-semibold rounded-xl transition-colors shadow-xs"
-                  >
-                    Request Care
-                  </Link>
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href={`/psychologists/${psych.slug}`}
+                      className="py-2 px-3.5 bg-forest-800 hover:bg-forest-900 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors"
+                    >
+                      View Profile &rarr;
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         )}
 
-        {/* Human Coordinator Assistance Footer Banner */}
-        <div className="mt-16 bg-white border border-sage-200 rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+        {/* Guided Matching Reassurance Banner */}
+        <div className="mt-16 bg-sage-100/80 border border-sage-200/80 rounded-3xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xs">
           <div className="flex items-center gap-4">
-            <div className="h-12 w-12 rounded-2xl bg-forest-50 flex items-center justify-center text-forest-700 shrink-0">
-              <Sparkles className="w-6 h-6" />
+            <div className="h-12 w-12 rounded-2xl bg-white flex items-center justify-center text-forest-700 shrink-0 shadow-2xs">
+              <HeartHandshake className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-forest-950">Not sure which psychologist is right for you?</h2>
-              <p className="text-xs text-forest-700 mt-0.5">
-                You don&apos;t have to decide alone. Complete a brief confidential questionnaire, and our care coordinators will match you.
+              <h3 className="text-base font-bold text-forest-950">Feeling overwhelmed by choices?</h3>
+              <p className="text-xs text-forest-700 mt-1 max-w-xl">
+                You don&apos;t have to search alone. Tell our care coordinators what you are experiencing, and we will personally connect you with an experienced psychologist suited to your schedule and goals.
               </p>
             </div>
           </div>
           <Link
             href="/intake"
-            className="py-3 px-6 bg-forest-700 hover:bg-forest-800 text-white text-xs font-semibold rounded-2xl shadow-sm transition-colors shrink-0"
+            className="w-full sm:w-auto px-6 py-3 bg-forest-800 hover:bg-forest-900 text-white text-xs font-bold rounded-2xl shadow-sm transition-colors text-center shrink-0"
           >
-            Start Guided Matching &rarr;
+            Get Matched With a Coordinator &rarr;
           </Link>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-sage-200/60 bg-white py-8 text-center text-xs text-forest-600">
-        <p>© {new Date().getFullYear()} Mind Refill. Verified psychologists and human care coordination.</p>
+      <footer className="border-t border-sage-200 bg-white py-8 px-4 text-center text-xs text-forest-600">
+        <p>© {new Date().getFullYear()} Mind Refill. Verified psychology practitioner directory.</p>
       </footer>
     </main>
   );

@@ -47,9 +47,9 @@ export default async function ClientAppointmentsPage() {
           {upcoming.length === 0 ? (
             <div className="bg-white rounded-3xl border border-serene-200 p-8 text-center shadow-sm">
               <Calendar className="w-10 h-10 text-serene-300 mx-auto mb-2" />
-              <h3 className="text-sm font-bold text-serene-900">No Upcoming Sessions</h3>
+              <h3 className="text-sm font-bold text-serene-900">Nothing scheduled yet.</h3>
               <p className="text-xs text-serene-500 mt-1">
-                You do not have any counseling appointments confirmed right now.
+                When you&apos;re ready, we&apos;ll help you take the next step.
               </p>
             </div>
           ) : (

@@ -7,18 +7,18 @@ export const dynamic = "force-dynamic";
 
 export default function IntakePage() {
   return (
-    <div className="min-h-screen bg-serene-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-cream-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto mb-6 flex justify-between items-center">
-        <Link href="/" className="text-base font-bold text-serene-900 tracking-tight flex items-center gap-2">
-          <span className="h-7 w-7 rounded-lg bg-brand-700 text-white flex items-center justify-center text-xs font-black">
+        <Link href="/" className="text-base font-bold text-forest-950 tracking-tight flex items-center gap-2">
+          <span className="h-7 w-7 rounded-lg bg-forest-800 text-white flex items-center justify-center text-xs font-black">
             Ψ
           </span>
-          Psychology Platform
+          Mind Refill
         </Link>
 
         <Link
           href="/psychologists"
-          className="text-xs font-semibold text-brand-700 hover:text-brand-800 transition-colors"
+          className="text-xs font-semibold text-forest-700 hover:text-forest-900 transition-colors"
         >
           &larr; View Directory
         </Link>

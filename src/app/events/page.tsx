@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { Calendar, Users, Clock, Video, ShieldCheck, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Calendar, Users, Clock, Video, ShieldCheck, ArrowRight, CheckCircle2, Sparkles, Radio } from "lucide-react";
 import { EventService } from "@/modules/events/services/event.service";
 import { minorToMajorString } from "@/shared/types/money";
 
 export const metadata = {
   title: "Clinical Workshops & Group Wellbeing Sessions | Mind Refill",
   description:
-    "Interactive virtual workshops, clinician-led group discussions, and psychoeducational webinars designed to foster healing and community on Mind Refill.",
+    "Interactive virtual workshops, clinician-led group discussions, and psychoeducational webinars designed to foster healing and connection on Mind Refill.",
 };
 
 export const dynamic = "force-dynamic";
@@ -15,20 +15,21 @@ const SAMPLE_EVENTS = [
   {
     id: "evt-1",
     slug: "mindful-stress-resilience-workshop",
-    title: "Cultivating Nervous System Resilience: A 90-Minute Interactive Workshop",
+    title: "Cultivating Nervous System Resilience: A Guided Interactive Workshop",
     description:
       "Join Dr. Sarah Jenkins for a live, highly practical guided workshop exploring the physiology of chronic stress and practical daily somatic stabilization exercises.",
     hostName: "Dr. Sarah Jenkins, Ph.D.",
     hostTitle: "Licensed Clinical Psychologist",
     hostSlug: "dr-sarah-jenkins",
-    scheduledAt: "2026-04-12T17:00:00.000Z",
+    scheduledAt: "April 12, 2026 • 5:00 PM UTC",
     durationMinutes: 90,
     timezone: "UTC",
     capacity: 25,
     registeredCount: 14,
     priceMajor: "750.00",
     currency: "INR",
-    deliveryMode: "Live Video (Zoom Interactive)",
+    status: "UPCOMING",
+    deliveryMode: "Live Interactive Video (Zoom Cohort)",
   },
   {
     id: "evt-2",
@@ -39,32 +40,34 @@ const SAMPLE_EVENTS = [
     hostName: "Dr. Marcus Thorne, Psy.D.",
     hostTitle: "Executive Performance & Clinical Psychologist",
     hostSlug: "dr-marcus-thorne",
-    scheduledAt: "2026-04-19T18:00:00.000Z",
+    scheduledAt: "April 19, 2026 • 6:00 PM UTC",
     durationMinutes: 75,
     timezone: "UTC",
     capacity: 20,
     registeredCount: 11,
     priceMajor: "850.00",
     currency: "INR",
-    deliveryMode: "Live Video (Zoom Interactive)",
+    status: "UPCOMING",
+    deliveryMode: "Live Interactive Video (Zoom Cohort)",
   },
   {
     id: "evt-3",
     slug: "communication-for-couples-live-seminar",
-    title: "De-escalating Chronic Relationship Conflict: Live Demonstration & Q&A",
+    title: "De-escalating Chronic Relationship Conflict: Live Clinical Demonstration",
     description:
-      "An open psychoeducational seminar for individuals and partners exploring non-defensive listening techniques and repair rituals.",
+      "An open psychoeducational seminar for individuals and partners exploring non-defensive listening techniques, repair rituals, and attachment needs.",
     hostName: "Elena Vance, LMFT",
     hostTitle: "Couples & Family Specialist",
     hostSlug: "elena-vance",
-    scheduledAt: "2026-04-26T16:00:00.000Z",
+    scheduledAt: "April 26, 2026 • 4:00 PM UTC",
     durationMinutes: 90,
     timezone: "UTC",
     capacity: 30,
     registeredCount: 19,
     priceMajor: "600.00",
     currency: "INR",
-    deliveryMode: "Live Video (Zoom Interactive)",
+    status: "UPCOMING",
+    deliveryMode: "Live Interactive Video (Zoom Cohort)",
   },
 ];
 
@@ -83,13 +86,14 @@ export default async function EventsPage() {
           hostName: e.host?.name || "Verified Specialist",
           hostTitle: e.host?.title || "Licensed Psychologist",
           hostSlug: e.host?.slug || "",
-          scheduledAt: e.startDateTimeUtc,
+          scheduledAt: new Date(e.startDateTimeUtc).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit" }),
           durationMinutes: 75,
           timezone: e.timezone || "UTC",
           capacity: e.maxCapacity,
           registeredCount: e.registeredCount,
           priceMajor: e.priceMajor,
           currency: e.currency,
+          status: "UPCOMING",
           deliveryMode: "Live Interactive Video",
         };
       });
@@ -101,17 +105,22 @@ export default async function EventsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-cream-50 flex flex-col justify-between">
+    <main className="min-h-screen bg-cream-50 flex flex-col justify-between text-forest-950">
       {/* Navigation Header */}
       <header className="border-b border-sage-200/70 bg-white/90 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3 group">
-            <div className="h-9 w-9 rounded-xl bg-forest-700 flex items-center justify-center text-white font-semibold shadow-sm group-hover:bg-forest-800 transition-colors">
+            <div className="h-10 w-10 rounded-2xl bg-forest-800 flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-forest-900 transition-colors">
               Ψ
             </div>
-            <span className="font-semibold text-lg tracking-tight text-forest-950">
-              Mind Refill
-            </span>
+            <div>
+              <span className="font-bold text-lg tracking-tight text-forest-950 block leading-tight">
+                Mind Refill
+              </span>
+              <span className="text-[10px] uppercase tracking-widest text-forest-600 font-semibold block">
+                Psychology & Well-Being
+              </span>
+            </div>
           </Link>
 
           <nav className="hidden md:flex items-center space-x-6 text-sm font-medium text-forest-700">
@@ -119,12 +128,12 @@ export default async function EventsPage() {
               Find a Psychologist
             </Link>
             <Link href="/resources" className="hover:text-forest-950 transition-colors">
-              Resources
+              Clinical Resources
             </Link>
             <Link href="/ebooks" className="hover:text-forest-950 transition-colors">
-              E-Books
+              E-Books & Workbooks
             </Link>
-            <Link href="/events" className="text-forest-950 font-semibold border-b-2 border-forest-600 pb-0.5">
+            <Link href="/events" className="text-forest-950 font-bold border-b-2 border-forest-700 pb-1">
               Workshops & Events
             </Link>
           </nav>
@@ -132,168 +141,146 @@ export default async function EventsPage() {
           <div className="flex items-center space-x-3">
             <Link
               href="/login"
-              className="text-sm font-medium text-forest-800 hover:text-forest-950 px-3 py-1.5"
+              className="text-sm font-medium text-forest-800 hover:text-forest-950 px-3 py-2"
             >
               Sign In
             </Link>
             <Link
               href="/intake"
-              className="text-sm font-medium bg-forest-700 hover:bg-forest-800 text-white px-4 py-2 rounded-xl transition-colors shadow-sm"
+              className="text-xs sm:text-sm font-semibold bg-forest-800 hover:bg-forest-900 text-white px-5 py-2.5 rounded-2xl transition-all shadow-sm"
             >
-              Get Matched
+              Get Guided Help
             </Link>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="bg-white border-b border-sage-200/70 py-12 sm:py-16 px-4 sm:px-6 lg:px-8 text-center">
-        <div className="max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-sage-100 border border-sage-200 text-forest-800 text-xs font-semibold mb-4">
-            <Calendar className="w-3.5 h-3.5 text-forest-600" />
-            Live Group Psychoeducation
+      <section className="bg-white border-b border-sage-200/70 py-16 px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-4xl mx-auto space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sage-100 border border-sage-200 text-forest-800 text-xs font-semibold shadow-2xs">
+            <Users className="w-3.5 h-3.5 text-forest-600" />
+            Community & Group Growth
           </div>
-          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-forest-950 leading-tight">
-            Learn, reflect, and grow in compassionate company.
+
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-forest-950 leading-tight">
+            Learn, reflect, and grow — together.
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-forest-700 max-w-2xl mx-auto leading-relaxed">
-            Live interactive workshops and clinical group discussions led by licensed psychologists. Safe, moderated, and focused on practical psychological tools.
+
+          <p className="text-base sm:text-lg text-forest-700 max-w-2xl mx-auto leading-relaxed font-normal">
+            Clinician-facilitated group cohorts, reflective seminars, and live skill-building workshops held in safe, confidential environments.
           </p>
-          <div className="mt-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cream-100 border border-sage-200/80 text-forest-700 text-xs font-medium">
+
+          <div className="pt-2 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cream-100 border border-sage-200/80 text-forest-700 text-xs font-medium">
             <span className="h-2 w-2 rounded-full bg-forest-600 animate-pulse" />
-            Preview Launch: Payment processing is on hold. Workshop reservations are facilitated directly without upfront billing.
+            Preview Mode: Workshop seats are coordinated directly with facilitators.
           </div>
         </div>
       </section>
 
       {/* Events Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-1 w-full">
-        {events.length === 0 ? (
-          <div className="bg-white rounded-3xl border border-sage-200 p-12 text-center max-w-md mx-auto my-12 shadow-sm">
-            <div className="h-12 w-12 mx-auto rounded-2xl bg-sage-50 flex items-center justify-center text-forest-400 mb-4">
-              <Calendar className="w-6 h-6" />
-            </div>
-            <h2 className="text-base font-bold text-forest-950">No upcoming workshops right now</h2>
-            <p className="text-xs text-forest-600 mt-2 leading-relaxed">
-              New clinician-led workshops are announced on a bi-weekly basis. Explore individual therapy sessions in our directory in the meantime.
-            </p>
-            <div className="mt-6">
-              <Link
-                href="/psychologists"
-                className="inline-flex items-center gap-1.5 py-2 px-4 bg-forest-700 text-white text-xs font-semibold rounded-xl hover:bg-forest-800 transition-colors"
-              >
-                Explore Psychologist Directory
-              </Link>
-            </div>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 flex-1 w-full">
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-2">
+            <span className="px-3 py-1 rounded-xl bg-forest-800 text-white text-xs font-bold">
+              Upcoming Workshops
+            </span>
+            <span className="px-3 py-1 rounded-xl bg-sage-100 text-forest-800 text-xs font-medium">
+              Small Cohorts (Under 30 Participants)
+            </span>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {events.map((event) => {
-              const spotsLeft = Math.max(0, event.capacity - event.registeredCount);
-              const isNearlyFull = spotsLeft <= 5 && spotsLeft > 0;
-              const dateObj = new Date(event.scheduledAt);
-              const formattedDate = dateObj.toLocaleDateString("en-US", {
-                weekday: "short",
-                month: "short",
-                day: "numeric",
-              });
-              const formattedTime = dateObj.toLocaleTimeString("en-US", {
-                hour: "2-digit",
-                minute: "2-digit",
-              });
+          <span className="text-xs text-forest-600 font-medium">
+            {events.length} sessions open for enrollment
+          </span>
+        </div>
 
-              return (
-                <div
-                  key={event.id}
-                  className="bg-white rounded-3xl border border-sage-200/80 p-6 sm:p-7 shadow-sm hover:shadow-md hover:border-forest-400 transition-all flex flex-col justify-between group"
-                >
-                  <div>
-                    {/* Event Timing Badge */}
-                    <div className="flex items-center justify-between gap-2 text-xs font-semibold text-forest-700 mb-4">
-                      <span className="px-3 py-1 rounded-full bg-forest-50 border border-forest-100 text-forest-900">
-                        {formattedDate} • {formattedTime} {event.timezone}
-                      </span>
-                      <span className="flex items-center gap-1 text-[11px] text-forest-500 font-medium">
-                        <Clock className="w-3.5 h-3.5" />
-                        {event.durationMinutes} min
-                      </span>
-                    </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {events.map((event) => (
+            <div
+              key={event.id}
+              className="bg-white rounded-3xl border border-sage-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-forest-400 transition-all flex flex-col justify-between group"
+            >
+              <div>
+                {/* Event Timing & Status Badge */}
+                <div className="flex items-center justify-between mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sage-50 text-forest-800 border border-sage-200 text-[10px] font-bold uppercase tracking-wider">
+                    <Radio className="w-3 h-3 text-forest-600 animate-pulse" />
+                    Live Virtual Cohort
+                  </span>
+                  <span className="text-[11px] text-forest-500 font-medium flex items-center gap-1">
+                    <Clock className="w-3 h-3" />
+                    {event.durationMinutes} mins
+                  </span>
+                </div>
 
-                    <h2 className="text-lg font-bold text-forest-950 leading-snug mb-2">
-                      {event.title}
-                    </h2>
+                <h2 className="text-lg font-bold text-forest-950 leading-snug mb-2 group-hover:text-forest-800 transition-colors">
+                  {event.title}
+                </h2>
 
-                    <p className="text-xs sm:text-sm text-forest-700 leading-relaxed line-clamp-3 mb-5">
-                      {event.description}
-                    </p>
+                <p className="text-xs sm:text-sm text-forest-700 leading-relaxed mb-6 line-clamp-3">
+                  {event.description}
+                </p>
 
-                    <div className="space-y-2 mb-6 text-xs text-forest-700">
-                      <div className="flex items-center gap-2">
-                        <Video className="w-3.5 h-3.5 text-forest-600 shrink-0" />
-                        <span>{event.deliveryMode}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Users className="w-3.5 h-3.5 text-forest-600 shrink-0" />
-                        <span>Small cohort (limited to {event.capacity} participants)</span>
-                      </div>
-                    </div>
+                {/* Facilitator & Date Box */}
+                <div className="p-4 rounded-2xl bg-cream-50/70 border border-sage-100 space-y-2 mb-6 text-xs text-forest-800">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-3.5 h-3.5 text-forest-600 shrink-0" />
+                    <span className="font-semibold text-forest-950">{event.scheduledAt}</span>
                   </div>
-
-                  <div className="pt-5 border-t border-sage-100 flex items-center justify-between">
-                    <div>
-                      <div className="flex items-center gap-1.5 mb-1">
-                        <span className="text-lg font-extrabold text-forest-950">
-                          ₹{event.priceMajor}
-                        </span>
-                      </div>
-                      <span
-                        className={`text-[10px] font-semibold ${
-                          isNearlyFull ? "text-amber-700" : "text-forest-500"
-                        }`}
-                      >
-                        {spotsLeft > 0 ? `${spotsLeft} spots remaining` : "Session Full"}
-                      </span>
-                    </div>
-
-                    <Link
-                      href={`/login?redirect=/app/client/events`}
-                      className="inline-flex items-center gap-2 py-2.5 px-5 bg-forest-700 hover:bg-forest-800 text-white text-xs font-semibold rounded-xl shadow-sm transition-colors"
-                    >
-                      <span>Reserve Spot</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
+                  <div className="flex items-center gap-2">
+                    <Users className="w-3.5 h-3.5 text-forest-600 shrink-0" />
+                    <span>Facilitated by {event.hostName}</span>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        )}
+              </div>
 
-        {/* Safe Space Reassurance */}
-        <div className="mt-16 bg-sage-100/70 border border-sage-200 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+              {/* Action Footer */}
+              <div className="pt-4 border-t border-sage-100 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] uppercase tracking-wider text-forest-500 font-semibold block">
+                    Cohort Fee
+                  </span>
+                  <span className="text-base font-extrabold text-forest-950">
+                    ₹{event.priceMajor}
+                  </span>
+                </div>
+
+                <Link
+                  href="/intake"
+                  className="py-2.5 px-5 bg-forest-800 hover:bg-forest-900 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors"
+                >
+                  Reserve Cohort Seat &rarr;
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Community Cohort Guarantee Banner */}
+        <div className="mt-16 bg-sage-100/70 border border-sage-200/80 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left shadow-xs">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-2xl bg-white flex items-center justify-center text-forest-700 shrink-0 shadow-xs">
+            <div className="h-11 w-11 rounded-2xl bg-white flex items-center justify-center text-forest-700 shrink-0 shadow-2xs">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-forest-950">Confidential & Moderated Spaces</h3>
+              <h3 className="text-sm font-bold text-forest-950">Psychologically Safe & Confidential</h3>
               <p className="text-xs text-forest-700 mt-0.5">
-                Every attendee adheres to strict group privacy agreements. Cameras are encouraged but participation is always voluntary.
+                Cohort sizes are strictly capped so every attendee has room to listen, reflect, or share without feeling lost in a crowd.
               </p>
             </div>
           </div>
           <Link
-            href="/intake"
+            href="/psychologists"
             className="text-xs font-semibold text-forest-800 hover:text-forest-950 shrink-0 underline"
           >
-            Prefer 1-on-1 counseling? &rarr;
+            Meet Workshop Facilitators &rarr;
           </Link>
         </div>
       </section>
 
       {/* Footer */}
       <footer className="border-t border-sage-200/60 bg-white py-8 text-center text-xs text-forest-600">
-        <p>© {new Date().getFullYear()} Mind Refill. Live clinical workshops and interactive group psychoeducation.</p>
+        <p>© {new Date().getFullYear()} Mind Refill. Clinical workshops and group growth.</p>
       </footer>
     </main>
   );

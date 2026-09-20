@@ -32,3 +32,6 @@ next-env.d.ts
 
 # prisma generated binaries
 prisma/migrations/*_migration_lock.toml
+
+.vercel
+.env*

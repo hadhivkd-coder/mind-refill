@@ -61,19 +61,17 @@ export default async function PsychologistPortfolioPage() {
           </p>
         </header>
 
-        <div className="atmospheric-card rounded-3xl p-6 sm:p-8">
-          <PortfolioStudio
-            portfolioId={portfolioData.portfolioId}
-            isPublished={portfolioData.isPublished}
-            publishedVersionId={portfolioData.publishedVersionId}
-            initialContent={portfolioData.latestVersion?.content ?? null}
-            initialStyle={portfolioData.latestVersion?.styleName ?? "modern"}
-            initialVersionNum={portfolioData.latestVersion?.versionNum ?? null}
-            versionsHistory={portfolioData.versionsHistory || []}
-            hasAiEntitlement={hasAiEntitlement}
-            slug={profile?.slug || "dr-sarah-jenkins"}
-          />
-        </div>
+        <PortfolioStudio
+          portfolioId={portfolioData.portfolioId}
+          isPublished={portfolioData.isPublished}
+          publishedVersionId={portfolioData.publishedVersionId}
+          initialContent={portfolioData.latestVersion?.content ?? null}
+          initialStyle={portfolioData.latestVersion?.styleName ?? "modern"}
+          initialVersionNum={portfolioData.latestVersion?.versionNum ?? null}
+          versionsHistory={portfolioData.versionsHistory || []}
+          hasAiEntitlement={hasAiEntitlement}
+          slug={profile?.slug || "dr-sarah-jenkins"}
+        />
       </div>
     </div>
   );

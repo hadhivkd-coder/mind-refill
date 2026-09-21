@@ -11,64 +11,82 @@ export default async function ClientPurchasesPage() {
   const purchases = await EbookService.getClientPurchases(session.user.id);
 
   return (
-    <div className="min-h-screen bg-serene-50 p-6 sm:p-10">
-      <div className="max-w-5xl mx-auto space-y-6">
-        <Link
-          href="/app/client"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-serene-500 hover:text-serene-900 transition-colors"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          Back to Client Portal
-        </Link>
+    <div className="min-h-screen bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD] p-4 sm:p-8 lg:p-12">
+      <div className="max-w-5xl mx-auto space-y-8">
+        <div className="flex items-center justify-between">
+          <Link
+            href="/app/client"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#9CAF91] hover:text-[#F1EBDD] transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Back to Client Sanctuary</span>
+          </Link>
+          <Link
+            href="/ebooks"
+            className="px-5 py-2.5 bg-[#F1EBDD] hover:bg-white text-[#173C32] text-xs font-semibold rounded-full transition-all shadow-sm active:scale-95"
+          >
+            Explore Library
+          </Link>
+        </div>
 
-        <header className="border-b border-serene-200 pb-4">
-          <div className="flex items-center gap-2">
-            <BookOpen className="w-6 h-6 text-brand-600" />
-            <h1 className="text-2xl sm:text-3xl font-bold text-serene-900">
-              Digital Library & Purchases
+        <header className="border-b border-white/10 pb-5">
+          <div className="flex items-center gap-2.5">
+            <BookOpen className="w-6 h-6 text-[#9CAF91]" />
+            <h1 className="font-serif text-3xl sm:text-4xl font-normal text-[#F7F3E9]">
+              Digital Library & Workbooks
             </h1>
           </div>
-          <p className="text-xs text-serene-500 mt-1">
-            Access and download your acquired psychoeducational guides, clinical workbooks, and resources.
+          <p className="text-xs text-[#C9D2BC] mt-1 font-light">
+            Access and download your acquired psychoeducational guides, clinical workbooks, and self-care resources.
           </p>
         </header>
 
         {purchases.length === 0 ? (
-          <div className="bg-white rounded-3xl border border-serene-200 p-12 text-center space-y-3">
-            <BookOpen className="w-8 h-8 text-serene-300 mx-auto" />
-            <h2 className="text-sm font-bold text-serene-800">Your digital library is currently empty</h2>
-            <p className="text-xs text-serene-500 max-w-sm mx-auto">
+          <div className="atmospheric-card rounded-3xl border border-white/10 p-12 text-center shadow-lg space-y-3 bg-[#122C25]/80">
+            <BookOpen className="w-10 h-10 text-[#9CAF91] mx-auto opacity-60" />
+            <h2 className="font-serif text-xl text-[#F7F3E9]">Your digital library is currently empty</h2>
+            <p className="text-xs text-[#C9D2BC] max-w-sm mx-auto font-light leading-relaxed">
               Explore evidence-based self-guided workbooks and publications authored by verified psychologists.
             </p>
+            <div className="pt-3">
+              <Link
+                href="/ebooks"
+                className="px-6 py-2.5 bg-[#F1EBDD] text-[#173C32] text-xs font-semibold rounded-full shadow-md transition-all active:scale-95 inline-block"
+              >
+                Browse Books & Workbooks
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {purchases.map((p) => (
               <div
                 key={p.purchaseId}
-                className="bg-white rounded-3xl border border-serene-200 p-6 shadow-sm flex flex-col justify-between space-y-4"
+                className="atmospheric-card rounded-3xl border border-white/10 p-6 shadow-md flex flex-col justify-between space-y-4 bg-[#122C25]/85 hover:border-[#9CAF91]/50 transition-all"
               >
                 <div className="space-y-2">
-                  <div className="text-[10px] uppercase font-bold text-brand-700">
+                  <div className="text-[10px] uppercase font-semibold tracking-wider text-[#9CAF91]">
                     By {p.authorName}
                   </div>
-                  <h3 className="text-base font-bold text-serene-900">{p.title}</h3>
-                  <p className="text-xs text-serene-500 line-clamp-3">{p.description}</p>
+                  <h3 className="font-serif text-xl font-normal text-[#F7F3E9]">{p.title}</h3>
+                  <p className="text-xs text-[#C9D2BC] font-light line-clamp-3 leading-relaxed">
+                    {p.description}
+                  </p>
                 </div>
 
-                <div className="border-t border-serene-100 pt-4 flex items-center justify-between">
-                  <span className="text-[11px] text-serene-400">
-                    Purchased {new Date(p.grantedAt).toLocaleDateString()}
+                <div className="border-t border-white/10 pt-4 flex items-center justify-between">
+                  <span className="text-[11px] text-[#9CAF91]">
+                    Acquired {new Date(p.grantedAt).toLocaleDateString()}
                   </span>
 
                   <a
                     href={`/api/content/ebooks/${p.ebookId}/download`}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 py-2 px-4 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl transition-colors shadow-sm"
+                    className="inline-flex items-center gap-1.5 py-2 px-5 bg-[#F1EBDD] hover:bg-white text-[#173C32] text-xs font-semibold rounded-full transition-all shadow-sm active:scale-95"
                   >
                     <Download className="w-3.5 h-3.5" />
-                    Download File
+                    <span>Download</span>
                   </a>
                 </div>
               </div>

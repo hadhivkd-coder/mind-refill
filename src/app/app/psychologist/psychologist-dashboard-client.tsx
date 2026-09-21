@@ -126,6 +126,59 @@ export function PsychologistDashboardClient({
   const [prodCoverUrl, setProdCoverUrl] = useState("");
   const [isProdSubmitting, setIsProdSubmitting] = useState(false);
 
+  // Native Photo Upload State
+  const [photoSourceMode, setPhotoSourceMode] = useState<"upload" | "link">("upload");
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+
+  // Handle local photo/image file selection
+  async function handlePhotoSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      setFormMessage("Image file size exceeds the 10MB limit");
+      return;
+    }
+
+    setPhotoFile(file);
+    const localUrl = URL.createObjectURL(file);
+    setFormMediaUrl(localUrl);
+    setUploadState("uploading");
+    setUploadProgress(30);
+    setFormMessage(null);
+
+    try {
+      const progressTimer = setInterval(() => {
+        setUploadProgress((prev) => (prev >= 85 ? prev : prev + 25));
+      }, 150);
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/psychologist/media/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      clearInterval(progressTimer);
+      const json = await res.json();
+      if (!res.ok) {
+        throw new Error(json.error?.message || json.error || "Failed to upload photo");
+      }
+
+      setUploadProgress(100);
+      setUploadState("ready");
+      setFormMediaUrl(json.data.url);
+      if (!formTitle) {
+        const cleanName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+        setFormTitle(cleanName.charAt(0).toUpperCase() + cleanName.slice(1));
+      }
+    } catch (err: any) {
+      setUploadState("idle");
+      setFormMessage(err.message || "Failed to upload photo. You can still paste an image link.");
+    }
+  }
+
   // Handle local video file selection
   async function handleVideoSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -1211,23 +1264,160 @@ export function PsychologistDashboardClient({
                 </div>
               )}
 
-              {/* Photo Creation Section: File or URL */}
+              {/* Photo Creation Section: File Upload or Link */}
               {createType === "photo" && (
-                <div>
-                  <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block mb-1">
-                    Photo Image URL (or Unsplash link)
-                  </label>
-                  <input
-                    type="url"
-                    value={formMediaUrl}
-                    onChange={(e) => setFormMediaUrl(e.target.value)}
-                    placeholder="https://images.unsplash.com/photo-..."
-                    className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 text-xs text-[#F7F3E9] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
-                  />
-                  {formMediaUrl && (
-                    <div className="mt-2 h-36 rounded-xl overflow-hidden bg-black/40 border border-white/10 relative">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={formMediaUrl} alt="Preview" className="w-full h-full object-cover" />
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 p-1 bg-[#122C25] rounded-xl border border-white/10">
+                    <button
+                      type="button"
+                      onClick={() => setPhotoSourceMode("upload")}
+                      className={`flex-1 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                        photoSourceMode === "upload"
+                          ? "bg-[#F1EBDD] text-[#173C32] font-semibold"
+                          : "text-[#C9D2BC] hover:text-white"
+                      }`}
+                    >
+                      Upload Photo File
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPhotoSourceMode("link")}
+                      className={`flex-1 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                        photoSourceMode === "link"
+                          ? "bg-[#F1EBDD] text-[#173C32] font-semibold"
+                          : "text-[#C9D2BC] hover:text-white"
+                      }`}
+                    >
+                      Paste Image Link
+                    </button>
+                  </div>
+
+                  {photoSourceMode === "upload" ? (
+                    <div>
+                      {!formMediaUrl ? (
+                        <label className="border-2 border-dashed border-white/20 hover:border-[#9CAF91] rounded-2xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer bg-white/5 hover:bg-white/10 transition-all text-center group">
+                          <input
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp,image/gif"
+                            onChange={handlePhotoSelect}
+                            className="hidden"
+                          />
+                          <div className="h-12 w-12 rounded-full bg-[#244F42] flex items-center justify-center text-[#F1EBDD] group-hover:scale-110 transition-transform">
+                            <UploadCloud className="w-6 h-6" />
+                          </div>
+                          <span className="text-xs font-semibold text-[#F7F3E9] block">
+                            Choose photo from phone or computer
+                          </span>
+                          <span className="text-[11px] text-[#C9D2BC] font-light">
+                            Supports JPEG, PNG, WebP • Up to 10MB
+                          </span>
+                        </label>
+                      ) : (
+                        <div className="space-y-3">
+                          <div className="relative rounded-2xl overflow-hidden bg-black/40 h-48 flex items-center justify-center border border-white/10">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={formMediaUrl} alt="Preview" className="w-full h-full object-cover" />
+                          </div>
+                          <div className="flex items-center justify-between text-xs px-2 text-[#9CAF91]">
+                            <span className="flex items-center gap-1.5 text-[#F1EBDD]">
+                              <Check className="w-3.5 h-3.5 text-[#9CAF91]" />
+                              <span>Photo ready to publish</span>
+                            </span>
+                            <label className="text-[11px] text-[#C9D2BC] hover:text-[#F1EBDD] underline cursor-pointer">
+                              <span>Change photo</span>
+                              <input
+                                type="file"
+                                accept="image/jpeg,image/png,image/webp,image/gif"
+                                onChange={handlePhotoSelect}
+                                className="hidden"
+                              />
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div>
+                      <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block mb-1">
+                        Photo Image URL (or Unsplash link)
+                      </label>
+                      <input
+                        type="url"
+                        value={formMediaUrl}
+                        onChange={(e) => setFormMediaUrl(e.target.value)}
+                        placeholder="https://images.unsplash.com/photo-..."
+                        className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 text-xs text-[#F7F3E9] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
+                      />
+                      {formMediaUrl && (
+                        <div className="mt-2 h-36 rounded-xl overflow-hidden bg-black/40 border border-white/10 relative">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={formMediaUrl} alt="Preview" className="w-full h-full object-cover" />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Optional Media Attachment for Post, Article, Resource */}
+              {(createType === "post" || createType === "article" || createType === "resource") && (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block">
+                      Attachment (Optional Photo or Video)
+                    </label>
+                    {formMediaUrl && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFormMediaUrl("");
+                          setVideoPreviewUrl(null);
+                          setVideoFile(null);
+                          setPhotoFile(null);
+                        }}
+                        className="text-[10px] text-red-300 hover:underline"
+                      >
+                        Remove attachment
+                      </button>
+                    )}
+                  </div>
+
+                  {!formMediaUrl ? (
+                    <label className="border border-dashed border-white/20 hover:border-[#F1EBDD] rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer bg-white/5 hover:bg-white/10 transition-all text-center">
+                      <input
+                        type="file"
+                        accept="image/*,video/mp4,video/quicktime,video/webm"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file?.type.startsWith("video/")) {
+                            handleVideoSelect(e);
+                          } else {
+                            handlePhotoSelect(e);
+                          }
+                        }}
+                        className="hidden"
+                      />
+                      <UploadCloud className="w-4 h-4 text-[#9CAF91]" />
+                      <span className="text-xs text-[#F7F3E9] font-medium">
+                        Upload photo or video from device
+                      </span>
+                    </label>
+                  ) : (
+                    <div className="relative rounded-xl overflow-hidden bg-black/40 border border-white/10 h-36 flex items-center justify-center">
+                      {formMediaUrl.match(/\.(mp4|webm|mov)($|\?)/i) || videoPreviewUrl ? (
+                        <video
+                          src={videoPreviewUrl || formMediaUrl}
+                          controls
+                          className="h-full w-full object-contain"
+                        />
+                      ) : (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                          src={formMediaUrl}
+                          alt="Attached media"
+                          className="h-full w-full object-cover"
+                        />
+                      )}
                     </div>
                   )}
                 </div>

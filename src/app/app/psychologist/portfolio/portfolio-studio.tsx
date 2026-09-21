@@ -1,74 +1,120 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles, Check, Globe, RotateCcw, Save, Eye, Palette, History, AlertCircle } from "lucide-react";
-import { PortfolioContent } from "@/modules/portfolio/providers/ai-provider.interface";
-import { PORTFOLIO_TEMPLATES } from "@/modules/portfolio/services/portfolio.service";
+import {
+  Sparkles,
+  Save,
+  Check,
+  RotateCcw,
+  Palette,
+  Eye,
+  History,
+  AlertCircle,
+  Globe,
+  ArrowRight,
+  X,
+} from "lucide-react";
 
-interface VersionItem {
-  id: string;
-  versionNum: number;
-  styleName: string;
-  changeNotes: string | null;
-  createdAt: string;
-}
+const DEFAULT_CONTENT = {
+  headline: "Licensed Clinical Psychologist & Somatic CBT Specialist",
+  introduction: "Helping individuals navigate chronic stress, anxiety, and burnout using evidence-based cognitive and somatic approaches.",
+  about: "Over 12 years of experience providing compassionate, evidence-based psychological care. Dedicated to creating an emotionally secure, non-judgmental space where clients can explore patterns without shame.",
+  expertise: ["Anxiety & Panic", "Burnout & Perfectionism", "Trauma Recovery", "Sleep & Somatics"],
+  whoTheyHelp: [
+    "Adults dealing with chronic anxiety and racing thoughts",
+    "High-achieving professionals facing workplace burnout",
+    "Individuals navigating major life transitions and grief",
+  ],
+  counselingApproach: "Collaborative, relational CBT integrated with somatic regulation to ground the nervous system.",
+  experienceSummary: "Extensive experience across hospital outpatient clinics and international private tele-psychology practice.",
+  ctaText: "Book an Intake Consultation",
+};
 
-interface PortfolioStudioProps {
-  portfolioId: string;
-  isPublished: boolean;
-  publishedVersionId: string | null;
-  initialContent: PortfolioContent | null;
-  initialStyle: string;
-  initialVersionNum: number | null;
-  versionsHistory: VersionItem[];
-  hasAiEntitlement: boolean;
+export interface PortfolioStudioProps {
   slug: string;
+  portfolioId?: string;
+  hasAiEntitlement: boolean;
+  isPublished?: boolean;
+  publishedVersionId?: string | null;
+  initialContent?: any;
+  initialStyle?: string;
+  activeStyle?: string;
+  initialVersionNum?: number | null;
+  initialPublishedContent?: Record<string, unknown> | null;
+  versionsHistory: Array<{
+    id: string;
+    versionNum: number;
+    styleName: string;
+    changeNotes: string | null;
+    isPublished: boolean;
+    createdAt: string;
+  }>;
 }
+
+const PORTFOLIO_TEMPLATES = [
+  {
+    id: "minimalist",
+    name: "Minimalist",
+    description: "Quiet typography, serene spacing, focused clinical clarity.",
+  },
+  {
+    id: "warm",
+    name: "Warm & Relatable",
+    description: "Approachable earth tones, gentle cards, welcoming atmosphere.",
+  },
+  {
+    id: "modern",
+    name: "Modern Contemporary",
+    description: "Crisp lines, bold accents, structured modular grid.",
+  },
+  {
+    id: "editorial",
+    name: "Refined & Editorial",
+    description: "Sophisticated serif accents, balanced spacing, premium aesthetic.",
+  },
+  {
+    id: "clinical",
+    name: "Clinical Authority",
+    description: "Structured clinical hierarchy highlighting qualifications and methods.",
+  },
+];
 
 export function PortfolioStudio({
-  isPublished,
+  slug,
+  portfolioId,
+  hasAiEntitlement,
+  isPublished: propIsPublished,
+  publishedVersionId,
   initialContent,
   initialStyle,
+  activeStyle,
   initialVersionNum,
+  initialPublishedContent,
   versionsHistory,
-  hasAiEntitlement,
-  slug,
 }: PortfolioStudioProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"editor" | "preview" | "history">("editor");
+  const [selectedStyle, setSelectedStyle] = useState(initialStyle || activeStyle || "modern");
+  const [content, setContent] = useState(initialContent || DEFAULT_CONTENT);
+  const [isPublished] = useState(Boolean(initialPublishedContent || propIsPublished));
+  const [currentVersionNum, setCurrentVersionNum] = useState<number | null>(
+    initialVersionNum || versionsHistory[0]?.versionNum || 1
+  );
 
-  const defaultContent: PortfolioContent = initialContent || {
-    headline: "Licensed Clinical Psychologist & Psychotherapist",
-    introduction: "Dedicated to providing compassionate, evidence-based psychological care to foster resilience.",
-    about: "Clinical psychologist specializing in integrative psychotherapy, cognitive behavioral therapies, and mental wellness.",
-    expertise: ["Anxiety", "Depression", "Life Transitions", "Stress Management"],
-    whoTheyHelp: ["Adults facing burnout", "Individuals navigating grief and transitions"],
-    experienceSummary: "Extensive experience across clinical hospital and outpatient private practice settings.",
-    qualificationsSummary: [
-      { degree: "Master of Science in Clinical Psychology", institution: "University", year: 2018 },
-    ],
-    languages: ["English"],
-    counselingApproach: "Grounded in Cognitive Behavioral Therapy (CBT) and mindfulness-based interventions.",
-    ctaText: "Book an Intake Consultation",
-    sectionOrder: ["hero", "about", "expertise", "who_they_help", "approach", "qualifications", "services", "contact"],
-  };
-
-  const [content, setContent] = useState<PortfolioContent>(defaultContent);
-  const [selectedStyle, setSelectedStyle] = useState<string>(initialStyle || "modern");
-  const [currentVersionNum, setCurrentVersionNum] = useState<number | null>(initialVersionNum);
-
-  const [isGenerating, setIsGenerating] = useState(false);
+  // Loading & Feedback states
   const [isSaving, setIsSaving] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const [feedback, setFeedback] = useState<{ text: string; error?: boolean } | null>(null);
 
-  // AI Prompt Modal State
+  // AI Modal
   const [showAiModal, setShowAiModal] = useState(false);
   const [aiBio, setAiBio] = useState("");
   const [aiTone, setAiTone] = useState("warm");
 
   async function handleGenerateAi() {
+    if (!aiBio.trim()) return;
     setIsGenerating(true);
     setFeedback(null);
     try {
@@ -189,21 +235,21 @@ export function PortfolioStudio({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-[#F7F3E9]">
       {/* Top Action Bar */}
-      <div className="bg-white rounded-3xl border border-serene-200 p-4 shadow-sm flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
+      <div className="atmospheric-card rounded-3xl border border-white/10 p-5 shadow-xl flex flex-wrap items-center justify-between gap-4 bg-[#122C25]/85 backdrop-blur-md">
+        <div className="flex items-center gap-3">
           <span
-            className={`px-3 py-1 rounded-full text-xs font-bold ${
+            className={`px-3 py-1 rounded-full text-xs font-semibold ${
               isPublished
-                ? "bg-green-100 text-green-800"
-                : "bg-amber-100 text-amber-800"
+                ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                : "bg-amber-500/20 text-amber-300 border border-amber-500/30"
             }`}
           >
             {isPublished ? "Live Published" : "Draft Only"}
           </span>
           {currentVersionNum && (
-            <span className="text-xs font-mono text-serene-500 bg-serene-100 px-2 py-0.5 rounded-lg">
+            <span className="text-xs font-mono text-[#9CAF91] bg-white/5 border border-white/10 px-2.5 py-1 rounded-lg">
               v{currentVersionNum}
             </span>
           )}
@@ -211,48 +257,48 @@ export function PortfolioStudio({
             href={`/psychologists/${slug}`}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1 text-xs text-brand-700 hover:text-brand-900 font-semibold ml-2"
+            className="inline-flex items-center gap-1.5 text-xs text-[#9CAF91] hover:text-[#F1EBDD] font-medium ml-1 transition-colors"
           >
             <Globe className="w-3.5 h-3.5" />
-            View Public Page
+            <span>View Public Profile</span>
           </a>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5 flex-wrap">
           {hasAiEntitlement ? (
             <button
               onClick={() => setShowAiModal(true)}
-              className="bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors"
+              className="bg-[#244F42] hover:bg-[#3F6855] text-[#F1EBDD] border border-white/15 px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              Generate with AI
+              <Sparkles className="w-3.5 h-3.5 text-[#F1EBDD]" />
+              <span>Generate with AI</span>
             </button>
           ) : (
             <a
               href="/app/psychologist/subscription"
-              className="bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors"
+              className="bg-amber-500/15 hover:bg-amber-500/25 text-amber-200 border border-amber-500/30 px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all"
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-              Unlock AI Builder (Pro)
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              <span>Unlock AI Builder (Pro)</span>
             </a>
           )}
 
           <button
             onClick={handleSaveDraft}
             disabled={isSaving}
-            className="bg-serene-100 hover:bg-serene-200 text-serene-800 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors disabled:opacity-50"
+            className="bg-white/10 hover:bg-white/15 text-[#F7F3E9] border border-white/15 px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all disabled:opacity-50"
           >
             <Save className="w-3.5 h-3.5" />
-            {isSaving ? "Saving..." : "Save Draft"}
+            <span>{isSaving ? "Saving..." : "Save Draft"}</span>
           </button>
 
           <button
             onClick={handlePublish}
             disabled={isPublishing}
-            className="bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors shadow-sm disabled:opacity-50"
+            className="bg-[#F1EBDD] hover:bg-white text-[#173C32] px-5 py-2 rounded-full text-xs font-bold flex items-center gap-1.5 transition-all shadow-md active:scale-95 disabled:opacity-50"
           >
             <Check className="w-3.5 h-3.5" />
-            {isPublishing ? "Publishing..." : "Publish Live"}
+            <span>{isPublishing ? "Publishing..." : "Publish Live"}</span>
           </button>
         </div>
       </div>
@@ -260,50 +306,52 @@ export function PortfolioStudio({
       {feedback && (
         <div
           className={`p-4 rounded-2xl text-xs flex items-center gap-2 ${
-            feedback.error ? "bg-rose-50 text-rose-700 border border-rose-200" : "bg-green-50 text-green-700 border border-green-200"
+            feedback.error
+              ? "bg-rose-500/20 text-rose-200 border border-rose-500/30"
+              : "bg-emerald-500/20 text-emerald-200 border border-emerald-500/30"
           }`}
         >
-          {feedback.error ? <AlertCircle className="w-4 h-4 shrink-0" /> : <Check className="w-4 h-4 shrink-0" />}
-          {feedback.text}
+          {feedback.error ? <AlertCircle className="w-4 h-4 shrink-0 text-rose-300" /> : <Check className="w-4 h-4 shrink-0 text-emerald-300" />}
+          <span>{feedback.text}</span>
         </div>
       )}
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-serene-200 pb-2 text-xs font-bold">
+      <div className="flex items-center gap-2 border-b border-white/10 pb-3 text-xs font-semibold">
         <button
           onClick={() => setActiveTab("editor")}
-          className={`px-4 py-2 rounded-xl transition-colors flex items-center gap-1.5 ${
+          className={`px-4 py-2 rounded-full transition-all flex items-center gap-1.5 ${
             activeTab === "editor"
-              ? "bg-white text-serene-900 shadow-sm border border-serene-200"
-              : "text-serene-500 hover:text-serene-900"
+              ? "bg-[#F1EBDD] text-[#173C32] font-semibold shadow-sm"
+              : "text-[#C9D2BC] hover:text-white bg-white/5 border border-white/10"
           }`}
         >
           <Palette className="w-3.5 h-3.5" />
-          Structured Content & Theme
+          <span>Structured Content & Theme</span>
         </button>
 
         <button
           onClick={() => setActiveTab("preview")}
-          className={`px-4 py-2 rounded-xl transition-colors flex items-center gap-1.5 ${
+          className={`px-4 py-2 rounded-full transition-all flex items-center gap-1.5 ${
             activeTab === "preview"
-              ? "bg-white text-serene-900 shadow-sm border border-serene-200"
-              : "text-serene-500 hover:text-serene-900"
+              ? "bg-[#F1EBDD] text-[#173C32] font-semibold shadow-sm"
+              : "text-[#C9D2BC] hover:text-white bg-white/5 border border-white/10"
           }`}
         >
           <Eye className="w-3.5 h-3.5" />
-          Live Template Preview
+          <span>Live Template Preview</span>
         </button>
 
         <button
           onClick={() => setActiveTab("history")}
-          className={`px-4 py-2 rounded-xl transition-colors flex items-center gap-1.5 ${
+          className={`px-4 py-2 rounded-full transition-all flex items-center gap-1.5 ${
             activeTab === "history"
-              ? "bg-white text-serene-900 shadow-sm border border-serene-200"
-              : "text-serene-500 hover:text-serene-900"
+              ? "bg-[#F1EBDD] text-[#173C32] font-semibold shadow-sm"
+              : "text-[#C9D2BC] hover:text-white bg-white/5 border border-white/10"
           }`}
         >
           <History className="w-3.5 h-3.5" />
-          Version History ({versionsHistory.length})
+          <span>Version History ({versionsHistory.length})</span>
         </button>
       </div>
 
@@ -311,63 +359,74 @@ export function PortfolioStudio({
       {activeTab === "editor" && (
         <div className="space-y-6">
           {/* Template Style Selector */}
-          <div className="bg-white rounded-3xl border border-serene-200 p-6 space-y-3">
-            <h3 className="text-xs font-bold text-serene-900 uppercase tracking-wider">
+          <div className="atmospheric-card rounded-3xl border border-white/10 p-6 sm:p-8 space-y-4 bg-[#122C25]/80">
+            <h3 className="text-xs font-semibold text-[#9CAF91] uppercase tracking-wider">
               Choose Visual Template Theme
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
               {PORTFOLIO_TEMPLATES.map((tmpl) => (
                 <button
                   key={tmpl.id}
                   type="button"
                   onClick={() => setSelectedStyle(tmpl.id)}
-                  className={`p-3 rounded-2xl text-left border transition-all ${
+                  className={`p-4 rounded-2xl text-left border transition-all ${
                     selectedStyle === tmpl.id
-                      ? "border-brand-600 bg-brand-50/50 ring-2 ring-brand-500/20"
-                      : "border-serene-200 hover:border-serene-300 bg-white"
+                      ? "border-[#F1EBDD] bg-[#244F42] text-[#F1EBDD] ring-2 ring-[#F1EBDD]/30"
+                      : "border-white/10 hover:border-white/20 bg-white/5 text-[#C9D2BC]"
                   }`}
                 >
-                  <div className="font-bold text-xs text-serene-900">{tmpl.name}</div>
-                  <div className="text-[10px] text-serene-500 mt-1 line-clamp-2">{tmpl.description}</div>
+                  <div className="font-serif font-medium text-sm text-[#F7F3E9]">{tmpl.name}</div>
+                  <div className="text-[11px] text-[#C9D2BC] font-light mt-1 line-clamp-2">
+                    {tmpl.description}
+                  </div>
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Form Fields */}
-          <div className="bg-white rounded-3xl border border-serene-200 p-6 space-y-4">
+          {/* Form Fields - High Contrast Dark Inputs */}
+          <div className="atmospheric-card rounded-3xl border border-white/10 p-6 sm:p-8 space-y-5 bg-[#122C25]/80">
             <div>
-              <label className="block text-xs font-bold text-serene-700 mb-1">Headline</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+                Headline / Clinical Title
+              </label>
               <input
                 type="text"
                 value={content.headline}
                 onChange={(e) => setContent({ ...content, headline: e.target.value })}
-                className="w-full text-xs rounded-xl border border-serene-200 p-2.5 focus:ring-2 focus:ring-brand-500"
+                placeholder="e.g. Licensed Clinical Psychologist & Somatic CBT Specialist"
+                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-serene-700 mb-1">Introduction</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+                Introduction
+              </label>
               <textarea
                 rows={2}
                 value={content.introduction}
                 onChange={(e) => setContent({ ...content, introduction: e.target.value })}
-                className="w-full text-xs rounded-xl border border-serene-200 p-2.5 focus:ring-2 focus:ring-brand-500"
+                placeholder="Brief, empathetic summary of how you help individuals find emotional grounding..."
+                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all resize-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-serene-700 mb-1">About & Clinical Bio</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+                About & Clinical Bio
+              </label>
               <textarea
                 rows={4}
                 value={content.about}
                 onChange={(e) => setContent({ ...content, about: e.target.value })}
-                className="w-full text-xs rounded-xl border border-serene-200 p-2.5 focus:ring-2 focus:ring-brand-500"
+                placeholder="Clinical background, modalities, experience, and therapeutic philosophy..."
+                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-serene-700 mb-1">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
                 Areas of Clinical Expertise (comma-separated)
               </label>
               <input
@@ -379,12 +438,13 @@ export function PortfolioStudio({
                     expertise: e.target.value.split(",").map((s) => s.trim()).filter(Boolean),
                   })
                 }
-                className="w-full text-xs rounded-xl border border-serene-200 p-2.5 focus:ring-2 focus:ring-brand-500"
+                placeholder="Anxiety & Panic, Trauma Recovery, Burnout, Sleep & Somatics"
+                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-serene-700 mb-1">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
                 Who I Help / Client Profiles (one per line)
               </label>
               <textarea
@@ -396,37 +456,47 @@ export function PortfolioStudio({
                     whoTheyHelp: e.target.value.split("\n").map((s) => s.trim()).filter(Boolean),
                   })
                 }
-                className="w-full text-xs rounded-xl border border-serene-200 p-2.5 focus:ring-2 focus:ring-brand-500"
+                placeholder="Adults dealing with chronic anxiety and racing thoughts&#10;High-achieving professionals facing burnout&#10;Individuals navigating major life transitions"
+                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-serene-700 mb-1">Counseling Approach & Modalities</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+                Counseling Approach & Modalities
+              </label>
               <textarea
                 rows={3}
                 value={content.counselingApproach}
                 onChange={(e) => setContent({ ...content, counselingApproach: e.target.value })}
-                className="w-full text-xs rounded-xl border border-serene-200 p-2.5 focus:ring-2 focus:ring-brand-500"
+                placeholder="I integrate cognitive behavioral techniques with somatic grounding to restore emotional safety..."
+                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-serene-700 mb-1">Experience Summary</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+                Experience Summary
+              </label>
               <textarea
                 rows={2}
                 value={content.experienceSummary}
                 onChange={(e) => setContent({ ...content, experienceSummary: e.target.value })}
-                className="w-full text-xs rounded-xl border border-serene-200 p-2.5 focus:ring-2 focus:ring-brand-500"
+                placeholder="Over 12 years of clinical practice across hospital outpatient and private tele-psychology settings..."
+                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all resize-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-serene-700 mb-1">Call to Action Button Text</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+                Call to Action Button Text
+              </label>
               <input
                 type="text"
                 value={content.ctaText}
                 onChange={(e) => setContent({ ...content, ctaText: e.target.value })}
-                className="w-full text-xs rounded-xl border border-serene-200 p-2.5 focus:ring-2 focus:ring-brand-500"
+                placeholder="Book an Intake Consultation"
+                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
               />
             </div>
           </div>
@@ -435,41 +505,50 @@ export function PortfolioStudio({
 
       {/* Tab: Preview */}
       {activeTab === "preview" && (
-        <div className="bg-white rounded-3xl border border-serene-200 p-8 shadow-sm space-y-8">
-          <div className="border-b border-serene-100 pb-4 flex items-center justify-between">
-            <div className="text-xs text-serene-400">
-              Visual Preview Theme: <span className="font-bold text-brand-700 uppercase">{selectedStyle}</span>
+        <div className="atmospheric-card rounded-3xl border border-white/10 p-8 sm:p-12 space-y-8 bg-[#122C25]/85 shadow-xl">
+          <div className="border-b border-white/10 pb-4 flex items-center justify-between">
+            <div className="text-xs text-[#9CAF91]">
+              Visual Preview Theme:{" "}
+              <span className="font-semibold text-[#F1EBDD] uppercase tracking-wider">
+                {selectedStyle}
+              </span>
             </div>
           </div>
 
-          {/* Hero */}
+          {/* Hero Preview */}
           <div className="space-y-4">
-            <span className="text-xs font-bold uppercase tracking-wider text-brand-600">Clinical Focus</span>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-serene-900 leading-tight">
-              {content.headline}
+            <span className="text-xs font-semibold uppercase tracking-widest text-[#9CAF91]">
+              Clinical Focus
+            </span>
+            <h1 className="font-serif text-3xl sm:text-5xl font-normal text-[#F7F3E9] leading-tight">
+              {content.headline || "Clinical Psychologist & Psychotherapist"}
             </h1>
-            <p className="text-sm text-serene-600 leading-relaxed max-w-3xl">
-              {content.introduction}
+            <p className="text-sm sm:text-base text-[#C9D2BC] font-light leading-relaxed max-w-3xl">
+              {content.introduction || "Dedicated to providing compassionate, evidence-based psychological care."}
             </p>
-            <button className="py-2.5 px-6 bg-brand-600 text-white text-xs font-bold rounded-xl shadow-sm">
-              {content.ctaText}
-            </button>
+            <div className="pt-2">
+              <button className="py-3 px-8 bg-[#F1EBDD] hover:bg-white text-[#173C32] text-xs font-bold rounded-full shadow-md transition-all">
+                {content.ctaText || "Book an Intake Consultation"}
+              </button>
+            </div>
           </div>
 
           {/* About */}
-          <div className="border-t border-serene-100 pt-6 space-y-2">
-            <h2 className="text-base font-bold text-serene-900">About My Practice</h2>
-            <p className="text-xs text-serene-600 leading-relaxed">{content.about}</p>
+          <div className="border-t border-white/10 pt-6 space-y-2">
+            <h2 className="font-serif text-xl font-medium text-[#F7F3E9]">About My Practice</h2>
+            <p className="text-xs sm:text-sm text-[#C9D2BC] font-light leading-relaxed">
+              {content.about}
+            </p>
           </div>
 
           {/* Expertise */}
-          <div className="border-t border-serene-100 pt-6 space-y-3">
-            <h2 className="text-base font-bold text-serene-900">Areas of Clinical Expertise</h2>
+          <div className="border-t border-white/10 pt-6 space-y-3">
+            <h2 className="font-serif text-xl font-medium text-[#F7F3E9]">Areas of Clinical Expertise</h2>
             <div className="flex flex-wrap gap-2">
-              {content.expertise.map((exp, i) => (
+              {content.expertise?.map((exp: string, i: number) => (
                 <span
                   key={i}
-                  className="px-3 py-1 bg-brand-50 text-brand-700 border border-brand-100 rounded-full text-xs font-medium"
+                  className="px-3.5 py-1 bg-white/5 text-[#F1EBDD] border border-white/10 rounded-full text-xs"
                 >
                   {exp}
                 </span>
@@ -478,12 +557,12 @@ export function PortfolioStudio({
           </div>
 
           {/* Who I Help */}
-          <div className="border-t border-serene-100 pt-6 space-y-3">
-            <h2 className="text-base font-bold text-serene-900">Who I Help</h2>
-            <ul className="space-y-1.5 text-xs text-serene-600">
-              {content.whoTheyHelp.map((w, i) => (
-                <li key={i} className="flex items-center gap-2">
-                  <Check className="w-3.5 h-3.5 text-green-600 shrink-0" />
+          <div className="border-t border-white/10 pt-6 space-y-3">
+            <h2 className="font-serif text-xl font-medium text-[#F7F3E9]">Who I Help</h2>
+            <ul className="space-y-2 text-xs sm:text-sm text-[#C9D2BC] font-light">
+              {content.whoTheyHelp?.map((w: string, i: number) => (
+                <li key={i} className="flex items-center gap-2.5">
+                  <Check className="w-4 h-4 text-[#9CAF91] shrink-0" />
                   <span>{w}</span>
                 </li>
               ))}
@@ -491,43 +570,45 @@ export function PortfolioStudio({
           </div>
 
           {/* Approach */}
-          <div className="border-t border-serene-100 pt-6 space-y-2">
-            <h2 className="text-base font-bold text-serene-900">Therapeutic Philosophy & Approach</h2>
-            <p className="text-xs text-serene-600 leading-relaxed">{content.counselingApproach}</p>
+          <div className="border-t border-white/10 pt-6 space-y-2">
+            <h2 className="font-serif text-xl font-medium text-[#F7F3E9]">Therapeutic Philosophy & Approach</h2>
+            <p className="text-xs sm:text-sm text-[#C9D2BC] font-light leading-relaxed">
+              {content.counselingApproach}
+            </p>
           </div>
         </div>
       )}
 
       {/* Tab: History */}
       {activeTab === "history" && (
-        <div className="bg-white rounded-3xl border border-serene-200 p-6 space-y-4">
-          <h3 className="text-sm font-bold text-serene-900">Version History & Rollback</h3>
+        <div className="atmospheric-card rounded-3xl border border-white/10 p-6 sm:p-8 space-y-5 bg-[#122C25]/80">
+          <h3 className="font-serif text-xl font-normal text-[#F7F3E9]">Version History & Rollback</h3>
           {versionsHistory.length === 0 ? (
-            <p className="text-xs text-serene-400 py-6 text-center">No previous versions saved yet.</p>
+            <p className="text-xs text-[#9CAF91] py-8 text-center font-light">No previous versions saved yet.</p>
           ) : (
-            <div className="divide-y divide-serene-100">
+            <div className="divide-y divide-white/10">
               {versionsHistory.map((ver) => (
-                <div key={ver.id} className="py-3 flex items-center justify-between">
+                <div key={ver.id} className="py-4 flex items-center justify-between gap-4">
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-mono font-bold text-xs text-serene-900">
+                      <span className="font-mono font-bold text-xs text-[#F7F3E9]">
                         Version {ver.versionNum}
                       </span>
-                      <span className="text-[10px] bg-serene-100 px-2 py-0.5 rounded text-serene-600 font-semibold">
+                      <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded-full text-[#F1EBDD] font-semibold">
                         {ver.styleName}
                       </span>
                     </div>
-                    <p className="text-[11px] text-serene-500 mt-0.5">
+                    <p className="text-[11px] text-[#9CAF91] mt-1 font-light">
                       {ver.changeNotes || "Update"} • {new Date(ver.createdAt).toLocaleString()}
                     </p>
                   </div>
 
                   <button
                     onClick={() => handleRollback(ver.versionNum)}
-                    className="text-xs text-brand-700 hover:text-brand-900 font-semibold flex items-center gap-1 px-3 py-1.5 rounded-lg border border-brand-200 hover:bg-brand-50 transition-colors"
+                    className="text-xs text-[#F1EBDD] hover:text-white font-medium flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
-                    Restore
+                    <span>Restore</span>
                   </button>
                 </div>
               ))}
@@ -536,40 +617,50 @@ export function PortfolioStudio({
         </div>
       )}
 
-      {/* AI Prompt Modal */}
+      {/* AI Assistant Modal */}
       {showAiModal && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl border border-serene-200 max-w-lg w-full p-6 space-y-4 shadow-xl">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-brand-600" />
-              <h3 className="text-base font-bold text-serene-900">AI Portfolio Studio Assistant</h3>
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="bg-[#173C32] rounded-3xl border border-white/20 max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl animate-in fade-in zoom-in-95">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-white/5 text-[#F1EBDD]">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-serif text-lg font-medium text-[#F7F3E9]">AI Portfolio Assistant</h3>
+                  <p className="text-[11px] text-[#9CAF91]">Synthesize your credentials and clinical voice</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowAiModal(false)}
+                className="p-1 rounded-full text-[#C9D2BC] hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
-            <p className="text-xs text-serene-500">
-              Enter your clinical focus, resume notes, or paste your raw bio. The AI will formulate an empathetic, client-facing professional portfolio.
-            </p>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-serene-700 mb-1">
-                  Raw Bio, Clinical Notes, or CV Excerpt
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+                  Raw Bio, Clinical Notes, or Resume Excerpt
                 </label>
                 <textarea
                   rows={4}
-                  placeholder="e.g. Specialized in CBT and mindfulness for acute anxiety and tech burnout over the past 8 years..."
+                  placeholder="e.g. Specialized in CBT and somatic grounding for acute anxiety and tech burnout over the past 8 years..."
                   value={aiBio}
                   onChange={(e) => setAiBio(e.target.value)}
-                  className="w-full text-xs rounded-xl border border-serene-200 p-2.5 focus:ring-2 focus:ring-brand-500"
+                  className="w-full text-sm rounded-xl bg-black/40 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-serene-700 mb-1">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
                   Preferred Tone
                 </label>
                 <select
                   value={aiTone}
                   onChange={(e) => setAiTone(e.target.value)}
-                  className="w-full text-xs rounded-xl border border-serene-200 p-2.5 focus:ring-2 focus:ring-brand-500"
+                  className="w-full text-sm rounded-xl bg-[#122C25] border border-white/20 text-[#F7F3E9] p-3 focus:outline-none focus:border-[#F1EBDD]"
                 >
                   <option value="warm">Warm & Compassionate</option>
                   <option value="authoritative">Clinical & Academic Authority</option>
@@ -579,20 +670,20 @@ export function PortfolioStudio({
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-2 pt-2 border-t border-serene-100">
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
               <button
                 onClick={() => setShowAiModal(false)}
-                className="text-xs text-serene-600 px-4 py-2 hover:bg-serene-100 rounded-xl"
+                className="text-xs text-[#C9D2BC] hover:text-white px-4 py-2"
               >
                 Cancel
               </button>
               <button
                 onClick={handleGenerateAi}
                 disabled={isGenerating}
-                className="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 transition-colors disabled:opacity-50"
+                className="bg-[#F1EBDD] hover:bg-white text-[#173C32] text-xs font-bold px-5 py-2.5 rounded-full flex items-center gap-2 transition-all shadow-md active:scale-95 disabled:opacity-50"
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                {isGenerating ? "Synthesizing with AI..." : "Generate Portfolio"}
+                <span>{isGenerating ? "Synthesizing with AI..." : "Generate Portfolio"}</span>
               </button>
             </div>
           </div>

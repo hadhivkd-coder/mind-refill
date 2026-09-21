@@ -28,6 +28,7 @@ import {
   LogOut,
   Send,
   UploadCloud,
+  Play,
 } from "lucide-react";
 
 export interface PsychologistDashboardProps {
@@ -105,9 +106,18 @@ export function PsychologistDashboardClient({
   const [formTitle, setFormTitle] = useState("");
   const [formBody, setFormBody] = useState("");
   const [formMediaUrl, setFormMediaUrl] = useState("");
+  const [formThumbnailUrl, setFormThumbnailUrl] = useState("");
   const [formTag, setFormTag] = useState("Stress & Anxiety");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formMessage, setFormMessage] = useState<string | null>(null);
+
+  // Native Video Upload State
+  const [videoSourceMode, setVideoSourceMode] = useState<"upload" | "link">("upload");
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [videoPreviewUrl, setVideoPreviewUrl] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadState, setUploadState] = useState<"idle" | "uploading" | "processing" | "ready">("idle");
+  const [watchingVideo, setWatchingVideo] = useState<{ url: string; title: string; caption?: string } | null>(null);
 
   // Form states for Product Modal
   const [prodTitle, setProdTitle] = useState("");
@@ -115,6 +125,89 @@ export function PsychologistDashboardClient({
   const [prodPrice, setProdPrice] = useState("499");
   const [prodCoverUrl, setProdCoverUrl] = useState("");
   const [isProdSubmitting, setIsProdSubmitting] = useState(false);
+
+  // Handle local video file selection
+  async function handleVideoSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate size (max 50MB)
+    if (file.size > 50 * 1024 * 1024) {
+      setFormMessage("Video file size exceeds the 50MB limit");
+      return;
+    }
+
+    setVideoFile(file);
+    const localUrl = URL.createObjectURL(file);
+    setVideoPreviewUrl(localUrl);
+    setUploadState("uploading");
+    setUploadProgress(15);
+    setFormMessage(null);
+
+    // Auto-generate video thumbnail on canvas
+    try {
+      const vid = document.createElement("video");
+      vid.src = localUrl;
+      vid.muted = true;
+      vid.currentTime = 1.0;
+      vid.onloadeddata = () => {
+        try {
+          const canvas = document.createElement("canvas");
+          canvas.width = vid.videoWidth || 640;
+          canvas.height = vid.videoHeight || 360;
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            ctx.drawImage(vid, 0, 0, canvas.width, canvas.height);
+            const thumb = canvas.toDataURL("image/jpeg", 0.75);
+            setFormThumbnailUrl(thumb);
+          }
+        } catch {
+          // Canvas capture fallback
+        }
+      };
+    } catch {
+      // Non-blocking thumbnail generation
+    }
+
+    // Upload to media endpoint with progress
+    try {
+      const progressTimer = setInterval(() => {
+        setUploadProgress((prev) => {
+          if (prev >= 85) {
+            clearInterval(progressTimer);
+            return 85;
+          }
+          return prev + 20;
+        });
+      }, 200);
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/psychologist/media/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      clearInterval(progressTimer);
+      const json = await res.json();
+
+      if (!res.ok) {
+        throw new Error(json.error?.message || json.error || "Failed to upload video file");
+      }
+
+      setUploadProgress(100);
+      setUploadState("ready");
+      setFormMediaUrl(json.data.url);
+      if (!formTitle) {
+        const cleanName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+        setFormTitle(cleanName.charAt(0).toUpperCase() + cleanName.slice(1));
+      }
+    } catch (err: any) {
+      setUploadState("idle");
+      setFormMessage(err.message || "Failed to upload video file. You can still paste a video link.");
+    }
+  }
 
   // Handle Create Post / Content
   async function handleCreateSubmit(e: React.FormEvent) {
@@ -144,6 +237,7 @@ export function PsychologistDashboardClient({
           title: finalTitle,
           body: finalBody,
           mediaUrl: formMediaUrl.trim() || undefined,
+          thumbnailUrl: formThumbnailUrl.trim() || undefined,
           tag: formTag,
           contentType: createType.toUpperCase(),
           publishImmediately: true,
@@ -152,7 +246,12 @@ export function PsychologistDashboardClient({
 
       const json = await res.json();
       if (!res.ok) {
-        throw new Error(json.error || "Failed to publish reflection");
+        const rawErr = json.error;
+        const msg =
+          typeof rawErr === "object"
+            ? rawErr?.message || JSON.stringify(rawErr)
+            : rawErr || "Failed to publish reflection";
+        throw new Error(msg);
       }
 
       // Add to list
@@ -217,7 +316,12 @@ export function PsychologistDashboardClient({
 
       const json = await res.json();
       if (!res.ok) {
-        throw new Error(json.error || "Failed to create product");
+        const rawErr = json.error;
+        const msg =
+          typeof rawErr === "object"
+            ? rawErr?.message || JSON.stringify(rawErr)
+            : rawErr || "Failed to create product";
+        throw new Error(msg);
       }
 
       const newProduct = {
@@ -616,7 +720,9 @@ export function PsychologistDashboardClient({
                   }
 
                   const mediaUrl = parsedMeta?.mediaUrl || null;
+                  const thumbnailUrl = parsedMeta?.thumbnailUrl || null;
                   const tag = parsedMeta?.tag || item.summary || item.contentType;
+                  const isVideo = item.contentType === "VIDEO";
 
                   return (
                     <div
@@ -639,17 +745,30 @@ export function PsychologistDashboardClient({
 
                         {/* Photo / Video Preview if present */}
                         {mediaUrl && (
-                          <div className="h-44 w-full rounded-xl overflow-hidden mb-3 bg-black/40 relative">
+                          <div
+                            onClick={() => {
+                              if (isVideo) {
+                                setWatchingVideo({
+                                  url: mediaUrl,
+                                  title: item.title,
+                                  caption: item.body,
+                                });
+                              }
+                            }}
+                            className={`h-44 w-full rounded-xl overflow-hidden mb-3 bg-black/40 relative ${
+                              isVideo ? "cursor-pointer group/preview" : ""
+                            }`}
+                          >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
-                              src={mediaUrl}
+                              src={isVideo && thumbnailUrl ? thumbnailUrl : mediaUrl}
                               alt={item.title}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             />
-                            {item.contentType === "VIDEO" && (
-                              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                                <div className="h-10 w-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
-                                  <Video className="w-5 h-5" />
+                            {isVideo && (
+                              <div className="absolute inset-0 bg-black/35 group-hover/preview:bg-black/20 flex items-center justify-center transition-all">
+                                <div className="h-11 w-11 rounded-full bg-[#F1EBDD] text-[#173C32] flex items-center justify-center shadow-lg group-hover/preview:scale-110 transition-transform">
+                                  <Play className="w-5 h-5 ml-0.5 fill-current" />
                                 </div>
                               </div>
                             )}
@@ -975,23 +1094,142 @@ export function PsychologistDashboardClient({
                 />
               </div>
 
-              {/* Media URL if Photo or Video */}
-              {(createType === "photo" || createType === "video") && (
+              {/* Video Creation Section: Upload Video File vs Add Video Link */}
+              {createType === "video" && (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 p-1 bg-[#122C25] rounded-xl border border-white/10">
+                    <button
+                      type="button"
+                      onClick={() => setVideoSourceMode("upload")}
+                      className={`flex-1 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                        videoSourceMode === "upload"
+                          ? "bg-[#F1EBDD] text-[#173C32] font-semibold"
+                          : "text-[#C9D2BC] hover:text-white"
+                      }`}
+                    >
+                      Upload Video File
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setVideoSourceMode("link")}
+                      className={`flex-1 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                        videoSourceMode === "link"
+                          ? "bg-[#F1EBDD] text-[#173C32] font-semibold"
+                          : "text-[#C9D2BC] hover:text-white"
+                      }`}
+                    >
+                      Add Video Link
+                    </button>
+                  </div>
+
+                  {videoSourceMode === "upload" ? (
+                    <div>
+                      {!videoPreviewUrl ? (
+                        <label className="border-2 border-dashed border-white/20 hover:border-[#9CAF91] rounded-2xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer bg-white/5 hover:bg-white/10 transition-all text-center group">
+                          <input
+                            type="file"
+                            accept="video/mp4,video/quicktime,video/webm"
+                            onChange={handleVideoSelect}
+                            className="hidden"
+                          />
+                          <div className="h-12 w-12 rounded-full bg-[#244F42] flex items-center justify-center text-[#F1EBDD] group-hover:scale-110 transition-transform">
+                            <UploadCloud className="w-6 h-6" />
+                          </div>
+                          <span className="text-xs font-semibold text-[#F7F3E9] block">
+                            Choose video from phone or computer
+                          </span>
+                          <span className="text-[11px] text-[#C9D2BC] font-light">
+                            Supports MP4, MOV, WebM • Up to 50MB
+                          </span>
+                        </label>
+                      ) : (
+                        <div className="space-y-3">
+                          {/* Live Native Video Preview Player */}
+                          <div className="relative rounded-2xl overflow-hidden bg-black aspect-video flex items-center justify-center border border-white/10">
+                            <video
+                              src={videoPreviewUrl}
+                              controls
+                              playsInline
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
+
+                          {/* Upload Progress Bar */}
+                          {uploadState !== "ready" && (
+                            <div className="space-y-1">
+                              <div className="flex justify-between text-[11px] text-[#9CAF91]">
+                                <span>
+                                  {uploadState === "uploading"
+                                    ? `Uploading video... ${uploadProgress}%`
+                                    : "Preparing your video..."}
+                                </span>
+                                <span>{videoFile?.name}</span>
+                              </div>
+                              <div className="w-full h-1.5 rounded-full bg-white/10 overflow-hidden">
+                                <div
+                                  className="h-full bg-[#F1EBDD] transition-all duration-300"
+                                  style={{ width: `${uploadProgress}%` }}
+                                />
+                              </div>
+                            </div>
+                          )}
+
+                          {uploadState === "ready" && (
+                            <div className="flex items-center justify-between text-xs px-2 text-[#9CAF91]">
+                              <span className="flex items-center gap-1.5 text-[#F1EBDD]">
+                                <Check className="w-3.5 h-3.5 text-[#9CAF91]" />
+                                <span>Ready to publish</span>
+                              </span>
+                              <label className="text-[11px] text-[#C9D2BC] hover:text-[#F1EBDD] underline cursor-pointer">
+                                <span>Change video</span>
+                                <input
+                                  type="file"
+                                  accept="video/mp4,video/quicktime,video/webm"
+                                  onChange={handleVideoSelect}
+                                  className="hidden"
+                                />
+                              </label>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div>
+                      <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block mb-1">
+                        Video / Reel URL
+                      </label>
+                      <input
+                        type="url"
+                        value={formMediaUrl}
+                        onChange={(e) => setFormMediaUrl(e.target.value)}
+                        placeholder="https://www.youtube.com/watch?v=... or direct video link"
+                        className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 text-xs text-[#F7F3E9] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Photo Creation Section: File or URL */}
+              {createType === "photo" && (
                 <div>
                   <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block mb-1">
-                    {createType === "photo" ? "Image URL (Unsplash or direct image)" : "Video / Reel Link"}
+                    Photo Image URL (or Unsplash link)
                   </label>
                   <input
                     type="url"
                     value={formMediaUrl}
                     onChange={(e) => setFormMediaUrl(e.target.value)}
-                    placeholder={
-                      createType === "photo"
-                        ? "https://images.unsplash.com/photo-..."
-                        : "https://www.youtube.com/watch?v=... or direct video link"
-                    }
+                    placeholder="https://images.unsplash.com/photo-..."
                     className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 text-xs text-[#F7F3E9] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
                   />
+                  {formMediaUrl && (
+                    <div className="mt-2 h-36 rounded-xl overflow-hidden bg-black/40 border border-white/10 relative">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={formMediaUrl} alt="Preview" className="w-full h-full object-cover" />
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -1142,6 +1380,48 @@ export function PsychologistDashboardClient({
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ============================== NATIVE VIDEO MODAL ============================== */}
+      {watchingVideo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md">
+          <div className="relative w-full max-w-2xl bg-[#173C32] rounded-3xl border border-white/20 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            {/* Modal Header */}
+            <div className="p-4 sm:p-5 flex items-center justify-between border-b border-white/10 bg-[#122C25]/90">
+              <div className="pr-4">
+                <h3 className="font-serif text-lg text-[#F7F3E9] font-medium line-clamp-1">
+                  {watchingVideo.title}
+                </h3>
+                <span className="text-[11px] text-[#9CAF91]">Native Video Reflection</span>
+              </div>
+              <button
+                onClick={() => setWatchingVideo(null)}
+                className="p-2 rounded-full hover:bg-white/10 text-[#C9D2BC] hover:text-white transition-colors"
+                aria-label="Close video"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Video Player Box */}
+            <div className="relative bg-black aspect-video flex items-center justify-center">
+              <video
+                src={watchingVideo.url}
+                controls
+                autoPlay
+                playsInline
+                className="w-full h-full object-contain"
+              />
+            </div>
+
+            {/* Video Caption */}
+            {watchingVideo.caption && (
+              <div className="p-4 sm:p-5 bg-[#173C32] text-xs text-[#C9D2BC] font-light border-t border-white/10 max-h-32 overflow-y-auto">
+                <p className="leading-relaxed whitespace-pre-wrap">{watchingVideo.caption}</p>
+              </div>
+            )}
           </div>
         </div>
       )}

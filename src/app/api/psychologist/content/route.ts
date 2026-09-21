@@ -29,7 +29,11 @@ export async function POST(req: NextRequest) {
 
     const payload = {
       title: body.title,
-      summary: body.summary || (body.mediaUrl ? JSON.stringify({ mediaUrl: body.mediaUrl, tag: body.tag }) : body.tag || null),
+      summary:
+        body.summary ||
+        (body.mediaUrl
+          ? JSON.stringify({ mediaUrl: body.mediaUrl, tag: body.tag, thumbnailUrl: body.thumbnailUrl })
+          : body.tag || null),
       body: body.body || body.title,
       contentType: body.contentType || "POST",
       publishImmediately: body.publishImmediately !== false, // default publish to profile

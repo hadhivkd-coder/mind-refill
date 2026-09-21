@@ -52,10 +52,11 @@ export class LocalStorageService implements StorageProvider {
   }
 
   async uploadFile(input: UploadFileInput): Promise<StoredFileInfo> {
-    // Validate file size
-    const maxSizeBytes = platformConfig.maxFileSizeMb * 1024 * 1024;
+    // Validate file size: 10MB default, up to 50MB for media/video uploads
+    const allowedMaxMb = input.mimeType.startsWith("video/") ? 50 : platformConfig.maxFileSizeMb;
+    const maxSizeBytes = allowedMaxMb * 1024 * 1024;
     if (input.sizeBytes > maxSizeBytes) {
-      throw new ValidationError(`File size exceeds maximum allowed limit of ${platformConfig.maxFileSizeMb}MB`);
+      throw new ValidationError(`File size exceeds maximum allowed limit of ${allowedMaxMb}MB`);
     }
 
     // Validate MIME type

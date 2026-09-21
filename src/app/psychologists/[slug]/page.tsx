@@ -25,6 +25,7 @@ import {
   Play,
   Instagram,
 } from "lucide-react";
+import { ProfileReflections } from "./profile-reflections";
 
 interface ProfilePageProps {
   params: { slug: string };
@@ -43,10 +44,9 @@ const FALLBACK_PROFILES: Record<string, any> = {
     professionalApproach:
       "I view therapy as a collaborative partnership. We begin by identifying your values, your symptoms, and how your nervous system responds to daily pressure. Together, we establish practical strategies for emotional grounding while carefully examining underlying cognitive patterns.",
     whoTheyHelp: [
-      "Adults experiencing overwhelming anxiety, panic attacks, or persistent dread",
-      "Professionals facing chronic workplace burnout, perfectionism, or imposter feelings",
-      "Individuals navigating health anxiety or psychosomatic stress symptoms",
-      "Those who feel 'stuck in their head' and want actionable coping tools",
+      "High-achieving professionals coping with chronic pressure and imposter feelings.",
+      "Individuals experiencing panic symptoms, intrusive thoughts, and generalized worry.",
+      "Clients navigating major life changes and grief.",
     ],
     yearsOfExperience: 12,
     location: "London, UK (Online Globally)",
@@ -72,6 +72,14 @@ const FALLBACK_PROFILES: Record<string, any> = {
       { id: "e2", roleTitle: "Private Practice Director", organization: "Mind Refill Psychological Network", description: "Providing international tele-psychology care." },
     ],
     posts: [
+      {
+        id: "p0-video",
+        type: "video",
+        mediaUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+        thumbnailUrl: "https://images.unsplash.com/photo-1516302752625-fcc3c50ae61f?auto=format&fit=crop&q=80&w=600",
+        caption: "A 60-second breathing technique to down-regulate your nervous system before entering stressful conversations.",
+        date: "Today",
+      },
       {
         id: "p1",
         type: "photo",
@@ -228,40 +236,8 @@ export default async function PublicPsychologistProfilePage({ params }: ProfileP
             </span>
           </div>
 
-          {/* Instagram-Inspired Content Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {profile.posts?.map((post: any) => (
-              <div
-                key={post.id}
-                className="atmospheric-card rounded-3xl overflow-hidden border border-white/10 flex flex-col justify-between group hover:border-[#C9D2BC]/30 transition-all"
-              >
-                {post.mediaUrl ? (
-                  <div className="relative aspect-square w-full bg-[#122C25]">
-                    <Image
-                      src={post.mediaUrl}
-                      alt="Reflection post"
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                ) : (
-                  <div className="p-8 aspect-square bg-[#244F42]/50 flex items-center justify-center text-center">
-                    <p className="font-serif text-lg italic text-[#F1EBDD] leading-relaxed">
-                      {post.caption}
-                    </p>
-                  </div>
-                )}
-                {post.mediaUrl && (
-                  <div className="p-4 text-xs text-[#C9D2BC] font-light">
-                    <p className="line-clamp-2">{post.caption}</p>
-                    <span className="text-[10px] text-[#9CAF91] block mt-2">
-                      {post.date}
-                    </span>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+          {/* Mind Refill Content & Reflections Grid with Native Video Playback */}
+          <ProfileReflections posts={profile.posts || []} psychologistName={profile.fullName} />
         </section>
 
         {/* Books & Digital Products */}

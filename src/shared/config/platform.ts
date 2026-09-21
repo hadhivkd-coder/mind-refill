@@ -19,12 +19,15 @@ export const platformConfig: PlatformConfig = {
   defaultCommissionPercentage: env.DEFAULT_COMMISSION_PERCENT,
   settlementPeriodDays: env.DEFAULT_SETTLEMENT_DAYS,
   bookingHoldDurationMinutes: env.DEFAULT_BOOKING_HOLD_MINUTES,
-  maxFileSizeMb: 15,
+  maxFileSizeMb: 10,
   allowedMimeTypes: [
     "application/pdf",
     "image/jpeg",
     "image/png",
     "image/webp",
+    "video/mp4",
+    "video/webm",
+    "video/quicktime",
   ],
   reservedSlugs: [
     "app",

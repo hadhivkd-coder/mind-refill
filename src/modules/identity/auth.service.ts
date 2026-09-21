@@ -178,6 +178,7 @@ export class AuthService {
    */
   static async login(input: LoginInput): Promise<{
     sessionToken: string;
+    signedSessionToken?: string;
     expiresAt: Date;
     user: { id: string; email: string; isEmailVerified: boolean; roles: UserRole[] };
   }> {
@@ -217,13 +218,20 @@ export class AuthService {
       throw new UnauthorizedError("Invalid email or password");
     }
 
-    const { rawToken, expiresAt } = await SessionService.createSession({
+    const roles = user.roles.map((r: any) => (typeof r === "string" ? r : r.role));
+
+    const { rawToken, signedToken, expiresAt } = await SessionService.createSession({
       userId: user.id,
       ipAddress: input.ipAddress,
       userAgent: input.userAgent,
+      user: {
+        id: user.id,
+        email: user.email,
+        isEmailVerified: user.isEmailVerified,
+        isActive: user.isActive,
+        roles,
+      },
     });
-
-    const roles = user.roles.map((r: any) => (typeof r === "string" ? r : r.role));
 
     await AuditService.log({
       actorUserId: user.id,
@@ -236,6 +244,7 @@ export class AuthService {
 
     return {
       sessionToken: rawToken,
+      signedSessionToken: signedToken,
       expiresAt,
       user: {
         id: user.id,

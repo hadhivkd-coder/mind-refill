@@ -9,7 +9,9 @@ export interface CreateArticleInput {
   title: string;
   summary?: string;
   body: string;
-  contentType?: string; // ARTICLE, RESOURCE, VIDEO_REF
+  contentType?: string; // ARTICLE, RESOURCE, VIDEO_REF, POST, PHOTO, VIDEO
+  publishImmediately?: boolean;
+  status?: ContentStatus;
 }
 
 export interface UpdateArticleInput {
@@ -21,7 +23,7 @@ export interface UpdateArticleInput {
 
 export class ContentService {
   /**
-   * Psychologist drafts a new article or clinical resource.
+   * Psychologist drafts or publishes a new article, post, photo reflection, or clinical resource.
    */
   static async createArticle(userId: string, input: CreateArticleInput) {
     const profile = await prisma.psychologistProfile.findUnique({
@@ -32,8 +34,9 @@ export class ContentService {
     if (!input.title || input.title.trim().length < 5) {
       throw new ValidationError("Title must be at least 5 characters");
     }
-    if (!input.body || input.body.trim().length < 50) {
-      throw new ValidationError("Body content must be at least 50 characters");
+    const minBodyLength = input.contentType && input.contentType !== "ARTICLE" ? 5 : 50;
+    if (!input.body || input.body.trim().length < minBodyLength) {
+      throw new ValidationError(`Body content must be at least ${minBodyLength} characters`);
     }
 
     let candidate = SlugService.normalize(input.title);
@@ -44,6 +47,8 @@ export class ContentService {
       slug = `${candidate}-${counter++}`;
     }
 
+    const isPublished = Boolean(input.publishImmediately || input.status === ContentStatus.PUBLISHED);
+
     const article = await prisma.contentItem.create({
       data: {
         authorPsychologistId: profile.id,
@@ -52,7 +57,8 @@ export class ContentService {
         summary: input.summary?.trim() || null,
         body: input.body.trim(),
         contentType: input.contentType || "ARTICLE",
-        status: ContentStatus.DRAFT,
+        status: isPublished ? ContentStatus.PUBLISHED : ContentStatus.DRAFT,
+        publishedAt: isPublished ? new Date() : null,
       },
     });
 
@@ -238,5 +244,37 @@ export class ContentService {
         },
       },
     });
+  }
+
+  /**
+   * Deletes an article or content item. Author practitioner or Admin only.
+   */
+  static async deleteArticle(session: SessionWithUser, articleId: string) {
+    const article = await prisma.contentItem.findUnique({
+      where: { id: articleId },
+      include: { author: true },
+    });
+    if (!article) throw new NotFoundError("Article not found");
+
+    const isAdmin = session.user.roles.includes(UserRole.ADMIN);
+    const isAuthor = article.author?.userId === session.user.id;
+
+    if (!isAdmin && !isAuthor) {
+      throw new ForbiddenError("Only the authoring psychologist or platform admin can delete this item");
+    }
+
+    await prisma.contentItem.delete({
+      where: { id: articleId },
+    });
+
+    await AuditService.log({
+      actorUserId: session.user.id,
+      action: "CONTENT_ARTICLE_DELETED",
+      entityType: "ContentItem",
+      entityId: articleId,
+      safeMetadata: { slug: article.slug },
+    });
+
+    return { success: true };
   }
 }

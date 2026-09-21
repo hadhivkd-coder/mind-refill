@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { BookMarked, BookOpen, Download, ShieldCheck, ArrowRight, Star, Check, Sparkles } from "lucide-react";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
+import { BookMarked, BookOpen, ShieldCheck, Check, Sparkles, ArrowRight } from "lucide-react";
 import { EbookService } from "@/modules/content/services/ebook.service";
-import { minorToMajorString } from "@/shared/types/money";
 
 export const metadata = {
   title: "Clinical E-Books & Guided Workbooks | Mind Refill",
@@ -15,7 +16,7 @@ const SAMPLE_EBOOKS = [
   {
     id: "eb-1",
     slug: "overcoming-anxiety-companion-workbook",
-    title: "The Anxiety Companion: A CBT-Based Workbook for Daily Nervous System Calming",
+    title: "The Anxiety Companion: A CBT-Based Workbook for Daily Calming",
     description:
       "A comprehensive, step-by-step workbook featuring cognitive restructuring worksheets, exposure hierarchies, and somatic grounding rituals tested over a decade of clinical practice.",
     coverImageUrl: null,
@@ -87,179 +88,131 @@ export default async function EbooksPage() {
   }
 
   return (
-    <main className="min-h-screen bg-cream-50 flex flex-col justify-between text-forest-950">
-      {/* Navigation Header */}
-      <header className="border-b border-sage-200/70 bg-white/90 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="h-10 w-10 rounded-2xl bg-forest-800 flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-forest-900 transition-colors">
-              Ψ
+    <div className="min-h-screen flex flex-col bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD]">
+      <Navbar />
+
+      <main className="flex-grow">
+        {/* Hero Section */}
+        <section className="pt-14 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#173C32] via-[#1C473C] to-[#244F42] border-b border-white/5 text-center">
+          <div className="max-w-4xl mx-auto space-y-5">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-[#C9D2BC]">
+              <BookMarked className="w-3.5 h-3.5 text-[#9CAF91]" />
+              <span>Curated Psychological Library</span>
             </div>
-            <div>
-              <span className="font-bold text-lg tracking-tight text-forest-950 block leading-tight">
-                Mind Refill
-              </span>
-              <span className="text-[10px] uppercase tracking-widest text-forest-600 font-semibold block">
-                Psychology & Well-Being
-              </span>
+
+            <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal text-[#F7F3E9] leading-tight">
+              Tools for understanding yourself, one page at a time.
+            </h1>
+
+            <p className="text-sm sm:text-base text-[#C9D2BC] max-w-2xl mx-auto font-light leading-relaxed">
+              Practical exercises, psychoeducational frameworks, and guided reflection prompts designed by licensed psychologists for structured personal healing.
+            </p>
+
+            <div className="pt-2 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#C9D2BC] text-xs font-medium">
+              <span className="h-2 w-2 rounded-full bg-[#9CAF91] animate-pulse" />
+              <span>Digital companions with printable exercises and clinician worksheets.</span>
             </div>
-          </Link>
-
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium text-forest-700">
-            <Link href="/psychologists" className="hover:text-forest-950 transition-colors">
-              Find a Psychologist
-            </Link>
-            <Link href="/resources" className="hover:text-forest-950 transition-colors">
-              Clinical Resources
-            </Link>
-            <Link href="/ebooks" className="text-forest-950 font-bold border-b-2 border-forest-700 pb-1">
-              E-Books & Workbooks
-            </Link>
-            <Link href="/events" className="hover:text-forest-950 transition-colors">
-              Workshops & Events
-            </Link>
-          </nav>
-
-          <div className="flex items-center space-x-3">
-            <Link
-              href="/login"
-              className="text-sm font-medium text-forest-800 hover:text-forest-950 px-3 py-2"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/intake"
-              className="text-xs sm:text-sm font-semibold bg-forest-800 hover:bg-forest-900 text-white px-5 py-2.5 rounded-2xl transition-all shadow-sm"
-            >
-              Get Guided Help
-            </Link>
           </div>
-        </div>
-      </header>
+        </section>
 
-      {/* Hero Section */}
-      <section className="bg-white border-b border-sage-200/70 py-16 px-4 sm:px-6 lg:px-8 text-center">
-        <div className="max-w-4xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sage-100 border border-sage-200 text-forest-800 text-xs font-semibold shadow-2xs">
-            <BookMarked className="w-3.5 h-3.5 text-forest-600" />
-            Curated Psychological Library
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-forest-950 leading-tight">
-            Tools for understanding yourself, one page at a time.
-          </h1>
-
-          <p className="text-base sm:text-lg text-forest-700 max-w-2xl mx-auto leading-relaxed font-normal">
-            Practical exercises, psychoeducational frameworks, and reflection prompts designed by licensed psychologists for structured personal growth.
-          </p>
-
-          <div className="pt-2 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cream-100 border border-sage-200/80 text-forest-700 text-xs font-medium">
-            <span className="h-2 w-2 rounded-full bg-forest-600 animate-pulse" />
-            Open Access Preview: Interactive modules and exercise worksheets are freely accessible online.
-          </div>
-        </div>
-      </section>
-
-      {/* Catalog Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 flex-1 w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {ebooks.map((ebook) => (
-            <div
-              key={ebook.id}
-              className="bg-white rounded-3xl border border-sage-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-forest-400 transition-all flex flex-col justify-between group"
-            >
-              <div>
-                {/* Book Cover Mockup */}
-                <div className="h-52 w-full rounded-2xl bg-gradient-to-br from-forest-850 via-forest-900 to-forest-950 p-6 text-white flex flex-col justify-between shadow-inner relative overflow-hidden mb-6">
-                  <div className="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-forest-700/30 blur-xl pointer-events-none" />
-                  <div>
-                    <span className="text-[10px] font-bold text-sage-300 uppercase tracking-widest block mb-1">
-                      Mind Refill Publication
-                    </span>
-                    <h3 className="text-base font-bold leading-snug line-clamp-3 text-cream-50">
-                      {ebook.title}
-                    </h3>
-                  </div>
-
-                  <div className="flex items-center justify-between text-[11px] text-sage-200 pt-3 border-t border-forest-800">
-                    <span>{ebook.authorName}</span>
-                    <span className="font-semibold px-2.5 py-0.5 rounded-full bg-forest-800 text-[10px] border border-forest-700">
-                      Guided Manual
-                    </span>
-                  </div>
-                </div>
-
-                <h2 className="text-lg font-bold text-forest-950 leading-snug mb-2">
-                  {ebook.title}
-                </h2>
-
-                <p className="text-xs sm:text-sm text-forest-700 leading-relaxed line-clamp-3 mb-5">
-                  {ebook.description}
-                </p>
-
-                <div className="space-y-2 mb-6 text-xs text-forest-700">
-                  <div className="flex items-center gap-2">
-                    <Check className="w-3.5 h-3.5 text-forest-600 shrink-0" />
-                    <span>{ebook.pageCount} pages of structured clinical exercises</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="w-3.5 h-3.5 text-forest-600 shrink-0" />
-                    <span>Printable worksheets & interactive self-checks</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-5 border-t border-sage-100 flex items-center justify-between">
+        {/* Catalog Grid */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 flex-1 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {ebooks.map((ebook) => (
+              <div
+                key={ebook.id}
+                className="atmospheric-card rounded-3xl p-6 sm:p-7 flex flex-col justify-between group hover:border-[#9CAF91]/50 transition-all"
+              >
                 <div>
-                  <span className="text-[10px] uppercase tracking-wider text-forest-500 font-semibold block">
-                    Access Mode
-                  </span>
-                  <span className="text-xs font-bold text-forest-700">
-                    Digital Workbook
-                  </span>
+                  {/* Book Cover Mockup */}
+                  <div className="h-56 w-full rounded-2xl bg-gradient-to-br from-[#122C25] via-[#173C32] to-[#244F42] p-6 text-white flex flex-col justify-between border border-white/10 relative overflow-hidden mb-6 shadow-inner">
+                    <div className="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-[#3F6855]/30 blur-xl pointer-events-none" />
+                    <div>
+                      <span className="text-[10px] font-semibold text-[#9CAF91] uppercase tracking-widest block mb-1">
+                        Mind Refill Publication
+                      </span>
+                      <h3 className="font-serif text-lg font-normal leading-snug line-clamp-3 text-[#F7F3E9]">
+                        {ebook.title}
+                      </h3>
+                    </div>
+
+                    <div className="flex items-center justify-between text-[11px] text-[#C9D2BC] pt-3 border-t border-white/10">
+                      <span className="truncate max-w-[140px]">{ebook.authorName}</span>
+                      <span className="font-medium px-2.5 py-0.5 rounded-full bg-[#173C32] text-[10px] text-[#F1EBDD] border border-white/10">
+                        Guided Manual
+                      </span>
+                    </div>
+                  </div>
+
+                  <h2 className="font-serif text-xl font-normal text-[#F7F3E9] leading-snug mb-2 group-hover:text-[#F1EBDD] transition-colors">
+                    {ebook.title}
+                  </h2>
+
+                  <p className="text-xs sm:text-sm text-[#C9D2BC] leading-relaxed line-clamp-3 mb-5 font-light">
+                    {ebook.description}
+                  </p>
+
+                  <div className="space-y-2 mb-6 text-xs text-[#9CAF91]">
+                    <div className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-[#C9D2BC] shrink-0" />
+                      <span>{ebook.pageCount} pages of structured clinical exercises</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-[#C9D2BC] shrink-0" />
+                      <span>Printable worksheets & reflection exercises</span>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="flex flex-col items-end gap-1">
-                  <Link
-                    href={`/ebooks/${ebook.slug}`}
-                    className="inline-flex items-center gap-2 py-2.5 px-4 bg-forest-800 hover:bg-forest-900 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors"
-                  >
-                    <BookOpen className="w-3.5 h-3.5" />
-                    Read & Access Workbook
-                  </Link>
-                  <span className="text-[10px] text-forest-500 font-medium">Free Open Access Preview</span>
+                <div className="pt-5 border-t border-white/10 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] uppercase tracking-wider text-[#9CAF91] font-semibold block">
+                      Access Mode
+                    </span>
+                    <span className="text-xs font-semibold text-[#F7F3E9]">
+                      Instant PDF & Reader
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col items-end gap-1">
+                    <Link
+                      href={`/ebooks/${ebook.slug}`}
+                      className="inline-flex items-center gap-2 py-2.5 px-4 bg-[#F1EBDD] hover:bg-white text-[#173C32] text-xs font-semibold rounded-full shadow-sm transition-colors"
+                    >
+                      <BookOpen className="w-3.5 h-3.5" />
+                      <span>Read & Access</span>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Reassurance Footer Banner */}
-        <div className="mt-16 bg-sage-100/70 border border-sage-200/80 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left shadow-xs">
-          <div className="flex items-center gap-3">
-            <div className="h-11 w-11 rounded-2xl bg-white flex items-center justify-center text-forest-700 shrink-0 shadow-2xs">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-forest-950">Ethically Authored & Reviewed</h3>
-              <p className="text-xs text-forest-700 mt-0.5">
-                Every publication is authored by verified, practicing clinicians and reviewed for ethical psychological rigor.
-              </p>
-            </div>
+            ))}
           </div>
-          <Link
-            href="/psychologists"
-            className="text-xs font-semibold text-forest-800 hover:text-forest-950 shrink-0 underline"
-          >
-            Meet the Authors &rarr;
-          </Link>
-        </div>
-      </section>
 
-      {/* Footer */}
-      <footer className="border-t border-sage-200/60 bg-white py-8 text-center text-xs text-forest-600">
-        <p>© {new Date().getFullYear()} Mind Refill. Evidence-based workbooks and digital therapeutic companions.</p>
-      </footer>
-    </main>
+          {/* Clinician Ethos Banner */}
+          <div className="mt-16 atmospheric-card rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div className="flex items-center gap-4">
+              <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#F1EBDD] shrink-0">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-[#F7F3E9]">Ethically Authored & Clinically Reviewed</h3>
+                <p className="text-xs text-[#C9D2BC] mt-0.5 font-light">
+                  Every workbook is authored by verified, registered practitioners and grounded in contemporary therapeutic research.
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/psychologists"
+              className="text-xs font-semibold text-[#F1EBDD] hover:text-white shrink-0 underline underline-offset-4 flex items-center gap-1"
+            >
+              <span>Meet the Authors</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </div>
   );
 }

@@ -1,25 +1,27 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 import {
   ShieldCheck,
   HeartHandshake,
   ArrowRight,
   Sparkles,
-  BookOpen,
-  Calendar,
-  BookMarked,
   CheckCircle2,
-  Lock,
-  MessageSquare,
   Clock,
-  Check,
-  Star,
+  Compass,
+  Smile,
+  Moon,
+  Users,
+  Feather,
+  ChevronRight,
+  BookOpen,
 } from "lucide-react";
 
 export const metadata = {
-  title: "Mind Refill | You Don't Have to Figure It All Out Alone",
+  title: "Mind Refill | You don't have to figure it all out alone",
   description:
-    "A calm, human space for emotional wellbeing. Connect with licensed, verified psychologists or let our care coordinators guide you thoughtfully.",
+    "A calm, immersive sanctuary to understand, heal, and grow — connecting you with qualified, compassionate psychologists.",
 };
 
 const FEATURED_PSYCHOLOGISTS = [
@@ -27,12 +29,12 @@ const FEATURED_PSYCHOLOGISTS = [
     id: "fp-1",
     slug: "dr-sarah-jenkins",
     fullName: "Dr. Sarah Jenkins, Ph.D.",
-    professionalTitle: "Licensed Clinical Psychologist & CBT Specialist",
-    photoUrl: "https://images.unsplash.com/photo-1594824813637-2804b494632b?auto=format&fit=crop&q=80&w=400",
+    professionalTitle: "Licensed Clinical Psychologist",
+    photoUrl: "https://images.unsplash.com/photo-1594824813637-2804b494632b?auto=format&fit=crop&q=80&w=600",
     quote: "“Therapy isn’t about fixing what is broken; it is about creating enough emotional safety so you can hear what your mind and body have been trying to tell you.”",
-    specializations: ["Anxiety & Panic", "Burnout & Perfectionism", "Trauma Recovery"],
-    languages: ["English", "French"],
-    experience: "12 years clinical practice",
+    specializations: ["Anxiety & Panic", "Burnout", "Trauma Recovery"],
+    experience: "12 years practice",
+    languages: "English, French",
     availability: "Available this week",
     sessionFee: "₹1,800",
   },
@@ -41,11 +43,11 @@ const FEATURED_PSYCHOLOGISTS = [
     slug: "elena-vance",
     fullName: "Elena Vance, LMFT",
     professionalTitle: "Licensed Marriage & Family Therapist",
-    photoUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400",
+    photoUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600",
     quote: "“Most relationship friction isn’t a lack of love, but the absence of emotional translation. Together, we learn how to express vulnerability without defensiveness.”",
-    specializations: ["Couples & Intimacy", "Attachment Wounds", "Family Transitions"],
-    languages: ["English"],
-    experience: "9 years clinical practice",
+    specializations: ["Couples & Intimacy", "Attachment", "Life Transitions"],
+    experience: "9 years practice",
+    languages: "English",
     availability: "Next availability Thursday",
     sessionFee: "₹2,200",
   },
@@ -54,718 +56,472 @@ const FEATURED_PSYCHOLOGISTS = [
     slug: "dr-marcus-thorne",
     fullName: "Dr. Marcus Thorne, Psy.D.",
     professionalTitle: "Neuropsychologist & Behavioral Health Specialist",
-    photoUrl: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=400",
+    photoUrl: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=600",
     quote: "“Understanding the biology of your nervous system frees you from self-blame. When you realize how your brain responds to stress, change becomes manageable.”",
-    specializations: ["Adult ADHD", "Depressive Episodes", "Sleep & Insomnia"],
-    languages: ["English", "Spanish"],
-    experience: "15 years clinical practice",
+    specializations: ["Adult ADHD", "Depression", "Sleep & Somatic Care"],
+    experience: "15 years practice",
+    languages: "English, Spanish",
     availability: "Online sessions open",
     sessionFee: "₹2,500",
   },
 ];
 
+const CONCERN_CARDS = [
+  {
+    id: "overwhelmed",
+    icon: Feather,
+    title: "Feeling overwhelmed",
+    desc: "When racing thoughts, chronic tension, or panic feel too heavy to carry alone.",
+    link: "/psychologists?specialization=anxiety-stress",
+  },
+  {
+    id: "relationships",
+    icon: Users,
+    title: "Relationship difficulties",
+    desc: "Navigating communication breakdowns, attachment patterns, and mutual connection.",
+    link: "/psychologists?specialization=couples-relationship",
+  },
+  {
+    id: "transition",
+    icon: Compass,
+    title: "A major life change",
+    desc: "Finding grounding amidst career shifts, heartbreak, relocation, or identity rediscovery.",
+    link: "/psychologists",
+  },
+  {
+    id: "self-understanding",
+    icon: Smile,
+    title: "Want to understand yourself",
+    desc: "Exploring personal boundaries, emotional history, and self-compassion without judgment.",
+    link: "/intake",
+  },
+  {
+    id: "sleep",
+    icon: Moon,
+    title: "Struggling with sleep & rest",
+    desc: "Restoring natural circadian rhythms and easing bedtime anxiety and physical exhaustion.",
+    link: "/ebooks",
+  },
+  {
+    id: "something-else",
+    icon: Sparkles,
+    title: "Something else",
+    desc: "You don't need a formal diagnosis or exact words. Just start where you are.",
+    link: "/intake",
+  },
+];
+
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-cream-50 flex flex-col justify-between text-forest-950 selection:bg-sage-200 selection:text-forest-900">
-      {/* Navigation Header */}
-      <header className="border-b border-sage-200/70 bg-white/90 backdrop-blur-md sticky top-0 z-50 transition-all">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="h-10 w-10 rounded-2xl bg-forest-800 flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-forest-900 transition-colors">
-              Ψ
-            </div>
-            <div>
-              <span className="font-bold text-lg tracking-tight text-forest-950 block leading-tight">
-                Mind Refill
-              </span>
-              <span className="text-[10px] uppercase tracking-widest text-forest-600 font-semibold block">
-                Psychology & Well-Being
-              </span>
-            </div>
-          </Link>
+    <div className="min-h-screen flex flex-col bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD] overflow-x-hidden">
+      <Navbar />
 
-          <nav className="hidden lg:flex items-center space-x-8 text-sm font-medium text-forest-800">
-            <Link href="/psychologists" className="hover:text-forest-950 transition-colors">
-              Find a Psychologist
-            </Link>
-            <Link href="/resources" className="hover:text-forest-950 transition-colors">
-              Clinical Resources
-            </Link>
-            <Link href="/ebooks" className="hover:text-forest-950 transition-colors">
-              E-Books & Workbooks
-            </Link>
-            <Link href="/events" className="hover:text-forest-950 transition-colors">
-              Workshops & Events
-            </Link>
-          </nav>
+      <main className="flex-grow">
+        {/* ========================================================================= */}
+        {/* 1. IMMERSIVE GREEN HERO SECTION */}
+        {/* ========================================================================= */}
+        <section className="relative pt-8 pb-20 sm:pt-14 sm:pb-32 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-[#173C32] via-[#1C473C] to-[#244F42]">
+          {/* Subtle atmospheric ambient glow */}
+          <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-[#3F6855]/20 blur-3xl pointer-events-none" />
+          <div className="absolute top-1/2 -right-40 w-[30rem] h-[30rem] rounded-full bg-[#718B73]/15 blur-3xl pointer-events-none" />
 
-          <div className="flex items-center space-x-3">
-            <Link
-              href="/login"
-              className="text-sm font-medium text-forest-800 hover:text-forest-950 px-3 py-2 transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/find-a-psychologist"
-              className="text-sm font-semibold bg-forest-800 hover:bg-forest-900 text-white px-5 py-2.5 rounded-2xl transition-all shadow-sm hover:shadow-md"
-            >
-              Get Started
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      {/* SECTION 1: Emotional Hero with Connection Language */}
-      <section className="relative overflow-hidden pt-12 pb-16 md:pt-20 md:pb-24 px-4 sm:px-6 lg:px-8">
-        {/* Soft Ambient Radiance */}
-        <div className="absolute top-0 left-1/3 w-[800px] h-[500px] bg-gradient-to-b from-sage-100/50 via-cream-100/30 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-        <div className="absolute top-20 right-10 w-96 h-96 bg-blush-100/30 rounded-full blur-3xl pointer-events-none -z-10" />
-
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* LEFT: Emotional Promise & Human CTAs */}
-          <div className="lg:col-span-7 text-left space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sage-100/90 border border-sage-200 text-forest-800 text-xs font-semibold shadow-2xs">
-              <Sparkles className="w-3.5 h-3.5 text-forest-600" />
-              <span>A little support can change a lot.</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-forest-950 leading-[1.12]">
-              You don&apos;t have to figure it all out{" "}
-              <span className="text-forest-700 underline decoration-sage-300 decoration-wavy decoration-2 underline-offset-8">
-                alone.
-              </span>
-            </h1>
-
-            <p className="text-base sm:text-lg text-forest-700 max-w-xl leading-relaxed font-normal">
-              Whether you know exactly what you&apos;re looking for or simply feel that life has become heavier lately, Mind Refill connects you with verified psychologists who listen without judgment.
-            </p>
-
-            {/* Clear Dual-Path Human CTAs */}
-            <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl">
-              {/* Primary Path: I know what I want */}
-              <Link
-                href="/psychologists"
-                className="p-5 rounded-2xl bg-forest-800 hover:bg-forest-900 text-white shadow-md hover:shadow-lg transition-all group flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-bold text-sage-300 uppercase tracking-widest">
-                      Direct Matching
-                    </span>
-                    <ArrowRight className="w-4 h-4 text-sage-300 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                  <span className="text-base font-bold text-white block">
-                    Find the right support
-                  </span>
-                  <p className="text-xs text-sage-200 mt-1 leading-relaxed">
-                    Explore psychologists or let us help you find the right match.
-                  </p>
-                </div>
-              </Link>
-
-              {/* Secondary Path: I don't know */}
-              <Link
-                href="/intake"
-                className="p-5 rounded-2xl border-2 border-forest-600/70 bg-white hover:bg-sage-50 text-forest-950 shadow-xs hover:shadow-md transition-all group flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-bold text-forest-600 uppercase tracking-widest">
-                      Guided Care
-                    </span>
-                    <ArrowRight className="w-4 h-4 text-forest-600 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                  <span className="text-base font-bold text-forest-950 block">
-                    I&apos;m not sure what I need
-                  </span>
-                  <p className="text-xs text-forest-700 mt-1 leading-relaxed">
-                    Talk to a care coordinator and take it one step at a time.
-                  </p>
-                </div>
-              </Link>
-            </div>
-
-            {/* Grounding Trust Indicators */}
-            <div className="pt-4 flex flex-wrap items-center gap-6 text-xs text-forest-700">
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-forest-600" />
-                Verified Clinical Licenses
-              </span>
-              <span className="flex items-center gap-1.5">
-                <HeartHandshake className="w-4 h-4 text-forest-600" />
-                Human-Led Care Matching
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Lock className="w-4 h-4 text-forest-600" />
-                Medical Confidentiality
-              </span>
-            </div>
-          </div>
-
-          {/* RIGHT: Distinctive Connection Motif & Live Care Card */}
-          <div className="lg:col-span-5 relative">
-            <div className="relative mx-auto max-w-md bg-gradient-to-b from-white/90 to-sage-50/70 border border-sage-200/90 rounded-3xl p-6 sm:p-8 shadow-lg backdrop-blur-sm">
-              {/* Connection Visual SVG: Two Paths Meeting & Organic Intersecting Rings */}
-              <div className="relative h-44 w-full flex items-center justify-center mb-6 overflow-hidden rounded-2xl bg-cream-100/40 border border-sage-100">
-                <svg
-                  viewBox="0 0 360 160"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-full h-full"
-                >
-                  {/* Gentle background radiant rings */}
-                  <circle cx="120" cy="80" r="60" stroke="#b4cdbd" strokeWidth="1" strokeDasharray="4 4" opacity="0.5" />
-                  <circle cx="240" cy="80" r="60" stroke="#c98282" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
-
-                  {/* Flowing Path 1: You */}
-                  <path
-                    d="M 30 110 C 80 110, 110 80, 180 80"
-                    stroke="#1e4330"
-                    strokeWidth="3.5"
-                    strokeLinecap="round"
-                  />
-                  {/* Flowing Path 2: Support */}
-                  <path
-                    d="M 330 50 C 280 50, 250 80, 180 80"
-                    stroke="#749f8c"
-                    strokeWidth="3.5"
-                    strokeLinecap="round"
-                  />
-
-                  {/* Node 1: Left (The Client) */}
-                  <circle cx="70" cy="100" r="14" fill="#1e4330" />
-                  <circle cx="70" cy="100" r="22" stroke="#1e4330" strokeWidth="1.5" opacity="0.3" className="animate-pulse" />
-                  <text x="70" y="104" fill="#ffffff" fontSize="10" fontWeight="bold" textAnchor="middle">You</text>
-
-                  {/* Node 2: Meeting Center (Understanding & Connection) */}
-                  <circle cx="180" cy="80" r="16" fill="#122b1e" />
-                  <circle cx="180" cy="80" r="26" stroke="#b4cdbd" strokeWidth="2" opacity="0.6" />
-                  <text x="180" y="84" fill="#f8eeec" fontSize="12" fontWeight="bold" textAnchor="middle">Ψ</text>
-
-                  {/* Node 3: Right (Psychologist / Guide) */}
-                  <circle cx="290" cy="60" r="14" fill="#749f8c" />
-                  <circle cx="290" cy="60" r="22" stroke="#749f8c" strokeWidth="1.5" opacity="0.3" className="animate-pulse" />
-                  <text x="290" y="64" fill="#ffffff" fontSize="9" fontWeight="bold" textAnchor="middle">Care</text>
-                </svg>
-
-                {/* Subtle Floating Emotional Tag */}
-                <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-[11px] text-forest-700 bg-white/90 backdrop-blur-xs py-1 px-3 rounded-full border border-sage-200">
-                  <span className="font-semibold text-forest-900">Meeting at your rhythm</span>
-                  <span className="text-forest-600 font-medium">Safe • Unrushed</span>
-                </div>
-              </div>
-
-              {/* Human Reassurance Card */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-sage-200 shrink-0">
-                    <Image
-                      src="https://images.unsplash.com/photo-1594824813637-2804b494632b?auto=format&fit=crop&q=80&w=200"
-                      alt="Verified Psychologist"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-sm font-bold text-forest-950">Dr. Sarah Jenkins</span>
-                      <ShieldCheck className="w-4 h-4 text-forest-600" />
-                    </div>
-                    <span className="text-xs text-forest-600 block">Licensed Clinical Psychologist • 12 yrs exp</span>
-                  </div>
+          <div className="max-w-7xl mx-auto relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+              {/* Left Column: Headline & Human Journey */}
+              <div className="lg:col-span-7 space-y-6 sm:space-y-8 text-left">
+                {/* Eyebrow */}
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-[#C9D2BC]/20 text-[#C9D2BC] text-xs font-semibold tracking-wider uppercase backdrop-blur-sm">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#9CAF91] animate-pulse" />
+                  <span>A little support can change a lot</span>
                 </div>
 
-                <p className="text-xs text-forest-700 italic bg-white p-3 rounded-xl border border-sage-100 leading-relaxed">
-                  &ldquo;When people come to therapy, they often think they have to present a polished story. You don&apos;t. Bring the messy parts — that&apos;s where we begin.&rdquo;
+                {/* Main Editorial Headline */}
+                <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal text-[#F7F3E9] leading-[1.08] tracking-tight">
+                  You don&apos;t have to figure it all out alone.
+                </h1>
+
+                {/* Supporting Copy */}
+                <p className="text-base sm:text-lg md:text-xl text-[#C9D2BC]/90 font-light max-w-2xl leading-relaxed">
+                  A calm space to understand, heal, and grow — connecting you with qualified, compassionate psychologists who truly listen.
                 </p>
 
-                <div className="flex items-center justify-between pt-2 border-t border-sage-100 text-xs text-forest-700">
-                  <span className="flex items-center gap-1 text-forest-600">
-                    <Clock className="w-3.5 h-3.5" /> Next slot: Tomorrow
-                  </span>
+                {/* Dual CTAs */}
+                <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 max-w-xl">
                   <Link
-                    href="/psychologists/dr-sarah-jenkins"
-                    className="font-semibold text-forest-800 hover:text-forest-950 underline text-xs"
+                    href="/psychologists"
+                    className="h-14 px-8 rounded-full bg-[#F1EBDD] hover:bg-white text-[#173C32] font-semibold text-base flex items-center justify-center gap-2.5 shadow-xl shadow-black/10 hover:shadow-black/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
                   >
-                    View profile &rarr;
+                    <span>Find the right support</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <Link
+                    href="/intake"
+                    className="h-14 px-7 rounded-full bg-transparent hover:bg-white/5 border border-[#C9D2BC]/40 text-[#F7F3E9] font-medium text-base flex items-center justify-center gap-2 transition-all hover:border-[#C9D2BC]"
+                  >
+                    <span>I&apos;m not sure what I need</span>
                   </Link>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* SECTION 2: "You might be here because..." (Deeply Human, Non-Diagnostic) */}
-      <section className="py-16 md:py-24 bg-white border-y border-sage-200/70 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <span className="text-xs font-semibold text-forest-600 uppercase tracking-widest block mb-2">
-              Every Experience Matters
-            </span>
-            <h2 className="text-2xl sm:text-4xl font-bold text-forest-950 tracking-tight">
-              Maybe you&apos;re here because...
-            </h2>
-            <p className="text-sm sm:text-base text-forest-700 mt-3 leading-relaxed">
-              You don&apos;t need a medical diagnosis or a crisis to speak with someone. Support begins wherever life feels a little too heavy to carry alone.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                title: "Something has been weighing on you.",
-                desc: "A persistent tension in your body, chronic overthinking, or waking up already exhausted before the day starts.",
-                tag: "Anxiety & Stress",
-                link: "/psychologists?specialization=anxiety-stress",
-              },
-              {
-                title: "You can't quite explain how you're feeling.",
-                desc: "A lingering numbness, low energy, or a feeling that you're watching your life from the outside without being fully present.",
-                tag: "Emotional Numbness",
-                link: "/intake",
-              },
-              {
-                title: "A relationship has become difficult.",
-                desc: "Repeating the same painful arguments with a partner, boundary fatigue with family, or feeling disconnected.",
-                tag: "Relationships & Couples",
-                link: "/psychologists?specialization=couples-relationship",
-              },
-              {
-                title: "You're going through a major change.",
-                desc: "A career shift, relocation, breakup, grief, or stepping into a new life stage that leaves your footing unsettled.",
-                tag: "Life Transitions",
-                link: "/psychologists?specialization=career-burnout",
-              },
-              {
-                title: "You want to understand yourself better.",
-                desc: "Untangling why certain situations trigger you, identifying emotional patterns, and learning how to protect your peace.",
-                tag: "Self-Understanding",
-                link: "/resources",
-              },
-              {
-                title: "You simply feel like talking to someone.",
-                desc: "A confidential, warm space where you don't have to manage anyone else's expectations or protect their feelings.",
-                tag: "Open 1-on-1 Dialogue",
-                link: "/psychologists",
-              },
-            ].map((item, idx) => (
-              <Link
-                key={idx}
-                href={item.link}
-                className="p-6 sm:p-7 rounded-3xl border border-sage-200/80 bg-cream-50/40 hover:bg-white hover:border-forest-400 hover:shadow-md transition-all flex flex-col justify-between group"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] font-bold text-forest-600 uppercase tracking-wider px-2.5 py-1 rounded-full bg-sage-100">
-                      {item.tag}
-                    </span>
-                    <span className="w-2 h-2 rounded-full bg-blush-300 group-hover:scale-125 transition-transform" />
+                {/* Trust Indicators */}
+                <div className="pt-6 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-[#C9D2BC]">
+                  <div className="flex items-center gap-2.5">
+                    <ShieldCheck className="w-4 h-4 text-[#9CAF91] flex-shrink-0" />
+                    <span>Verified Licensed Professionals</span>
                   </div>
-                  <h3 className="text-base sm:text-lg font-bold text-forest-950 group-hover:text-forest-800 transition-colors mb-2.5 leading-snug">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-forest-700 leading-relaxed">
-                    {item.desc}
-                  </p>
+                  <div className="flex items-center gap-2.5">
+                    <HeartHandshake className="w-4 h-4 text-[#9CAF91] flex-shrink-0" />
+                    <span>Human-Assisted Matching</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#9CAF91] flex-shrink-0" />
+                    <span>Your Privacy Comes First</span>
+                  </div>
                 </div>
-                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-forest-700 group-hover:text-forest-950 pt-5 mt-4 border-t border-sage-100">
-                  <span>Explore this path</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+
+                {/* Subtle Editorial Tagline */}
+                <p className="font-serif italic text-sm text-[#9CAF91]/80 pt-1">
+                  A calmer, brighter you. Take one step at a time.
+                </p>
+              </div>
+
+              {/* Right Column: Atmospheric Visual Window */}
+              <div className="lg:col-span-5 relative flex justify-center">
+                <div className="relative w-full max-w-md aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-white/15 shadow-2xl shadow-black/30">
+                  {/* Calming warm interior / plant / daylight imagery */}
+                  <Image
+                    src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=900"
+                    alt="A calm, warm room with natural light and plants"
+                    fill
+                    priority
+                    className="object-cover object-center brightness-[0.88] contrast-[1.05]"
+                  />
+                  {/* Atmospheric green gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#173C32]/95 via-[#173C32]/30 to-transparent" />
+
+                  {/* Floating Mind Refill Quiet Card */}
+                  <div className="absolute bottom-6 left-6 right-6 p-5 rounded-2xl bg-[#173C32]/85 backdrop-blur-md border border-white/15 text-left space-y-2">
+                    <div className="flex items-center gap-2 text-[#9CAF91] text-xs font-semibold uppercase tracking-wider">
+                      <HeartHandshake className="w-4 h-4" />
+                      <span>Grounded Care</span>
+                    </div>
+                    <p className="font-serif text-base text-[#F7F3E9] italic leading-snug">
+                      &ldquo;The quiet relief of being understood without having to explain yourself ten times.&rdquo;
+                    </p>
+                    <span className="text-[11px] text-[#C9D2BC]/75 block">
+                      Individual therapy & guided wellbeing
+                    </span>
+                  </div>
                 </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 3: "How It Works" Connection Journey */}
-      <section className="py-20 md:py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-xs font-semibold text-forest-600 uppercase tracking-widest block mb-2">
-            The Mind Refill Journey
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-bold text-forest-950 tracking-tight">
-            A calm, guided path to the right person.
-          </h2>
-          <p className="text-sm sm:text-base text-forest-700 mt-3 leading-relaxed">
-            Therapy shouldn&apos;t begin with a confusing maze of cold medical forms. We guide you step by step.
-          </p>
-        </div>
-
-        {/* 3-Step Calm Visual Journey with Connecting Bridges */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-          {/* Step 01 */}
-          <div className="bg-white rounded-3xl border border-sage-200/90 p-7 shadow-xs relative flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-2xl font-black text-forest-800 font-mono">01</span>
-                <span className="h-2.5 w-2.5 rounded-full bg-forest-600" />
               </div>
-              <h3 className="text-base font-bold text-forest-950 mb-2">
-                Tell us what&apos;s going on
-              </h3>
-              <p className="text-xs sm:text-sm text-forest-700 leading-relaxed">
-                A short, private conversation about what you&apos;re experiencing. You don&apos;t need medical terms — just your authentic words.
-              </p>
-            </div>
-            <div className="pt-6 mt-4 border-t border-sage-100 text-[11px] text-forest-600 flex items-center gap-1.5">
-              <Check className="w-3.5 h-3.5 text-forest-600" /> 100% confidential & unhurried
             </div>
           </div>
+        </section>
 
-          {/* Step 02 */}
-          <div className="bg-white rounded-3xl border border-sage-200/90 p-7 shadow-xs relative flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-2xl font-black text-forest-800 font-mono">02</span>
-                <span className="h-2.5 w-2.5 rounded-full bg-forest-600" />
-              </div>
-              <h3 className="text-base font-bold text-forest-950 mb-2">
-                We&apos;ll help you find the right direction
-              </h3>
-              <p className="text-xs sm:text-sm text-forest-700 leading-relaxed">
-                If you&apos;re unsure, our human coordinators review your note and connect you with an appropriate psychologist who matches your needs.
-              </p>
-            </div>
-            <div className="pt-6 mt-4 border-t border-sage-100 text-[11px] text-forest-600 flex items-center gap-1.5">
-              <Check className="w-3.5 h-3.5 text-forest-600" /> Human coordinators, not robots
-            </div>
-          </div>
-
-          {/* Step 03 */}
-          <div className="bg-white rounded-3xl border border-sage-200/90 p-7 shadow-xs relative flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-2xl font-black text-forest-800 font-mono">03</span>
-                <span className="h-2.5 w-2.5 rounded-full bg-forest-600" />
-              </div>
-              <h3 className="text-base font-bold text-forest-950 mb-2">
-                Meet the person who can help
-              </h3>
-              <p className="text-xs sm:text-sm text-forest-700 leading-relaxed">
-                Explore the psychologist, choose a suitable time slot for video or in-person consultation, and take the next step at your pace.
-              </p>
-            </div>
-            <div className="pt-6 mt-4 border-t border-sage-100 text-[11px] text-forest-600 flex items-center gap-1.5">
-              <Check className="w-3.5 h-3.5 text-forest-600" /> No commitment pressure
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-12 text-center">
-          <Link
-            href="/intake"
-            className="inline-flex items-center gap-2 py-3.5 px-8 bg-forest-800 hover:bg-forest-900 text-white text-xs font-semibold rounded-2xl shadow-sm hover:shadow transition-all"
-          >
-            <span>Begin Guided Matching</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
-
-      {/* SECTION 4: Featured Psychologists (Human Profile Cards) */}
-      <section className="py-20 bg-cream-100/50 border-y border-sage-200/70 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-            <div>
-              <span className="text-xs font-semibold text-forest-600 uppercase tracking-widest block mb-1">
-                Verified Practitioners
+        {/* ========================================================================= */}
+        {/* 2. "WHAT'S ON YOUR MIND?" SECTION (Immersive Atmospheric Cards) */}
+        {/* ========================================================================= */}
+        <section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-[#244F42]">
+          <div className="max-w-7xl mx-auto space-y-12">
+            <div className="text-center max-w-2xl mx-auto space-y-3">
+              <span className="text-xs font-semibold tracking-widest text-[#9CAF91] uppercase">
+                Explore Support
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-forest-950 tracking-tight">
-                Find the right psychologist to walk beside you.
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-[#F7F3E9]">
+                What&apos;s on your mind?
               </h2>
-              <p className="text-xs sm:text-sm text-forest-700 mt-2">
-                Every practitioner is verified for active licensing, professional ethics, and authentic therapeutic empathy.
+              <p className="text-[#C9D2BC] text-sm sm:text-base font-light leading-relaxed">
+                Life can be overwhelming sometimes. Whatever you&apos;re experiencing right now, you don&apos;t have to carry it alone.
               </p>
             </div>
-            <Link
-              href="/psychologists"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-forest-800 hover:text-forest-950 shrink-0"
-            >
-              <span>View all verified practitioners</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {FEATURED_PSYCHOLOGISTS.map((psychologist) => (
-              <div
-                key={psychologist.id}
-                className="bg-white rounded-3xl border border-sage-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-forest-400 transition-all flex flex-col justify-between group"
-              >
-                <div>
-                  {/* Photo & Identity Header */}
-                  <div className="flex items-start gap-4 mb-5">
-                    <div className="relative h-18 w-18 rounded-2xl overflow-hidden border-2 border-sage-200 shrink-0 shadow-xs">
-                      <Image
-                        src={psychologist.photoUrl}
-                        alt={psychologist.fullName}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-1.5">
-                        <h3 className="text-base font-bold text-forest-950 truncate">
-                          {psychologist.fullName}
-                        </h3>
-                        <ShieldCheck className="w-4 h-4 text-forest-600 shrink-0" />
-                      </div>
-                      <p className="text-xs text-forest-600 mt-0.5 line-clamp-1">
-                        {psychologist.professionalTitle}
-                      </p>
-                      <div className="mt-2 flex items-center gap-2 text-[11px] text-forest-500">
-                        <span>{psychologist.experience}</span>
-                        <span>•</span>
-                        <span className="text-forest-700 font-medium">{psychologist.languages.join(", ")}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Human Introduction Quote */}
-                  <p className="text-xs text-forest-700 leading-relaxed italic bg-cream-50/70 p-3.5 rounded-2xl border border-sage-100 mb-5">
-                    {psychologist.quote}
-                  </p>
-
-                  {/* Specializations Tags */}
-                  <div className="flex flex-wrap gap-1.5 mb-5">
-                    {psychologist.specializations.map((spec, i) => (
-                      <span
-                        key={i}
-                        className="text-[10px] font-medium px-2.5 py-1 rounded-full bg-sage-50 text-forest-800 border border-sage-200/80"
-                      >
-                        {spec}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Card Action Footer */}
-                <div className="pt-4 border-t border-sage-100 flex items-center justify-between">
-                  <div>
-                    <span className="text-[10px] uppercase tracking-wider text-forest-500 block font-semibold">
-                      Session Fee
-                    </span>
-                    <span className="text-base font-extrabold text-forest-950">
-                      {psychologist.sessionFee}
-                    </span>
-                  </div>
-
+            {/* 6 Elegant Non-White Transparent Concern Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+              {CONCERN_CARDS.map((item) => {
+                const IconComponent = item.icon;
+                return (
                   <Link
-                    href={`/psychologists/${psychologist.slug}`}
-                    className="inline-flex items-center gap-1.5 py-2 px-4 bg-forest-800 hover:bg-forest-900 text-white text-xs font-semibold rounded-xl transition-colors shadow-xs"
+                    key={item.id}
+                    href={item.link}
+                    className="group atmospheric-card p-7 rounded-3xl hover:bg-[#3F6855]/40 hover:border-[#C9D2BC]/40 transition-all duration-300 flex flex-col justify-between space-y-5 hover:-translate-y-1 shadow-sm hover:shadow-xl hover:shadow-black/10"
                   >
-                    View Profile &rarr;
+                    <div className="space-y-4">
+                      <div className="w-12 h-12 rounded-2xl bg-[#173C32]/80 border border-[#C9D2BC]/20 flex items-center justify-center text-[#F1EBDD] group-hover:scale-105 transition-transform">
+                        <IconComponent className="w-6 h-6 text-[#9CAF91]" />
+                      </div>
+                      <h3 className="font-serif text-xl sm:text-2xl font-medium text-[#F7F3E9] group-hover:text-[#F1EBDD] transition-colors">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-[#C9D2BC]/85 font-light leading-relaxed">
+                        {item.desc}
+                      </p>
+                    </div>
+
+                    <div className="pt-2 flex items-center gap-1.5 text-xs font-semibold text-[#9CAF91] group-hover:text-[#F1EBDD] transition-colors">
+                      <span>Explore this direction</span>
+                      <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </div>
                   </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* 3. HOW IT WORKS (Connected Journey 01 ───── 02 ───── 03) */}
+        {/* ========================================================================= */}
+        <section className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#244F42] via-[#1E3A31] to-[#173C32]">
+          <div className="max-w-7xl mx-auto space-y-16">
+            <div className="text-center max-w-2xl mx-auto space-y-3">
+              <span className="text-xs font-semibold tracking-widest text-[#9CAF91] uppercase">
+                How It Works
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-[#F7F3E9]">
+                A simpler way to get the support you need.
+              </h2>
+              <p className="text-[#C9D2BC] text-sm sm:text-base font-light leading-relaxed">
+                From your first step to your first session, we&apos;re here to make the process feel calm, clear, and human.
+              </p>
+            </div>
+
+            {/* Desktop Horizontal Connected Steps */}
+            <div className="hidden md:grid grid-cols-3 gap-8 relative items-start">
+              {/* Connected Line in Background */}
+              <div className="absolute top-10 left-[16%] right-[16%] h-[2px] connection-line-h z-0" />
+
+              {/* Step 01 */}
+              <div className="relative z-10 text-center space-y-4 px-4">
+                <div className="w-20 h-20 mx-auto rounded-full bg-[#173C32] border-2 border-[#9CAF91]/50 flex items-center justify-center shadow-lg shadow-black/20">
+                  <span className="font-serif text-2xl font-bold text-[#F1EBDD]">01</span>
+                </div>
+                <h3 className="font-serif text-2xl font-medium text-[#F7F3E9]">
+                  Share what&apos;s on your mind
+                </h3>
+                <p className="text-sm text-[#C9D2BC]/90 font-light leading-relaxed">
+                  Tell us a little about what you&apos;re going through with our gentle, guided intake questions.
+                </p>
+              </div>
+
+              {/* Step 02 */}
+              <div className="relative z-10 text-center space-y-4 px-4">
+                <div className="w-20 h-20 mx-auto rounded-full bg-[#173C32] border-2 border-[#9CAF91]/50 flex items-center justify-center shadow-lg shadow-black/20">
+                  <span className="font-serif text-2xl font-bold text-[#F1EBDD]">02</span>
+                </div>
+                <h3 className="font-serif text-2xl font-medium text-[#F7F3E9]">
+                  Get matched with care
+                </h3>
+                <p className="text-sm text-[#C9D2BC]/90 font-light leading-relaxed">
+                  Our coordinators review your preferences to match you with a psychologist who genuinely fits your needs.
+                </p>
+              </div>
+
+              {/* Step 03 */}
+              <div className="relative z-10 text-center space-y-4 px-4">
+                <div className="w-20 h-20 mx-auto rounded-full bg-[#173C32] border-2 border-[#9CAF91]/50 flex items-center justify-center shadow-lg shadow-black/20">
+                  <span className="font-serif text-2xl font-bold text-[#F1EBDD]">03</span>
+                </div>
+                <h3 className="font-serif text-2xl font-medium text-[#F7F3E9]">
+                  Take your next step
+                </h3>
+                <p className="text-sm text-[#C9D2BC]/90 font-light leading-relaxed">
+                  Choose a consultation time that fits your life and meet your clinician in a private, encrypted space.
+                </p>
+              </div>
+            </div>
+
+            {/* Mobile Vertical Connected Steps */}
+            <div className="md:hidden space-y-8 relative pl-6">
+              {/* Vertical line */}
+              <div className="absolute top-4 bottom-4 left-[2.25rem] w-[2px] connection-line-v" />
+
+              {/* Step 01 */}
+              <div className="relative flex items-start gap-5">
+                <div className="w-12 h-12 rounded-full bg-[#173C32] border-2 border-[#9CAF91]/60 flex items-center justify-center flex-shrink-0 text-[#F1EBDD] font-bold text-sm z-10 shadow">
+                  01
+                </div>
+                <div className="space-y-1 pt-1">
+                  <h3 className="font-serif text-xl font-medium text-[#F7F3E9]">
+                    Share what&apos;s on your mind
+                  </h3>
+                  <p className="text-xs text-[#C9D2BC]/90 font-light leading-relaxed">
+                    Tell us a little about what you&apos;re going through with guided questions.
+                  </p>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* SECTION 5: Psychoeducational Ecosystem (Articles, E-Books, Events) */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <div className="text-center max-w-2xl mx-auto mb-14">
-          <span className="text-xs font-semibold text-forest-600 uppercase tracking-widest block mb-2">
-            Beyond 1-on-1 Sessions
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-bold text-forest-950 tracking-tight">
-            Tools for understanding yourself, one step at a time.
-          </h2>
-          <p className="text-sm sm:text-base text-forest-700 mt-3 leading-relaxed">
-            Support takes many shapes. Explore evidence-based essays, clinician-authored reflection workbooks, and group workshops.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-3xl border border-sage-200/80 p-7 shadow-xs flex flex-col justify-between hover:border-forest-300 transition-colors">
-            <div>
-              <div className="h-10 w-10 rounded-2xl bg-sage-100 text-forest-700 flex items-center justify-center mb-5">
-                <BookOpen className="w-5 h-5" />
+              {/* Step 02 */}
+              <div className="relative flex items-start gap-5">
+                <div className="w-12 h-12 rounded-full bg-[#173C32] border-2 border-[#9CAF91]/60 flex items-center justify-center flex-shrink-0 text-[#F1EBDD] font-bold text-sm z-10 shadow">
+                  02
+                </div>
+                <div className="space-y-1 pt-1">
+                  <h3 className="font-serif text-xl font-medium text-[#F7F3E9]">
+                    Get matched with care
+                  </h3>
+                  <p className="text-xs text-[#C9D2BC]/90 font-light leading-relaxed">
+                    Our care team helps pair you with the clinician best suited to walk beside you.
+                  </p>
+                </div>
               </div>
-              <h3 className="text-base font-bold text-forest-950 mb-2">Clinical Articles</h3>
-              <p className="text-xs text-forest-700 leading-relaxed mb-6">
-                Editorial insights on emotional boundaries, nervous system soothing, and attachment patterns authored by psychologists.
-              </p>
-            </div>
-            <Link
-              href="/resources"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-forest-800 hover:text-forest-950"
-            >
-              Browse Articles &rarr;
-            </Link>
-          </div>
 
-          <div className="bg-white rounded-3xl border border-sage-200/80 p-7 shadow-xs flex flex-col justify-between hover:border-forest-300 transition-colors">
-            <div>
-              <div className="h-10 w-10 rounded-2xl bg-forest-50 text-forest-700 flex items-center justify-center mb-5">
-                <BookMarked className="w-5 h-5" />
+              {/* Step 03 */}
+              <div className="relative flex items-start gap-5">
+                <div className="w-12 h-12 rounded-full bg-[#173C32] border-2 border-[#9CAF91]/60 flex items-center justify-center flex-shrink-0 text-[#F1EBDD] font-bold text-sm z-10 shadow">
+                  03
+                </div>
+                <div className="space-y-1 pt-1">
+                  <h3 className="font-serif text-xl font-medium text-[#F7F3E9]">
+                    Take your next step
+                  </h3>
+                  <p className="text-xs text-[#C9D2BC]/90 font-light leading-relaxed">
+                    Select your session time and connect directly in a private, encrypted room.
+                  </p>
+                </div>
               </div>
-              <h3 className="text-base font-bold text-forest-950 mb-2">E-Books & Workbooks</h3>
-              <p className="text-xs text-forest-700 leading-relaxed mb-6">
-                Structured clinical guides, cognitive restructuring worksheets, and somatic practices you can read and work through at your rhythm.
-              </p>
             </div>
-            <Link
-              href="/ebooks"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-forest-800 hover:text-forest-950"
-            >
-              Read Workbooks &rarr;
-            </Link>
           </div>
+        </section>
 
-          <div className="bg-white rounded-3xl border border-sage-200/80 p-7 shadow-xs flex flex-col justify-between hover:border-forest-300 transition-colors">
-            <div>
-              <div className="h-10 w-10 rounded-2xl bg-cream-100 text-forest-700 flex items-center justify-center mb-5">
-                <Calendar className="w-5 h-5" />
+        {/* ========================================================================= */}
+        {/* 4. VERIFIED PSYCHOLOGISTS ("People who understand.") */}
+        {/* ========================================================================= */}
+        <section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-[#173C32]">
+          <div className="max-w-7xl mx-auto space-y-12">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-white/10 pb-8">
+              <div className="space-y-2">
+                <span className="text-xs font-semibold tracking-widest text-[#9CAF91] uppercase">
+                  Verified Psychologists
+                </span>
+                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-[#F7F3E9]">
+                  People who understand.
+                </h2>
+                <p className="text-[#C9D2BC] text-sm sm:text-base font-light max-w-xl">
+                  Connect with qualified, compassionate clinicians with verified degrees, clinical licenses, and deep human empathy.
+                </p>
               </div>
-              <h3 className="text-base font-bold text-forest-950 mb-2">Workshops & Cohorts</h3>
-              <p className="text-xs text-forest-700 leading-relaxed mb-6">
-                Live, clinician-facilitated group discussions and skill-building sessions in small, confidential cohorts.
-              </p>
+
+              <Link
+                href="/psychologists"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[#F1EBDD] hover:text-white transition-colors"
+              >
+                <span>View all verified practitioners</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
-            <Link
-              href="/events"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-forest-800 hover:text-forest-950"
-            >
-              See Live Workshops &rarr;
-            </Link>
-          </div>
-        </div>
-      </section>
 
-      {/* SECTION 6: Final Emotionally Grounded CTA */}
-      <section className="py-20 md:py-28 px-4 sm:px-6 lg:px-8 bg-forest-900 text-white relative overflow-hidden text-center">
-        {/* Connection Motif Radiance */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-forest-800/60 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-10 right-1/4 w-40 h-40 rounded-full border border-forest-700/60 pointer-events-none" />
-        <div className="absolute bottom-10 left-1/4 w-52 h-52 rounded-full border border-forest-700/60 pointer-events-none" />
+            {/* Psychologist Profiles Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {FEATURED_PSYCHOLOGISTS.map((psych) => (
+                <div
+                  key={psych.id}
+                  className="atmospheric-card rounded-3xl overflow-hidden flex flex-col justify-between border border-white/10 hover:border-[#C9D2BC]/30 transition-all duration-300 group"
+                >
+                  <div className="space-y-5">
+                    {/* Portrait Photo */}
+                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#122C25]">
+                      <Image
+                        src={psych.photoUrl}
+                        alt={psych.fullName}
+                        fill
+                        className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#173C32] via-transparent to-transparent" />
+                      <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
+                        <span className="px-2.5 py-1 rounded-full bg-[#173C32]/85 backdrop-blur-md text-[11px] font-medium text-[#9CAF91] border border-white/10">
+                          {psych.availability}
+                        </span>
+                        <span className="text-xs font-serif font-semibold text-[#F1EBDD]">
+                          {psych.sessionFee} / session
+                        </span>
+                      </div>
+                    </div>
 
-        <div className="max-w-3xl mx-auto relative z-10 space-y-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-forest-800/80 border border-forest-700 text-sage-200 text-xs font-medium">
-            <span className="w-2 h-2 rounded-full bg-sage-300 animate-pulse" />
-            Mind Refill • Ready when you are
-          </div>
+                    {/* Bio & Details */}
+                    <div className="px-6 space-y-3">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-serif text-xl font-medium text-[#F7F3E9]">
+                            {psych.fullName}
+                          </h3>
+                          <ShieldCheck className="w-4 h-4 text-[#9CAF91] flex-shrink-0" />
+                        </div>
+                        <p className="text-xs text-[#9CAF91] font-light mt-0.5">
+                          {psych.professionalTitle} • {psych.experience}
+                        </p>
+                      </div>
 
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-            You don&apos;t need to have all the answers.{" "}
-            <span className="text-sage-300 block sm:inline">You only need a next step.</span>
-          </h2>
+                      <p className="font-serif italic text-xs sm:text-sm text-[#C9D2BC]/90 leading-relaxed">
+                        {psych.quote}
+                      </p>
 
-          <p className="text-sm sm:text-base text-sage-200 max-w-xl mx-auto leading-relaxed font-normal">
-            Take a breath. You don&apos;t have to commit to anything today except finding clarity on how to begin.
-          </p>
+                      <div className="flex flex-wrap gap-1.5 pt-1">
+                        {psych.specializations.map((spec) => (
+                          <span
+                            key={spec}
+                            className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[11px] text-[#C9D2BC]"
+                          >
+                            {spec}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
 
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/intake"
-              className="w-full sm:w-auto py-3.5 px-8 bg-white hover:bg-cream-100 text-forest-950 text-xs sm:text-sm font-bold rounded-2xl shadow-md transition-all"
-            >
-              Find my next step
-            </Link>
-            <Link
-              href="/psychologists"
-              className="w-full sm:w-auto py-3.5 px-8 bg-forest-800/80 hover:bg-forest-800 text-sage-100 border border-forest-700 text-xs sm:text-sm font-semibold rounded-2xl transition-all"
-            >
-              Explore psychologists
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-sage-200 bg-white py-12 px-4 sm:px-6 lg:px-8 text-xs text-forest-600">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          <div className="md:col-span-2 space-y-3">
-            <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-xl bg-forest-800 flex items-center justify-center text-white font-bold text-sm">
-                Ψ
-              </div>
-              <span className="font-bold text-base text-forest-950">
-                Mind Refill
-              </span>
+                  {/* Profile Action */}
+                  <div className="p-6 pt-4">
+                    <Link
+                      href={`/psychologists/${psych.slug}`}
+                      className="w-full py-3 rounded-2xl bg-[#F1EBDD] hover:bg-white text-[#173C32] font-semibold text-xs text-center flex items-center justify-center gap-2 transition-all shadow-sm"
+                    >
+                      <span>View Profile & Book</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              ))}
             </div>
-            <p className="max-w-sm text-forest-700 text-xs leading-relaxed">
-              A humane, clinically grounded psychology platform connecting individuals with licensed practitioners and psychoeducational resources.
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* 5. IMMERSIVE FINAL CTA */}
+        {/* ========================================================================= */}
+        <section className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#173C32] to-[#0E241E] text-center overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(63,104,85,0.2)_0,transparent_70%)] pointer-events-none" />
+
+          <div className="max-w-3xl mx-auto relative z-10 space-y-6">
+            <span className="text-xs font-semibold tracking-widest text-[#9CAF91] uppercase">
+              Begin Today
+            </span>
+
+            <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal text-[#F7F3E9] leading-tight">
+              You don&apos;t need to have all the answers.
+            </h2>
+
+            <p className="font-serif text-xl sm:text-2xl italic text-[#F1EBDD]/90">
+              You only need a next step.
             </p>
-            <div className="text-[11px] text-forest-500 pt-2">
-              Crisis Disclaimer: If you are in immediate danger or experiencing self-harm urges, please contact national emergency services (112) or call the Kiran helpline (1800-599-0019).
+
+            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/intake"
+                className="w-full sm:w-auto h-14 px-8 rounded-full bg-[#F1EBDD] hover:bg-white text-[#173C32] font-semibold text-base flex items-center justify-center gap-2 shadow-xl hover:scale-105 active:scale-95 transition-all"
+              >
+                <span>Find my next step</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/psychologists"
+                className="w-full sm:w-auto h-14 px-8 rounded-full bg-transparent hover:bg-white/5 border border-[#C9D2BC]/40 text-[#F7F3E9] font-medium text-base flex items-center justify-center transition-all hover:border-[#C9D2BC]"
+              >
+                <span>Explore psychologists</span>
+              </Link>
             </div>
           </div>
+        </section>
+      </main>
 
-          <div>
-            <h4 className="font-bold text-forest-950 text-xs uppercase tracking-wider mb-3">
-              Explore
-            </h4>
-            <ul className="space-y-2 text-forest-700">
-              <li>
-                <Link href="/psychologists" className="hover:text-forest-950">
-                  Find a Psychologist
-                </Link>
-              </li>
-              <li>
-                <Link href="/intake" className="hover:text-forest-950">
-                  Guided Intake Matching
-                </Link>
-              </li>
-              <li>
-                <Link href="/resources" className="hover:text-forest-950">
-                  Clinical Articles
-                </Link>
-              </li>
-              <li>
-                <Link href="/ebooks" className="hover:text-forest-950">
-                  E-Books & Workbooks
-                </Link>
-              </li>
-              <li>
-                <Link href="/events" className="hover:text-forest-950">
-                  Workshops & Events
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold text-forest-950 text-xs uppercase tracking-wider mb-3">
-              For Practitioners
-            </h4>
-            <ul className="space-y-2 text-forest-700">
-              <li>
-                <Link href="/register" className="hover:text-forest-950">
-                  Apply to Practice
-                </Link>
-              </li>
-              <li>
-                <Link href="/login" className="hover:text-forest-950">
-                  Practitioner Login
-                </Link>
-              </li>
-              <li>
-                <Link href="/legal/terms" className="hover:text-forest-950">
-                  Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link href="/legal/privacy" className="hover:text-forest-950">
-                  Privacy Policy
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto pt-8 border-t border-sage-100 flex flex-col sm:flex-row items-center justify-between text-[11px] text-forest-500 gap-4">
-          <p>© {new Date().getFullYear()} Mind Refill. All rights reserved.</p>
-          <div className="flex gap-6">
-            <Link href="/legal/privacy" className="hover:underline">Privacy Policy</Link>
-            <Link href="/legal/terms" className="hover:underline">Terms of Service</Link>
-          </div>
-        </div>
-      </footer>
-    </main>
+      <Footer />
+    </div>
   );
 }

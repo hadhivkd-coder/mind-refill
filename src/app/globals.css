@@ -3,19 +3,86 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 15, 23, 42;
-  --background-start-rgb: 248, 250, 252;
-  --background-end-rgb: 255, 255, 255;
+  --color-deep-forest: #173C32;
+  --color-forest: #244F42;
+  --color-moss: #3F6855;
+  --color-sage: #718B73;
+  --color-eucalyptus: #9CAF91;
+  --color-mist: #C9D2BC;
+  --color-cream: #F1EBDD;
+  --color-ivory: #F7F3E9;
+  --color-rose: #C7A4A0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: var(--color-deep-forest);
+  color: var(--color-ivory);
   min-height: 100vh;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  overflow-x: hidden;
+}
+
+/* Custom delicate scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #122922;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2D584B;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3F6855;
+}
+
+/* Atmospheric glassmorphism card */
+.atmospheric-card {
+  background: rgba(36, 79, 66, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(201, 210, 188, 0.15);
+}
+
+.atmospheric-card-subtle {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Editorial light card on dark surface */
+.editorial-card {
+  background: #F1EBDD;
+  color: #173C32;
+  border: 1px solid rgba(201, 210, 188, 0.3);
+}
+
+/* Connecting lines visual motif */
+.connection-line-h {
+  background: linear-gradient(90deg, rgba(156, 175, 145, 0.1), rgba(156, 175, 145, 0.6), rgba(156, 175, 145, 0.1));
+}
+
+.connection-line-v {
+  background: linear-gradient(180deg, rgba(156, 175, 145, 0.1), rgba(156, 175, 145, 0.6), rgba(156, 175, 145, 0.1));
+}
+
+/* Organic curve dividers */
+.curve-mask-top {
+  border-top-left-radius: clamp(2rem, 5vw, 4rem);
+  border-top-right-radius: clamp(2rem, 5vw, 4rem);
+}
+
+.curve-mask-bottom {
+  border-bottom-left-radius: clamp(2rem, 5vw, 4rem);
+  border-bottom-right-radius: clamp(2rem, 5vw, 4rem);
 }

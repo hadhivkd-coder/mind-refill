@@ -158,34 +158,34 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
 
   if (submittedResult) {
     return (
-      <div className="bg-white rounded-3xl border border-sage-200/80 p-8 sm:p-12 text-center max-w-xl mx-auto shadow-sm">
-        <div className="w-16 h-16 bg-forest-50 border border-forest-200 rounded-full flex items-center justify-center mx-auto mb-6 text-forest-700">
-          <CheckCircle2 className="w-8 h-8" />
+      <div className="atmospheric-card rounded-3xl border border-white/15 p-8 sm:p-12 text-center max-w-xl mx-auto shadow-2xl text-[#F7F3E9]">
+        <div className="w-16 h-16 bg-[#244F42] border border-[#C9D2BC]/20 rounded-full flex items-center justify-center mx-auto mb-6 text-[#F1EBDD] shadow-inner">
+          <CheckCircle2 className="w-8 h-8 text-[#9CAF91]" />
         </div>
 
-        <span className="text-[11px] font-bold text-forest-600 uppercase tracking-widest block mb-2">
+        <span className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-widest block mb-2">
           Request Received
         </span>
-        <h2 className="text-2xl sm:text-3xl font-bold text-forest-950 tracking-tight">
+        <h2 className="font-serif text-2xl sm:text-3xl font-normal text-[#F7F3E9] tracking-tight">
           You took an important step today.
         </h2>
-        <p className="text-sm text-forest-700 mt-3 leading-relaxed">
+        <p className="text-sm text-[#C9D2BC] mt-3 leading-relaxed font-light">
           {submittedResult.isEscalated
             ? "Your request has been prioritized with clinical urgency. A dedicated care team member will connect with you via your preferred contact channel shortly."
             : "A human care coordinator has received your notes. We will review your preferences thoughtfully and reach out to help connect you with the right psychologist."}
         </p>
 
         {submittedResult.isEscalated && (
-          <div className="mt-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 text-left">
-            <div className="font-bold flex items-center gap-1.5 mb-1 text-amber-950">
-              <AlertTriangle className="w-4 h-4 text-amber-700" />
+          <div className="mt-6 p-4 rounded-2xl bg-amber-950/70 border border-amber-800 text-xs text-amber-200 text-left">
+            <div className="font-bold flex items-center gap-1.5 mb-1 text-amber-100">
+              <AlertTriangle className="w-4 h-4 text-amber-400" />
               Immediate Crisis Helplines
             </div>
             If you are in acute distress, please reach out right now:
             <ul className="list-disc ml-5 mt-1.5 space-y-1">
               <li><strong>KIRAN Mental Health Line (24/7):</strong> 1800-599-0019</li>
               <li><strong>Tele-MANAS (24/7):</strong> 14416 or 1800-891-4416</li>
-              <li><strong>National Emergency:</strong> 112</li>
+              <li><strong>National Emergency:</strong> 112 / 911</li>
             </ul>
           </div>
         )}
@@ -193,13 +193,13 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/app/client/requests"
-            className="w-full sm:w-auto px-6 py-3 bg-forest-700 hover:bg-forest-800 text-white text-xs font-semibold rounded-2xl shadow-sm transition-colors text-center"
+            className="w-full sm:w-auto px-7 py-3.5 bg-[#F1EBDD] hover:bg-white text-[#173C32] text-xs font-semibold rounded-full shadow-md transition-all text-center"
           >
             Track in Client Portal &rarr;
           </Link>
           <Link
             href="/psychologists"
-            className="w-full sm:w-auto px-6 py-3 border border-sage-300 hover:bg-sage-50 text-forest-800 text-xs font-semibold rounded-2xl transition-colors text-center"
+            className="w-full sm:w-auto px-7 py-3.5 border border-white/20 hover:bg-white/5 text-[#F7F3E9] text-xs font-semibold rounded-full transition-colors text-center"
           >
             Browse Psychologists
           </Link>
@@ -211,33 +211,30 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
   return (
     <div className="max-w-2xl mx-auto">
       {/* Crisis Warning Banner */}
-      <div className="mb-6 bg-sage-50/80 border border-sage-200/90 rounded-2xl p-4 flex items-start gap-3 text-xs text-forest-900 shadow-2xs">
-        <AlertTriangle className="w-4 h-4 text-forest-700 shrink-0 mt-0.5" />
+      <div className="mb-6 bg-[#122C25]/90 border border-[#C9D2BC]/20 rounded-2xl p-4 flex items-start gap-3 text-xs text-[#C9D2BC] shadow-sm">
+        <AlertTriangle className="w-4 h-4 text-[#C7A4A0] shrink-0 mt-0.5" />
         <div className="leading-relaxed">
-          <span className="font-semibold text-forest-950">Urgent Support Notice:</span> Mind Refill intake is for scheduled outpatient therapy. If you are experiencing acute thoughts of self-harm, please call{" "}
-          <strong className="underline decoration-forest-400">1800-599-0019</strong> (Kiran 24/7) or <strong>112</strong> immediately.
+          <span className="font-semibold text-[#F1EBDD]">Urgent Support Notice:</span> Mind Refill intake is for scheduled outpatient psychological care. If you are experiencing acute thoughts of self-harm or need emergency help, please call{" "}
+          <strong className="underline text-[#F1EBDD]">1800-599-0019</strong> (KIRAN 24/7) or <strong>112 / 911</strong> immediately.
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl border border-sage-200/80 p-6 sm:p-10 shadow-sm relative overflow-hidden">
-        {/* Subtle background glow */}
-        <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl from-sage-100/40 via-cream-100/20 to-transparent rounded-full blur-2xl pointer-events-none -z-0" />
-
+      <div className="atmospheric-card rounded-3xl border border-white/15 p-6 sm:p-10 shadow-2xl relative overflow-hidden text-[#F7F3E9]">
         {/* Header */}
-        <div className="mb-8 border-b border-sage-100 pb-6 relative z-10">
-          <div className="flex items-center gap-2 text-xs font-bold text-forest-700 uppercase tracking-widest mb-1.5">
-            <HeartHandshake className="w-4 h-4 text-forest-600" />
+        <div className="mb-8 border-b border-white/10 pb-6 relative z-10">
+          <div className="flex items-center gap-2 text-xs font-semibold text-[#9CAF91] uppercase tracking-widest mb-1.5">
+            <HeartHandshake className="w-4 h-4 text-[#9CAF91]" />
             {targetPsychologist ? "Direct Practitioner Consultation" : "Guided Matching Intake"}
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-forest-950 tracking-tight">
+          <h1 className="font-serif text-2xl sm:text-4xl font-normal text-[#F7F3E9] tracking-tight">
             {targetPsychologist
               ? `Session Request for ${targetPsychologist.fullName}`
-              : "Let's take this one step at a time."}
+              : "Let's start with what's on your mind."}
           </h1>
-          <p className="text-xs sm:text-sm text-forest-700 mt-2 leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#C9D2BC] mt-2 leading-relaxed font-light">
             {targetPsychologist
-              ? `You are requesting an appointment with ${targetPsychologist.fullName}, ${targetPsychologist.professionalTitle}. Tell us a little about your schedule and focus.`
-              : "Share what's been on your mind. A dedicated human care coordinator will match you with a verified psychologist who fits your needs, budget, and rhythm."}
+              ? `You are requesting an appointment with ${targetPsychologist.fullName}. Tell us a little about your schedule and focus.`
+              : "You don't need the perfect words. Just tell us what feels important right now. A dedicated human care coordinator will match you with a verified psychologist who fits your needs."}
           </p>
         </div>
 
@@ -249,64 +246,64 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
               <div
                 className={`w-9 h-9 rounded-2xl flex items-center justify-center text-xs font-bold transition-all shadow-xs ${
                   step === 1
-                    ? "bg-forest-800 text-white ring-4 ring-forest-100"
+                    ? "bg-[#F1EBDD] text-[#173C32] ring-4 ring-[#9CAF91]/30"
                     : step > 1
-                    ? "bg-forest-600 text-white"
-                    : "bg-sage-100 text-forest-400"
+                    ? "bg-[#3F6855] text-white"
+                    : "bg-white/5 text-[#9CAF91]"
                 }`}
               >
                 {step > 1 ? <Check className="w-4 h-4" /> : "01"}
               </div>
               <div className="hidden sm:block text-left">
-                <span className="text-[10px] uppercase tracking-wider block font-semibold text-forest-500">Step 01</span>
-                <span className={`text-xs font-bold ${step === 1 ? "text-forest-950" : "text-forest-700"}`}>
-                  Your Thoughts
+                <span className="text-[10px] uppercase tracking-wider block font-semibold text-[#9CAF91]">Step 01</span>
+                <span className={`text-xs font-medium ${step === 1 ? "text-[#F1EBDD]" : "text-[#C9D2BC]"}`}>
+                  Your Focus
                 </span>
               </div>
             </div>
 
             {/* Connecting Bridge 1 */}
-            <div className={`flex-1 mx-3 h-0.5 rounded-full transition-colors ${step >= 2 ? "bg-forest-600" : "bg-sage-200"}`} />
+            <div className={`flex-1 mx-3 h-0.5 rounded-full transition-colors ${step >= 2 ? "bg-[#9CAF91]" : "bg-white/10"}`} />
 
             {/* Step 02 */}
             <div className="flex items-center gap-2.5">
               <div
                 className={`w-9 h-9 rounded-2xl flex items-center justify-center text-xs font-bold transition-all shadow-xs ${
                   step === 2
-                    ? "bg-forest-800 text-white ring-4 ring-forest-100"
+                    ? "bg-[#F1EBDD] text-[#173C32] ring-4 ring-[#9CAF91]/30"
                     : step > 2
-                    ? "bg-forest-600 text-white"
-                    : "bg-sage-100 text-forest-400"
+                    ? "bg-[#3F6855] text-white"
+                    : "bg-white/5 text-[#9CAF91]"
                 }`}
               >
                 {step > 2 ? <Check className="w-4 h-4" /> : "02"}
               </div>
               <div className="hidden sm:block text-left">
-                <span className="text-[10px] uppercase tracking-wider block font-semibold text-forest-500">Step 02</span>
-                <span className={`text-xs font-bold ${step === 2 ? "text-forest-950" : "text-forest-700"}`}>
+                <span className="text-[10px] uppercase tracking-wider block font-semibold text-[#9CAF91]">Step 02</span>
+                <span className={`text-xs font-medium ${step === 2 ? "text-[#F1EBDD]" : "text-[#C9D2BC]"}`}>
                   Preferences
                 </span>
               </div>
             </div>
 
             {/* Connecting Bridge 2 */}
-            <div className={`flex-1 mx-3 h-0.5 rounded-full transition-colors ${step >= 3 ? "bg-forest-600" : "bg-sage-200"}`} />
+            <div className={`flex-1 mx-3 h-0.5 rounded-full transition-colors ${step >= 3 ? "bg-[#9CAF91]" : "bg-white/10"}`} />
 
             {/* Step 03 */}
             <div className="flex items-center gap-2.5">
               <div
                 className={`w-9 h-9 rounded-2xl flex items-center justify-center text-xs font-bold transition-all shadow-xs ${
                   step === 3
-                    ? "bg-forest-800 text-white ring-4 ring-forest-100"
-                    : "bg-sage-100 text-forest-400"
+                    ? "bg-[#F1EBDD] text-[#173C32] ring-4 ring-[#9CAF91]/30"
+                    : "bg-white/5 text-[#9CAF91]"
                 }`}
               >
                 03
               </div>
               <div className="hidden sm:block text-left">
-                <span className="text-[10px] uppercase tracking-wider block font-semibold text-forest-500">Step 03</span>
-                <span className={`text-xs font-bold ${step === 3 ? "text-forest-950" : "text-forest-700"}`}>
-                  Contact Details
+                <span className="text-[10px] uppercase tracking-wider block font-semibold text-[#9CAF91]">Step 03</span>
+                <span className={`text-xs font-medium ${step === 3 ? "text-[#F1EBDD]" : "text-[#C9D2BC]"}`}>
+                  Contact
                 </span>
               </div>
             </div>
@@ -328,10 +325,10 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
               {/* Emotional Primary: What's on your mind */}
               <div>
                 <div className="mb-3">
-                  <h2 className="text-base sm:text-lg font-bold text-forest-950">
+                  <h2 className="font-serif text-xl sm:text-2xl font-normal text-[#F7F3E9]">
                     Let&apos;s start with what&apos;s been on your mind.
                   </h2>
-                  <p className="text-xs sm:text-sm text-forest-700 mt-1 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#C9D2BC] mt-1 font-light leading-relaxed">
                     You don&apos;t need to have the right words. Just tell us what feels important right now.
                   </p>
                 </div>
@@ -345,15 +342,15 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
                       if (step1Error) setStep1Error(null);
                     }}
                     placeholder="For example: Lately I've been feeling drained and overwhelmed. Even small tasks feel heavy, and I find myself overthinking every interaction. I'm hoping to find someone who can help me regain my grounding..."
-                    className="w-full text-xs sm:text-sm p-4 rounded-2xl border border-sage-300 focus:outline-none focus:ring-2 focus:ring-forest-600 text-forest-950 placeholder:text-forest-400/80 bg-cream-50/40 leading-relaxed shadow-inner"
+                    className="w-full text-xs sm:text-sm p-4 rounded-2xl border border-white/15 focus:outline-none focus:border-[#F1EBDD] focus:ring-2 focus:ring-[#C9D2BC]/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 bg-[#122C25] leading-relaxed shadow-inner"
                     required
                   />
-                  <div className="flex justify-between items-center mt-2 px-1 text-[11px] text-forest-500">
+                  <div className="flex justify-between items-center mt-2 px-1 text-[11px] text-[#9CAF91]">
                     <span className="flex items-center gap-1.5">
-                      <ShieldCheck className="w-3.5 h-3.5 text-forest-600" />
+                      <ShieldCheck className="w-3.5 h-3.5 text-[#9CAF91]" />
                       Everything you share is strictly confidential between you and your care team.
                     </span>
-                    <span className={rawConcernSummary.trim().length >= 10 ? "text-forest-700 font-semibold" : "text-forest-400"}>
+                    <span className={rawConcernSummary.trim().length >= 10 ? "text-[#F1EBDD] font-medium" : "text-[#9CAF91]"}>
                       {rawConcernSummary.trim().length} characters
                     </span>
                   </div>
@@ -363,10 +360,10 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
               {/* Approachable Selectable Options */}
               <div>
                 <div className="mb-3">
-                  <h3 className="text-sm font-bold text-forest-950">
-                    What are you hoping to get support with? <span className="text-forest-500 font-normal text-xs">(Select all that resonate)</span>
+                  <h3 className="font-serif text-lg font-normal text-[#F7F3E9]">
+                    What are you hoping to get support with? <span className="text-[#9CAF91] font-sans font-normal text-xs">(Select all that resonate)</span>
                   </h3>
-                  <p className="text-xs text-forest-600 mt-0.5">
+                  <p className="text-xs text-[#C9D2BC] mt-0.5 font-light">
                     Choose any areas that touch on your experience. You can always refine this later.
                   </p>
                 </div>
@@ -381,14 +378,14 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
                         onClick={() => toggleCategory(cat.name)}
                         className={`p-3.5 text-left rounded-2xl border transition-all flex items-start justify-between gap-2 group cursor-pointer ${
                           isSelected
-                            ? "bg-forest-50 border-forest-600 text-forest-950 ring-1 ring-forest-600 shadow-2xs"
-                            : "border-sage-200 hover:border-forest-300 text-forest-800 bg-white hover:bg-cream-50/50"
+                            ? "bg-[#F1EBDD] border-[#F1EBDD] text-[#173C32] shadow-sm font-semibold"
+                            : "border-white/10 hover:border-[#C9D2BC]/30 text-[#C9D2BC] bg-white/5 hover:bg-white/10"
                         }`}
                       >
                         <div>
                           <span className="block text-xs font-semibold">{cat.name}</span>
                           {cat.description && (
-                            <span className="block text-[10px] text-forest-600 mt-0.5 line-clamp-1">
+                            <span className={`block text-[10px] mt-0.5 line-clamp-1 ${isSelected ? "text-[#244F42]" : "text-[#9CAF91]"}`}>
                               {cat.description}
                             </span>
                           )}
@@ -396,8 +393,8 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
                         <div
                           className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5 border transition-colors ${
                             isSelected
-                              ? "bg-forest-700 border-forest-700 text-white"
-                              : "border-sage-300 group-hover:border-forest-400"
+                              ? "bg-[#173C32] border-[#173C32] text-[#F1EBDD]"
+                              : "border-white/20 group-hover:border-[#9CAF91]"
                           }`}
                         >
                           {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
@@ -409,15 +406,15 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
               </div>
 
               {/* Safety Self-Report */}
-              <div className="pt-2 border-t border-sage-100">
-                <label className="flex items-start gap-3 cursor-pointer p-3 rounded-2xl hover:bg-sage-50/60 transition-colors">
+              <div className="pt-2 border-t border-white/10">
+                <label className="flex items-start gap-3 cursor-pointer p-3 rounded-2xl hover:bg-white/5 transition-colors">
                   <input
                     type="checkbox"
                     checked={hasCrisisConcerns}
                     onChange={(e) => setHasCrisisConcerns(e.target.checked)}
-                    className="mt-0.5 rounded text-forest-700 focus:ring-forest-500 w-4 h-4"
+                    className="mt-0.5 rounded text-[#355E3B] focus:ring-[#9CAF91] w-4 h-4 bg-[#122C25] border-white/20"
                   />
-                  <span className="text-xs text-forest-700 leading-relaxed">
+                  <span className="text-xs text-[#C9D2BC] leading-relaxed">
                     I am experiencing intense emotional distress, panic, or thoughts of self-harm, and would appreciate prioritized outreach.
                   </span>
                 </label>
@@ -426,8 +423,8 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
               {/* Error feedback & Continue button */}
               <div className="flex flex-col items-end pt-2 space-y-3">
                 {step1Error && (
-                  <div className="w-full p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-center gap-2.5 animate-fade-in shadow-2xs">
-                    <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                  <div className="w-full p-4 rounded-2xl bg-rose-950/60 border border-rose-800 text-xs text-rose-200 flex items-center gap-2.5">
+                    <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
                     <span>{step1Error}</span>
                   </div>
                 )}
@@ -445,9 +442,10 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
                     setStep1Error(null);
                     setStep(2);
                   }}
-                  className="w-full sm:w-auto px-8 py-3.5 bg-forest-800 hover:bg-forest-900 text-white text-xs font-semibold rounded-2xl shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full sm:w-auto px-8 py-3.5 bg-[#F1EBDD] hover:bg-white text-[#173C32] text-xs font-semibold rounded-full shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
                 >
-                  Continue to Preferences <ChevronRight className="w-4 h-4" />
+                  <span>Continue to Preferences</span>
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -457,7 +455,7 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
           {step === 2 && (
             <div className="space-y-6 animate-fade-in">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-forest-800 mb-2">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-2">
                   Session Delivery Preference
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -466,14 +464,14 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
                     onClick={() => setSessionPreference("ONLINE_VIDEO")}
                     className={`p-4 rounded-2xl border text-left flex items-start gap-3 transition-all cursor-pointer ${
                       sessionPreference === "ONLINE_VIDEO"
-                        ? "bg-forest-50 border-forest-600 text-forest-950 shadow-2xs ring-1 ring-forest-600"
-                        : "border-sage-200 hover:border-forest-300 text-forest-800 bg-white"
+                        ? "bg-[#F1EBDD] border-[#F1EBDD] text-[#173C32] shadow-sm font-semibold"
+                        : "border-white/10 hover:border-[#C9D2BC]/30 text-[#C9D2BC] bg-white/5"
                     }`}
                   >
-                    <Video className="w-4 h-4 text-forest-700 shrink-0 mt-0.5" />
+                    <Video className={`w-4 h-4 shrink-0 mt-0.5 ${sessionPreference === "ONLINE_VIDEO" ? "text-[#173C32]" : "text-[#9CAF91]"}`} />
                     <div>
-                      <div className="text-xs font-bold text-forest-950">Online Video Consultation</div>
-                      <div className="text-[11px] text-forest-600 mt-0.5">Secure, confidential video from the comfort of your home</div>
+                      <div className="text-xs font-bold">Online Video Consultation</div>
+                      <div className="text-[11px] opacity-80 mt-0.5">Secure, confidential video from the comfort of your home</div>
                     </div>
                   </button>
 
@@ -482,22 +480,22 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
                     onClick={() => setSessionPreference("IN_PERSON")}
                     className={`p-4 rounded-2xl border text-left flex items-start gap-3 transition-all cursor-pointer ${
                       sessionPreference === "IN_PERSON"
-                        ? "bg-forest-50 border-forest-600 text-forest-950 shadow-2xs ring-1 ring-forest-600"
-                        : "border-sage-200 hover:border-forest-300 text-forest-800 bg-white"
+                        ? "bg-[#F1EBDD] border-[#F1EBDD] text-[#173C32] shadow-sm font-semibold"
+                        : "border-white/10 hover:border-[#C9D2BC]/30 text-[#C9D2BC] bg-white/5"
                     }`}
                   >
-                    <MapPin className="w-4 h-4 text-forest-700 shrink-0 mt-0.5" />
+                    <MapPin className={`w-4 h-4 shrink-0 mt-0.5 ${sessionPreference === "IN_PERSON" ? "text-[#173C32]" : "text-[#9CAF91]"}`} />
                     <div>
-                      <div className="text-xs font-bold text-forest-950">In-Person Session</div>
-                      <div className="text-[11px] text-forest-600 mt-0.5">Clinic appointment based on practitioner location</div>
+                      <div className="text-xs font-bold">In-Person Session</div>
+                      <div className="text-[11px] opacity-80 mt-0.5">Clinic appointment based on practitioner location</div>
                     </div>
                   </button>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-forest-800 mb-2 flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-forest-600" />
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-2 flex items-center gap-1.5">
+                  <Calendar className="w-3.5 h-3.5" />
                   Preferred Days of the Week
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -508,10 +506,10 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
                         key={day}
                         type="button"
                         onClick={() => toggleDay(day)}
-                        className={`p-3 text-center rounded-xl border text-xs font-medium transition-all cursor-pointer ${
+                        className={`p-3 text-center rounded-xl border text-xs transition-all cursor-pointer ${
                           isSelected
-                            ? "bg-forest-50 border-forest-600 text-forest-950 font-bold"
-                            : "border-sage-200 hover:border-forest-300 text-forest-700 bg-white"
+                            ? "bg-[#F1EBDD] border-[#F1EBDD] text-[#173C32] font-bold"
+                            : "border-white/10 hover:border-[#C9D2BC]/30 text-[#C9D2BC] bg-white/5"
                         }`}
                       >
                         {day.charAt(0) + day.slice(1).toLowerCase()}
@@ -522,8 +520,8 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-forest-800 mb-2 flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-forest-600" />
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-2 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5" />
                   Preferred Time Windows
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -540,32 +538,33 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
                         onClick={() => toggleTime(t.key)}
                         className={`p-3.5 text-left rounded-2xl border transition-all cursor-pointer ${
                           isSelected
-                            ? "bg-forest-50 border-forest-600 text-forest-950 ring-1 ring-forest-600"
-                            : "border-sage-200 hover:border-forest-300 text-forest-800 bg-white"
+                            ? "bg-[#F1EBDD] border-[#F1EBDD] text-[#173C32] font-semibold shadow-sm"
+                            : "border-white/10 hover:border-[#C9D2BC]/30 text-[#C9D2BC] bg-white/5"
                         }`}
                       >
-                        <div className="text-xs font-bold text-forest-950">{t.label}</div>
-                        <div className="text-[11px] text-forest-600 mt-0.5">{t.desc}</div>
+                        <div className="text-xs font-bold">{t.label}</div>
+                        <div className="text-[11px] opacity-80 mt-0.5">{t.desc}</div>
                       </button>
                     );
                   })}
                 </div>
               </div>
 
-              <div className="flex justify-between items-center pt-4 border-t border-sage-100">
+              <div className="flex justify-between items-center pt-4 border-t border-white/10">
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="px-5 py-2.5 border border-sage-300 hover:bg-sage-50 text-forest-700 text-xs font-semibold rounded-2xl transition-colors flex items-center gap-1.5 cursor-pointer"
+                  className="px-5 py-2.5 border border-white/20 hover:bg-white/5 text-[#C9D2BC] text-xs font-semibold rounded-full transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <ChevronLeft className="w-4 h-4" /> Back
                 </button>
                 <button
                   type="button"
                   onClick={() => setStep(3)}
-                  className="px-7 py-3 bg-forest-800 hover:bg-forest-900 text-white text-xs font-semibold rounded-2xl shadow-sm transition-colors flex items-center gap-1.5 cursor-pointer"
+                  className="px-7 py-3 bg-[#F1EBDD] hover:bg-white text-[#173C32] text-xs font-semibold rounded-full shadow-md transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
                 >
-                  Continue to Contact Details <ChevronRight className="w-4 h-4" />
+                  <span>Continue to Contact</span>
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -576,108 +575,103 @@ export function IntakeWizard({ initialPsychologistSlug }: { initialPsychologistS
             <div className="space-y-6 animate-fade-in">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-forest-800 mb-1.5">
-                    Your Full Name <span className="text-red-500">*</span>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+                    Your Full Name <span className="text-rose-400">*</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    placeholder="Enter your name"
-                    required
-                    className="w-full text-xs p-3.5 rounded-2xl border border-sage-300 focus:outline-none focus:ring-2 focus:ring-forest-600 text-forest-950 bg-white"
+                    placeholder="e.g. Alex Rivera"
+                    className="w-full text-xs sm:text-sm px-4 py-3 rounded-xl border border-white/15 bg-[#122C25] text-[#F7F3E9] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-forest-800 mb-1.5">
-                    Phone Number (Optional)
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+                    Phone / WhatsApp Number
                   </label>
                   <input
                     type="tel"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    placeholder="+91 98765 43210"
-                    className="w-full text-xs p-3.5 rounded-2xl border border-sage-300 focus:outline-none focus:ring-2 focus:ring-forest-600 text-forest-950 bg-white"
+                    placeholder="e.g. +91 98765 43210"
+                    className="w-full text-xs sm:text-sm px-4 py-3 rounded-xl border border-white/15 bg-[#122C25] text-[#F7F3E9] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-forest-800 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
                     Age Group
                   </label>
                   <select
                     value={ageBand}
                     onChange={(e) => setAgeBand(e.target.value)}
-                    className="w-full text-xs p-3.5 rounded-2xl border border-sage-300 bg-white focus:outline-none focus:ring-2 focus:ring-forest-600 text-forest-950"
+                    className="w-full text-xs sm:text-sm px-3 py-3 rounded-xl border border-white/15 bg-[#122C25] text-[#F7F3E9] focus:outline-none focus:border-[#F1EBDD]"
                   >
-                    <option value="UNDER_18">Under 18</option>
-                    <option value="18_24">18–24 years</option>
-                    <option value="25_34">25–34 years</option>
-                    <option value="35_44">35–44 years</option>
-                    <option value="45_54">45–54 years</option>
+                    <option value="18_24">18 – 24 years</option>
+                    <option value="25_34">25 – 34 years</option>
+                    <option value="35_44">35 – 44 years</option>
+                    <option value="45_54">45 – 54 years</option>
                     <option value="55_PLUS">55+ years</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-forest-800 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+                    Contact Preference
+                  </label>
+                  <select
+                    value={contactPreference}
+                    onChange={(e) => setContactPreference(e.target.value as any)}
+                    className="w-full text-xs sm:text-sm px-3 py-3 rounded-xl border border-white/15 bg-[#122C25] text-[#F7F3E9] focus:outline-none focus:border-[#F1EBDD]"
+                  >
+                    <option value="EMAIL">Email</option>
+                    <option value="WHATSAPP">WhatsApp</option>
+                    <option value="PHONE">Phone Call</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
                     Preferred Language
                   </label>
                   <input
                     type="text"
                     value={preferredLanguage}
                     onChange={(e) => setPreferredLanguage(e.target.value)}
-                    placeholder="English, Hindi, etc."
-                    className="w-full text-xs p-3.5 rounded-2xl border border-sage-300 focus:outline-none focus:ring-2 focus:ring-forest-600 text-forest-950 bg-white"
+                    placeholder="e.g. English, Hindi"
+                    className="w-full text-xs sm:text-sm px-4 py-3 rounded-xl border border-white/15 bg-[#122C25] text-[#F7F3E9] focus:outline-none focus:border-[#F1EBDD]"
                   />
                 </div>
-
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-forest-800 mb-1.5">
-                    Preferred Contact
-                  </label>
-                  <select
-                    value={contactPreference}
-                    onChange={(e) => setContactPreference(e.target.value as any)}
-                    className="w-full text-xs p-3.5 rounded-2xl border border-sage-300 bg-white focus:outline-none focus:ring-2 focus:ring-forest-600 text-forest-950"
-                  >
-                    <option value="EMAIL">Email</option>
-                    <option value="PHONE">Phone Call</option>
-                    <option value="WHATSAPP">WhatsApp</option>
-                  </select>
-                </div>
               </div>
 
-              <div className="bg-cream-50 rounded-2xl p-5 border border-sage-200/80 text-xs text-forest-700 leading-relaxed">
-                <div className="font-bold text-forest-950 mb-1 flex items-center gap-1.5">
-                  <PhoneCall className="w-3.5 h-3.5 text-forest-700" />
-                  What happens after this?
-                </div>
-                Your care coordinator personally reviews your note, matches your schedule with an appropriate clinician, and reaches out via your preferred channel with clear next steps. There is no pressure or obligation.
-              </div>
-
-              <div className="flex justify-between items-center pt-4 border-t border-sage-100">
+              <div className="flex justify-between items-center pt-4 border-t border-white/10">
                 <button
                   type="button"
                   onClick={() => setStep(2)}
-                  className="px-5 py-2.5 border border-sage-300 hover:bg-sage-50 text-forest-700 text-xs font-semibold rounded-2xl transition-colors flex items-center gap-1.5 cursor-pointer"
+                  className="px-5 py-2.5 border border-white/20 hover:bg-white/5 text-[#C9D2BC] text-xs font-semibold rounded-full transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <ChevronLeft className="w-4 h-4" /> Back
                 </button>
                 <button
                   type="submit"
-                  disabled={submitting || !fullName.trim()}
-                  className="px-8 py-3 bg-forest-800 hover:bg-forest-900 disabled:opacity-50 text-white text-xs font-semibold rounded-2xl shadow-sm hover:shadow transition-colors flex items-center gap-2 cursor-pointer"
+                  disabled={submitting}
+                  className="px-8 py-3.5 bg-[#F1EBDD] hover:bg-white text-[#173C32] text-xs font-semibold rounded-full shadow-lg transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50 active:scale-95"
                 >
                   {submitting ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" /> Submitting...
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Submitting...</span>
                     </>
                   ) : (
-                    "Confirm & Submit Note"
+                    <>
+                      <span>Complete & Request Care</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </>
                   )}
                 </button>
               </div>

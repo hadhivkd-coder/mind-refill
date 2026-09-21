@@ -1,162 +1,152 @@
 import { enforcePageRole } from "@/modules/authorization/page-guard";
 import { UserRole } from "@prisma/client";
-import Link from "next/link";
-import { Calendar, CreditCard, DollarSign, Crown, FileText, UserCheck } from "lucide-react";
+import { prisma } from "@/shared/database/prisma";
+import { PsychologistDashboardClient } from "./psychologist-dashboard-client";
+import { minorToMajorString } from "@/shared/types/money";
 
 export const dynamic = "force-dynamic";
 
 export default async function PsychologistDashboardPage() {
   const session = await enforcePageRole(UserRole.PSYCHOLOGIST);
 
+  let profile: any = null;
+  let contentItems: any[] = [];
+  let ebooks: any[] = [];
+  let activeSessionsCount = 0;
+  let inquiriesCount = 0;
+
+  try {
+    profile = await prisma.psychologistProfile.findUnique({
+      where: { userId: session.user.id },
+      include: {
+        specializations: { include: { specialization: true } },
+      },
+    });
+
+    if (profile) {
+      const [items, books, sessions, inqs] = await Promise.all([
+        prisma.contentItem.findMany({
+          where: { authorPsychologistId: profile.id },
+          orderBy: { createdAt: "desc" },
+        }),
+        prisma.ebook.findMany({
+          where: { authorPsychologistId: profile.id },
+          orderBy: { createdAt: "desc" },
+        }),
+        prisma.appointment.count({
+          where: { psychologistId: profile.id, status: "CONFIRMED" },
+        }),
+        prisma.counselingRequest.count({
+          where: { targetPsychologistId: profile.id },
+        }),
+      ]);
+
+      contentItems = items;
+      ebooks = books;
+      activeSessionsCount = sessions;
+      inquiriesCount = inqs;
+    }
+  } catch (error) {
+    console.error("Error loading psychologist data:", error);
+  }
+
+  // Fallback defaults if new profile
+  const effectiveProfile = {
+    id: profile?.id || "demo-profile-id",
+    slug: profile?.slug || "dr-sarah-jenkins",
+    fullName: profile?.fullName || "Dr. Sarah Jenkins, Ph.D.",
+    professionalTitle: profile?.professionalTitle || "Licensed Clinical Psychologist",
+    profilePhotoUrl: profile?.profilePhotoUrl || "https://images.unsplash.com/photo-1594824813637-2804b494632b?auto=format&fit=crop&q=80&w=600",
+    shortIntro: profile?.shortIntro || "Helping individuals navigate emotional overwhelm, anxiety loops, and burnout.",
+    bio: profile?.bio || "Licensed clinical psychologist specializing in cognitive and somatic therapies.",
+    verificationStatus: profile?.verificationStatus || "VERIFIED",
+    isPublic: profile?.isPublic ?? true,
+    yearsOfExperience: profile?.yearsOfExperience || 12,
+    location: profile?.location || "Verified Online Practitioner",
+  };
+
+  // Sample starter content if empty
+  const formattedContent =
+    contentItems.length > 0
+      ? contentItems.map((item) => ({
+          id: item.id,
+          slug: item.slug,
+          title: item.title,
+          summary: item.summary,
+          body: item.body,
+          contentType: item.contentType,
+          status: item.status,
+          publishedAt: item.publishedAt ? item.publishedAt.toISOString() : null,
+          createdAt: item.createdAt.toISOString(),
+        }))
+      : [
+          {
+            id: "p1",
+            slug: "permission-to-pause",
+            title: "Permission to Pause",
+            summary: JSON.stringify({
+              mediaUrl: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=500",
+              tag: "Stress & Anxiety",
+            }),
+            body: "Giving yourself permission to pause isn't giving up. It is the exact moment your nervous system begins to reset.",
+            contentType: "PHOTO",
+            status: "PUBLISHED",
+            publishedAt: new Date().toISOString(),
+            createdAt: new Date().toISOString(),
+          },
+          {
+            id: "p2",
+            slug: "gentle-pacing-on-the-path",
+            title: "Gentle Pacing on the Path",
+            summary: JSON.stringify({ tag: "Self-Understanding" }),
+            body: "You don't have to fix the whole mountain today. You only have to take one gentle step on the path.",
+            contentType: "POST",
+            status: "PUBLISHED",
+            publishedAt: new Date().toISOString(),
+            createdAt: new Date().toISOString(),
+          },
+        ];
+
+  const formattedProducts =
+    ebooks.length > 0
+      ? ebooks.map((b) => ({
+          id: b.id,
+          slug: b.slug,
+          title: b.title,
+          description: b.description,
+          priceMajor: minorToMajorString(b.priceMinor),
+          currency: b.currency,
+          isPublished: b.isPublished,
+          createdAt: b.createdAt.toISOString(),
+        }))
+      : [
+          {
+            id: "prod-1",
+            slug: "overcoming-anxiety-companion-workbook",
+            title: "The Overcoming Anxiety Companion Workbook",
+            description: "A 4-week CBT and somatic daily grounding guide to tame racing thoughts and reclaim calm evenings.",
+            priceMajor: "299.00",
+            currency: "INR",
+            isPublished: true,
+            createdAt: new Date().toISOString(),
+          },
+        ];
+
   return (
-    <div className="min-h-screen bg-serene-50 p-6 sm:p-10">
-      <div className="max-w-5xl mx-auto space-y-6">
-        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-serene-200 pb-6">
-          <div>
-            <span className="text-xs font-semibold text-brand-700 uppercase tracking-wider">
-              Psychologist Workspace
-            </span>
-            <h1 className="text-2xl sm:text-3xl font-bold text-serene-900 mt-1">
-              Professional Portal
-            </h1>
-            <p className="text-xs text-serene-500 mt-1">
-              Authenticated as {session.user.email}
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <form action="/api/auth/logout" method="POST">
-              <button
-                type="submit"
-                className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-serene-200 hover:bg-white text-serene-700 transition-colors"
-              >
-                Sign Out
-              </button>
-            </form>
-          </div>
-        </header>
-
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Link
-            href="/app/psychologist/availability"
-            className="bg-white p-6 rounded-3xl border border-serene-200 shadow-sm hover:border-brand-300 hover:shadow-md transition-all group"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2.5 bg-brand-50 rounded-xl text-brand-600 group-hover:scale-110 transition-transform">
-                <Calendar className="w-5 h-5" />
-              </div>
-              <h2 className="text-sm font-bold text-serene-900">Availability & Schedule</h2>
-            </div>
-            <p className="text-xs text-serene-500">
-              Configure weekly recurring consultation hours and manage holiday date exceptions.
-            </p>
-          </Link>
-
-          <Link
-            href="/app/psychologist/earnings"
-            className="bg-white p-6 rounded-3xl border border-serene-200 shadow-sm hover:border-brand-300 hover:shadow-md transition-all group"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2.5 bg-green-50 rounded-xl text-green-600 group-hover:scale-110 transition-transform">
-                <DollarSign className="w-5 h-5" />
-              </div>
-              <h2 className="text-sm font-bold text-serene-900">Earnings & Financial Ledger</h2>
-            </div>
-            <p className="text-xs text-serene-500">
-              Track session earnings, platform commissions, 7-day settlement holds, and balances.
-            </p>
-          </Link>
-
-          <Link
-            href="/app/psychologist/payouts"
-            className="bg-white p-6 rounded-3xl border border-serene-200 shadow-sm hover:border-brand-300 hover:shadow-md transition-all group"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2.5 bg-brand-50 rounded-xl text-brand-600 group-hover:scale-110 transition-transform">
-                <CreditCard className="w-5 h-5" />
-              </div>
-              <h2 className="text-sm font-bold text-serene-900">Disbursed Payouts</h2>
-            </div>
-            <p className="text-xs text-serene-500">
-              Inspect historical bank transfer disbursements, approval batches, and UTR references.
-            </p>
-          </Link>
-
-          <Link
-            href="/app/psychologist/subscription"
-            className="bg-white p-6 rounded-3xl border border-serene-200 shadow-sm hover:border-brand-300 hover:shadow-md transition-all group"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2.5 bg-amber-50 rounded-xl text-amber-600 group-hover:scale-110 transition-transform">
-                <Crown className="w-5 h-5" />
-              </div>
-              <h2 className="text-sm font-bold text-serene-900">Practice Plan & Tier</h2>
-            </div>
-            <p className="text-xs text-serene-500">
-              Manage subscription tier, unlock AI portfolio features, and manage billing renewal.
-            </p>
-          </Link>
-
-          <Link
-            href="/app/psychologist/verification"
-            className="bg-white p-6 rounded-3xl border border-serene-200 shadow-sm hover:border-brand-300 hover:shadow-md transition-all group"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2.5 bg-blue-50 rounded-xl text-blue-600 group-hover:scale-110 transition-transform">
-                <UserCheck className="w-5 h-5" />
-              </div>
-              <h2 className="text-sm font-bold text-serene-900">Verification & Credentials</h2>
-            </div>
-            <p className="text-xs text-serene-500">
-              Upload clinical licenses, degree certificates, and track verification review.
-            </p>
-          </Link>
-
-          <Link
-            href="/app/psychologist/portfolio"
-            className="bg-white p-6 rounded-3xl border border-serene-200 shadow-sm hover:border-brand-300 hover:shadow-md transition-all group"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2.5 bg-purple-50 rounded-xl text-purple-600 group-hover:scale-110 transition-transform">
-                <FileText className="w-5 h-5" />
-              </div>
-              <h2 className="text-sm font-bold text-serene-900">AI Portfolio Studio</h2>
-            </div>
-            <p className="text-xs text-serene-500">
-              Generate clinical bio and practice copy with AI, customize design templates, and manage versions.
-            </p>
-          </Link>
-
-          <Link
-            href="/app/psychologist/analytics"
-            className="bg-white p-6 rounded-3xl border border-serene-200 shadow-sm hover:border-brand-300 hover:shadow-md transition-all group"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2.5 bg-emerald-50 rounded-xl text-emerald-600 group-hover:scale-110 transition-transform">
-                <FileText className="w-5 h-5" />
-              </div>
-              <h2 className="text-sm font-bold text-serene-900">Practice Analytics</h2>
-            </div>
-            <p className="text-xs text-serene-500">
-              Review completion rates, patient retention, monthly practice earnings, and content reach.
-            </p>
-          </Link>
-
-          <Link
-            href="/app/psychologist/profile"
-            className="bg-white p-6 rounded-3xl border border-serene-200 shadow-sm hover:border-brand-300 hover:shadow-md transition-all group"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2.5 bg-serene-100 rounded-xl text-serene-700 group-hover:scale-110 transition-transform">
-                <FileText className="w-5 h-5" />
-              </div>
-              <h2 className="text-sm font-bold text-serene-900">Basic Profile & Directory</h2>
-            </div>
-            <p className="text-xs text-serene-500">
-              Edit clinical bio, qualifications, languages, modalities, and public slug.
-            </p>
-          </Link>
-        </section>
-      </div>
-    </div>
+    <PsychologistDashboardClient
+      user={{
+        id: session.user.id,
+        email: session.user.email,
+      }}
+      profile={effectiveProfile}
+      stats={{
+        activeSessionsCount,
+        inquiriesCount,
+        publishedCount: formattedContent.length,
+        productsCount: formattedProducts.length,
+      }}
+      initialContent={formattedContent}
+      initialProducts={formattedProducts}
+    />
   );
 }

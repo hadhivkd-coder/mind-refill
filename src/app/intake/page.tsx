@@ -1,38 +1,29 @@
 import { Suspense } from "react";
 import { IntakeWizard } from "./intake-wizard";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 import { Loader2 } from "lucide-react";
-import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 export default function IntakePage() {
   return (
-    <div className="min-h-screen bg-cream-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto mb-6 flex justify-between items-center">
-        <Link href="/" className="text-base font-bold text-forest-950 tracking-tight flex items-center gap-2">
-          <span className="h-7 w-7 rounded-lg bg-forest-800 text-white flex items-center justify-center text-xs font-black">
-            Ψ
-          </span>
-          Mind Refill
-        </Link>
+    <div className="min-h-screen flex flex-col bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD]">
+      <Navbar />
 
-        <Link
-          href="/psychologists"
-          className="text-xs font-semibold text-forest-700 hover:text-forest-900 transition-colors"
+      <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center min-h-[400px]">
+              <Loader2 className="w-8 h-8 animate-spin text-[#9CAF91]" />
+            </div>
+          }
         >
-          &larr; View Directory
-        </Link>
-      </div>
+          <IntakeWizard />
+        </Suspense>
+      </main>
 
-      <Suspense
-        fallback={
-          <div className="flex items-center justify-center min-h-[400px]">
-            <Loader2 className="w-8 h-8 animate-spin text-brand-600" />
-          </div>
-        }
-      >
-        <IntakeWizard />
-      </Suspense>
+      <Footer />
     </div>
   );
 }

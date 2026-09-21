@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Calendar, Users, Clock, Video, ShieldCheck, ArrowRight, CheckCircle2, Sparkles, Radio } from "lucide-react";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
+import { Calendar, Users, Clock, ShieldCheck, ArrowRight, Radio, Sparkles } from "lucide-react";
 import { EventService } from "@/modules/events/services/event.service";
-import { minorToMajorString } from "@/shared/types/money";
 
 export const metadata = {
   title: "Clinical Workshops & Group Wellbeing Sessions | Mind Refill",
@@ -17,7 +18,7 @@ const SAMPLE_EVENTS = [
     slug: "mindful-stress-resilience-workshop",
     title: "Cultivating Nervous System Resilience: A Guided Interactive Workshop",
     description:
-      "Join Dr. Sarah Jenkins for a live, highly practical guided workshop exploring the physiology of chronic stress and practical daily somatic stabilization exercises.",
+      "Join Dr. Sarah Jenkins for a live, practical guided workshop exploring the physiology of chronic stress and actionable somatic stabilization rituals.",
     hostName: "Dr. Sarah Jenkins, Ph.D.",
     hostTitle: "Licensed Clinical Psychologist",
     hostSlug: "dr-sarah-jenkins",
@@ -55,7 +56,7 @@ const SAMPLE_EVENTS = [
     slug: "communication-for-couples-live-seminar",
     title: "De-escalating Chronic Relationship Conflict: Live Clinical Demonstration",
     description:
-      "An open psychoeducational seminar for individuals and partners exploring non-defensive listening techniques, repair rituals, and attachment needs.",
+      "An open psychoeducational seminar for individuals and partners exploring non-defensive listening techniques, repair rituals, and attachment attunement.",
     hostName: "Elena Vance, LMFT",
     hostTitle: "Couples & Family Specialist",
     hostSlug: "elena-vance",
@@ -105,183 +106,137 @@ export default async function EventsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-cream-50 flex flex-col justify-between text-forest-950">
-      {/* Navigation Header */}
-      <header className="border-b border-sage-200/70 bg-white/90 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="h-10 w-10 rounded-2xl bg-forest-800 flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-forest-900 transition-colors">
-              Ψ
+    <div className="min-h-screen flex flex-col bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD]">
+      <Navbar />
+
+      <main className="flex-grow">
+        {/* Hero Section */}
+        <section className="pt-14 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#173C32] via-[#1C473C] to-[#244F42] border-b border-white/5 text-center">
+          <div className="max-w-4xl mx-auto space-y-5">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-[#C9D2BC]">
+              <Users className="w-3.5 h-3.5 text-[#9CAF91]" />
+              <span>Community Cohorts & Guided Groups</span>
             </div>
-            <div>
-              <span className="font-bold text-lg tracking-tight text-forest-950 block leading-tight">
-                Mind Refill
+
+            <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal text-[#F7F3E9] leading-tight">
+              Learn, reflect, and grow — together.
+            </h1>
+
+            <p className="text-sm sm:text-base text-[#C9D2BC] max-w-2xl mx-auto font-light leading-relaxed">
+              Clinician-facilitated group cohorts, reflective seminars, and live skill-building workshops held in confidential, safe spaces.
+            </p>
+
+            <div className="pt-2 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#C9D2BC] text-xs font-medium">
+              <span className="h-2 w-2 rounded-full bg-[#9CAF91] animate-pulse" />
+              <span>Intimate cohorts strictly capped under 30 participants.</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Events Grid */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 flex-1 w-full">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+            <div className="flex items-center gap-2">
+              <span className="px-3.5 py-1 rounded-full bg-[#F1EBDD] text-[#173C32] text-xs font-semibold">
+                Upcoming Cohorts
               </span>
-              <span className="text-[10px] uppercase tracking-widest text-forest-600 font-semibold block">
-                Psychology & Well-Being
+              <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[#C9D2BC] text-xs font-medium">
+                Live Interactive Zoom
               </span>
             </div>
-          </Link>
-
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium text-forest-700">
-            <Link href="/psychologists" className="hover:text-forest-950 transition-colors">
-              Find a Psychologist
-            </Link>
-            <Link href="/resources" className="hover:text-forest-950 transition-colors">
-              Clinical Resources
-            </Link>
-            <Link href="/ebooks" className="hover:text-forest-950 transition-colors">
-              E-Books & Workbooks
-            </Link>
-            <Link href="/events" className="text-forest-950 font-bold border-b-2 border-forest-700 pb-1">
-              Workshops & Events
-            </Link>
-          </nav>
-
-          <div className="flex items-center space-x-3">
-            <Link
-              href="/login"
-              className="text-sm font-medium text-forest-800 hover:text-forest-950 px-3 py-2"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/intake"
-              className="text-xs sm:text-sm font-semibold bg-forest-800 hover:bg-forest-900 text-white px-5 py-2.5 rounded-2xl transition-all shadow-sm"
-            >
-              Get Guided Help
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      {/* Hero Section */}
-      <section className="bg-white border-b border-sage-200/70 py-16 px-4 sm:px-6 lg:px-8 text-center">
-        <div className="max-w-4xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sage-100 border border-sage-200 text-forest-800 text-xs font-semibold shadow-2xs">
-            <Users className="w-3.5 h-3.5 text-forest-600" />
-            Community & Group Growth
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-forest-950 leading-tight">
-            Learn, reflect, and grow — together.
-          </h1>
-
-          <p className="text-base sm:text-lg text-forest-700 max-w-2xl mx-auto leading-relaxed font-normal">
-            Clinician-facilitated group cohorts, reflective seminars, and live skill-building workshops held in safe, confidential environments.
-          </p>
-
-          <div className="pt-2 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cream-100 border border-sage-200/80 text-forest-700 text-xs font-medium">
-            <span className="h-2 w-2 rounded-full bg-forest-600 animate-pulse" />
-            Preview Mode: Workshop seats are coordinated directly with facilitators.
-          </div>
-        </div>
-      </section>
-
-      {/* Events Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 flex-1 w-full">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-xl bg-forest-800 text-white text-xs font-bold">
-              Upcoming Workshops
-            </span>
-            <span className="px-3 py-1 rounded-xl bg-sage-100 text-forest-800 text-xs font-medium">
-              Small Cohorts (Under 30 Participants)
+            <span className="text-xs text-[#9CAF91] font-medium">
+              {events.length} sessions open for enrollment
             </span>
           </div>
-          <span className="text-xs text-forest-600 font-medium">
-            {events.length} sessions open for enrollment
-          </span>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {events.map((event) => (
-            <div
-              key={event.id}
-              className="bg-white rounded-3xl border border-sage-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-forest-400 transition-all flex flex-col justify-between group"
-            >
-              <div>
-                {/* Event Timing & Status Badge */}
-                <div className="flex items-center justify-between mb-4">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sage-50 text-forest-800 border border-sage-200 text-[10px] font-bold uppercase tracking-wider">
-                    <Radio className="w-3 h-3 text-forest-600 animate-pulse" />
-                    Live Virtual Cohort
-                  </span>
-                  <span className="text-[11px] text-forest-500 font-medium flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    {event.durationMinutes} mins
-                  </span>
-                </div>
-
-                <h2 className="text-lg font-bold text-forest-950 leading-snug mb-2 group-hover:text-forest-800 transition-colors">
-                  {event.title}
-                </h2>
-
-                <p className="text-xs sm:text-sm text-forest-700 leading-relaxed mb-6 line-clamp-3">
-                  {event.description}
-                </p>
-
-                {/* Facilitator & Date Box */}
-                <div className="p-4 rounded-2xl bg-cream-50/70 border border-sage-100 space-y-2 mb-6 text-xs text-forest-800">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-3.5 h-3.5 text-forest-600 shrink-0" />
-                    <span className="font-semibold text-forest-950">{event.scheduledAt}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Users className="w-3.5 h-3.5 text-forest-600 shrink-0" />
-                    <span>Facilitated by {event.hostName}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Footer */}
-              <div className="pt-4 border-t border-sage-100 flex items-center justify-between">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {events.map((event) => (
+              <div
+                key={event.id}
+                className="atmospheric-card rounded-3xl p-6 sm:p-7 flex flex-col justify-between group hover:border-[#9CAF91]/50 transition-all"
+              >
                 <div>
-                  <span className="text-[10px] uppercase tracking-wider text-forest-500 font-semibold block">
-                    Cohort Fee
-                  </span>
-                  <span className="text-base font-extrabold text-forest-950">
-                    ₹{event.priceMajor}
-                  </span>
+                  {/* Event Timing & Status Badge */}
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#3F6855]/30 text-[#F1EBDD] border border-white/10 text-[10px] font-semibold uppercase tracking-wider">
+                      <Radio className="w-3 h-3 text-[#9CAF91] animate-pulse" />
+                      Live Virtual Cohort
+                    </span>
+                    <span className="text-[11px] text-[#C9D2BC] font-medium flex items-center gap-1">
+                      <Clock className="w-3 h-3 text-[#9CAF91]" />
+                      {event.durationMinutes} mins
+                    </span>
+                  </div>
+
+                  <h2 className="font-serif text-xl font-normal text-[#F7F3E9] leading-snug mb-3 group-hover:text-[#F1EBDD] transition-colors">
+                    {event.title}
+                  </h2>
+
+                  <p className="text-xs sm:text-sm text-[#C9D2BC] leading-relaxed mb-6 font-light line-clamp-3">
+                    {event.description}
+                  </p>
+
+                  {/* Facilitator & Date Box */}
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2 mb-6 text-xs text-[#C9D2BC]">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-3.5 h-3.5 text-[#9CAF91] shrink-0" />
+                      <span className="font-medium text-[#F7F3E9]">{event.scheduledAt}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Users className="w-3.5 h-3.5 text-[#9CAF91] shrink-0" />
+                      <span>Facilitated by <strong className="text-[#F7F3E9] font-medium">{event.hostName}</strong></span>
+                    </div>
+                  </div>
                 </div>
 
-                <Link
-                  href="/intake"
-                  className="py-2.5 px-5 bg-forest-800 hover:bg-forest-900 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors"
-                >
-                  Reserve Cohort Seat &rarr;
-                </Link>
+                {/* Action Footer */}
+                <div className="pt-5 border-t border-white/10 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] uppercase tracking-wider text-[#9CAF91] font-semibold block">
+                      Cohort Fee
+                    </span>
+                    <span className="text-base font-serif font-normal text-[#F7F3E9]">
+                      ₹{event.priceMajor}
+                    </span>
+                  </div>
+
+                  <Link
+                    href="/intake"
+                    className="py-2.5 px-5 bg-[#F1EBDD] hover:bg-white text-[#173C32] text-xs font-semibold rounded-full shadow-sm transition-colors flex items-center gap-1.5"
+                  >
+                    <span>Reserve Seat</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Safety & Confidentiality Banner */}
+          <div className="mt-16 atmospheric-card rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div className="flex items-center gap-4">
+              <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#F1EBDD] shrink-0">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-[#F7F3E9]">Psychologically Safe & Strictly Confidential</h3>
+                <p className="text-xs text-[#C9D2BC] mt-0.5 font-light">
+                  Cohort sizes are limited so every participant has room to listen, reflect, or share in comfort.
+                </p>
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* Community Cohort Guarantee Banner */}
-        <div className="mt-16 bg-sage-100/70 border border-sage-200/80 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left shadow-xs">
-          <div className="flex items-center gap-3">
-            <div className="h-11 w-11 rounded-2xl bg-white flex items-center justify-center text-forest-700 shrink-0 shadow-2xs">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-forest-950">Psychologically Safe & Confidential</h3>
-              <p className="text-xs text-forest-700 mt-0.5">
-                Cohort sizes are strictly capped so every attendee has room to listen, reflect, or share without feeling lost in a crowd.
-              </p>
-            </div>
+            <Link
+              href="/psychologists"
+              className="text-xs font-semibold text-[#F1EBDD] hover:text-white shrink-0 underline underline-offset-4 flex items-center gap-1"
+            >
+              <span>Meet Facilitators</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
           </div>
-          <Link
-            href="/psychologists"
-            className="text-xs font-semibold text-forest-800 hover:text-forest-950 shrink-0 underline"
-          >
-            Meet Workshop Facilitators &rarr;
-          </Link>
-        </div>
-      </section>
+        </section>
+      </main>
 
-      {/* Footer */}
-      <footer className="border-t border-sage-200/60 bg-white py-8 text-center text-xs text-forest-600">
-        <p>© {new Date().getFullYear()} Mind Refill. Clinical workshops and group growth.</p>
-      </footer>
-    </main>
+      <Footer />
+    </div>
   );
 }

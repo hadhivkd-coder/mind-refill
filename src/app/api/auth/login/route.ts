@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { sessionToken, expiresAt, user } = await AuthService.login({
+    const { sessionToken, signedSessionToken, expiresAt, user } = await AuthService.login({
       email: parsed.data.email,
       password: parsed.data.password,
       ipAddress: ip,
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     );
 
     const cookieOptions = getSessionCookieOptions(expiresAt);
-    response.cookies.set(SESSION_COOKIE_NAME, sessionToken, cookieOptions);
+    response.cookies.set(SESSION_COOKIE_NAME, signedSessionToken || sessionToken, cookieOptions);
 
     return response;
   } catch (error: unknown) {

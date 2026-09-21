@@ -1,6 +1,8 @@
 import { UserRole } from "@prisma/client";
 import { TokenService } from "./token.service";
 import { SessionWithUser } from "./session.service";
+import fs from "fs";
+import path from "path";
 
 export interface StoredUser {
   id: string;
@@ -26,6 +28,46 @@ export interface StoredSession {
 interface AuthStoreState {
   users: Map<string, StoredUser>;
   sessions: Map<string, StoredSession>;
+}
+
+function getFilePath(): string {
+  if (process.env.VERCEL) {
+    return path.join("/tmp", "mindrefill_auth.json");
+  }
+  return path.join(process.cwd(), "node_modules", ".cache", "mindrefill_auth.json");
+}
+
+function syncFromDisk(store: AuthStoreState) {
+  try {
+    const p = getFilePath();
+    if (fs.existsSync(p)) {
+      const data = JSON.parse(fs.readFileSync(p, "utf-8"));
+      if (Array.isArray(data.users)) {
+        for (const u of data.users) {
+          if (!store.users.has(u.email)) {
+            store.users.set(u.email, u);
+          }
+        }
+      }
+      if (Array.isArray(data.sessions)) {
+        for (const s of data.sessions) {
+          s.expiresAt = new Date(s.expiresAt);
+          store.sessions.set(s.tokenHash, s);
+        }
+      }
+    }
+  } catch {}
+}
+
+function syncToDisk(store: AuthStoreState) {
+  try {
+    const p = getFilePath();
+    const dir = path.dirname(p);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    const usersArr = Array.from(store.users.values());
+    const sessionsArr = Array.from(store.sessions.values());
+    fs.writeFileSync(p, JSON.stringify({ users: usersArr, sessions: sessionsArr }), "utf-8");
+  } catch {}
 }
 
 // Precomputed scrypt hashes for instant offline demo account access
@@ -80,7 +122,9 @@ function initStore(): AuthStoreState {
     });
   }
 
-  return { users, sessions };
+  const s = { users, sessions };
+  syncFromDisk(s);
+  return s;
 }
 
 const globalStore = globalThis as unknown as {
@@ -95,10 +139,12 @@ const store = globalStore.__mindRefillAuthStore;
 
 export class ResilientAuthStore {
   static getUser(email: string): StoredUser | null {
+    syncFromDisk(store);
     return store.users.get(email.trim().toLowerCase()) ?? null;
   }
 
   static getUserById(id: string): StoredUser | null {
+    syncFromDisk(store);
     for (const user of store.users.values()) {
       if (user.id === id) return user;
     }
@@ -111,6 +157,7 @@ export class ResilientAuthStore {
     passwordHash: string;
     role: UserRole;
   }): StoredUser {
+    syncFromDisk(store);
     const emailNorm = params.email.trim().toLowerCase();
     const id = `usr-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`;
     const user: StoredUser = {
@@ -124,6 +171,7 @@ export class ResilientAuthStore {
       createdAt: new Date(),
     };
     store.users.set(emailNorm, user);
+    syncToDisk(store);
     return user;
   }
 
@@ -134,6 +182,7 @@ export class ResilientAuthStore {
     userAgent?: string | null;
     expiresAt: Date;
   }): StoredSession {
+    syncFromDisk(store);
     const sessionId = `sess-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`;
     const session: StoredSession = {
       id: sessionId,
@@ -145,6 +194,7 @@ export class ResilientAuthStore {
       lastActiveAt: new Date(),
     };
     store.sessions.set(params.tokenHash, session);
+    syncToDisk(store);
     return session;
   }
 
@@ -153,6 +203,7 @@ export class ResilientAuthStore {
       return null;
     }
 
+    syncFromDisk(store);
     const tokenHash = TokenService.hashToken(rawToken);
     const session = store.sessions.get(tokenHash);
     if (!session) return null;

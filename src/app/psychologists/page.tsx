@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -45,7 +45,7 @@ const FALLBACK_PSYCHOLOGISTS = [
     yearsOfExperience: 12,
     location: "London, UK",
     isVerified: true,
-    sessionFee: "₹1,800",
+    sessionFee: "â‚¹1,800",
     availability: "Available this week",
     specializations: [
       { id: "s1", name: "Anxiety & Panic" },
@@ -68,7 +68,7 @@ const FALLBACK_PSYCHOLOGISTS = [
     yearsOfExperience: 9,
     location: "Toronto, Canada",
     isVerified: true,
-    sessionFee: "₹2,200",
+    sessionFee: "â‚¹2,200",
     availability: "Next opening Thursday",
     specializations: [
       { id: "s4", name: "Couples & Relationships" },
@@ -88,7 +88,7 @@ const FALLBACK_PSYCHOLOGISTS = [
     yearsOfExperience: 15,
     location: "San Francisco, CA",
     isVerified: true,
-    sessionFee: "₹2,500",
+    sessionFee: "â‚¹2,500",
     availability: "Online sessions open",
     specializations: [
       { id: "s7", name: "Adult ADHD" },
@@ -111,7 +111,7 @@ const FALLBACK_PSYCHOLOGISTS = [
     yearsOfExperience: 8,
     location: "Bangalore, India",
     isVerified: true,
-    sessionFee: "₹1,600",
+    sessionFee: "â‚¹1,600",
     availability: "Flexible evening slots",
     specializations: [
       { id: "s10", name: "Grief & Bereavement" },
@@ -155,7 +155,7 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
         ...p,
         profilePhotoUrl: p.profilePhotoUrl || "https://images.unsplash.com/photo-1594824813637-2804b494632b?auto=format&fit=crop&q=80&w=600",
         shortIntro: p.shortIntro || "Verified Mind Refill clinical practitioner.",
-        sessionFee: "₹1,800",
+        sessionFee: "â‚¹1,800",
         availability: "Available this week",
         location: "Verified Online Consultation",
       }));
@@ -194,7 +194,7 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
               Verified Practitioners
             </span>
 
-            <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal text-[#F7F3E9] leading-tight">
+            <h1 className="font-sans  sm:text-5xl md:text-6xl font-normal text-[#F7F3E9] leading-tight">
               Find the right psychologist to walk beside you.
             </h1>
 
@@ -259,7 +259,7 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
           {psychologists.length === 0 ? (
             <div className="text-center py-20 atmospheric-card rounded-3xl p-8 max-w-md mx-auto space-y-4">
               <Compass className="w-10 h-10 text-[#9CAF91] mx-auto" />
-              <h3 className="font-serif text-2xl font-medium text-[#F7F3E9]">
+              <h3 className="font-sans  font-medium text-[#F7F3E9]">
                 No exact match found
               </h3>
               <p className="text-xs text-[#C9D2BC] leading-relaxed">
@@ -305,13 +305,13 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
                     <div className="px-6 space-y-3">
                       <div>
                         <div className="flex items-center gap-2">
-                          <h3 className="font-serif text-xl font-medium text-[#F7F3E9]">
+                          <h3 className="font-sans  font-medium text-[#F7F3E9]">
                             {psych.fullName}
                           </h3>
                           <ShieldCheck className="w-4 h-4 text-[#9CAF91] flex-shrink-0" />
                         </div>
                         <p className="text-xs text-[#9CAF91] font-light mt-0.5">
-                          {psych.professionalTitle} • {psych.yearsOfExperience} yrs exp
+                          {psych.professionalTitle} â€¢ {psych.yearsOfExperience} yrs exp
                         </p>
                       </div>
 
@@ -354,7 +354,7 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
             <div className="w-12 h-12 mx-auto rounded-2xl bg-[#244F42] flex items-center justify-center text-[#F1EBDD]">
               <HeartHandshake className="w-6 h-6 text-[#9CAF91]" />
             </div>
-            <h3 className="font-serif text-2xl sm:text-3xl font-normal text-[#F7F3E9]">
+            <h3 className="font-sans  sm:text-3xl font-normal text-[#F7F3E9]">
               Not sure which psychologist is right for you?
             </h3>
             <p className="text-sm text-[#C9D2BC] max-w-xl mx-auto font-light leading-relaxed">

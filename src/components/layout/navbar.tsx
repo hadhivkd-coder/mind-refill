@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowRight, Sparkles, HeartHandshake } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +18,6 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile drawer on route change
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
@@ -34,39 +33,35 @@ export function Navbar() {
   return (
     <>
       <header
-        className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        className={`sticky top-0 z-50 w-full transition-all duration-300 font-sans ${
           scrolled
-            ? "bg-[#173C32]/90 backdrop-blur-md border-b border-[#C9D2BC]/15 py-3.5 shadow-lg shadow-black/10"
-            : "bg-[#173C32]/70 backdrop-blur-sm border-b border-white/5 py-4 sm:py-5"
+            ? "bg-[#173C32]/85 backdrop-blur-md border-b border-[#C9D2BC]/10 py-3 sm:py-4 shadow-sm"
+            : "bg-transparent py-5 sm:py-6"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-3 group focus:outline-none">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-[#244F42] border border-[#C9D2BC]/20 flex items-center justify-center text-[#F1EBDD] group-hover:scale-105 group-hover:bg-[#3F6855] transition-all shadow-inner">
-              <span className="font-serif text-lg font-medium tracking-tight">Ψ</span>
+          <Link href="/" className="flex items-center gap-2.5 group focus:outline-none">
+            <div className="w-8 h-8 rounded bg-white/5 border border-white/10 flex items-center justify-center text-[#F1EBDD] group-hover:bg-white/10 transition-all">
+              <span className="font-serif text-sm font-medium">Ψ</span>
             </div>
-            <div className="flex flex-col">
-              <span className="font-serif text-xl sm:text-2xl font-medium tracking-wide text-[#F7F3E9] group-hover:text-[#F1EBDD] transition-colors leading-tight">
-                Mind Refill
-              </span>
-              <span className="text-[10px] text-[#9CAF91] tracking-wider uppercase font-sans font-medium -mt-0.5">
-                Mental Wellbeing Sanctuary
-              </span>
-            </div>
+            <span className="font-sans text-[1.1rem] font-medium tracking-wide text-[#F7F3E9] group-hover:text-white transition-colors">
+              Mind Refill
+            </span>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-7">
+          <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => {
               const active = pathname === link.href;
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-[13.5px] font-medium transition-colors tracking-wide ${
                     active
-                      ? "text-[#F1EBDD] font-semibold"
+                      ? "text-[#F1EBDD]"
                       : "text-[#C9D2BC] hover:text-[#F7F3E9]"
                   }`}
                 >
@@ -77,88 +72,68 @@ export function Navbar() {
           </nav>
 
           {/* Desktop Right CTA Area */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-5">
             <Link
               href="/login"
-              className="text-sm font-medium text-[#C9D2BC] hover:text-[#F7F3E9] px-3 py-2 transition-colors"
+              className="text-[13.5px] font-medium text-[#C9D2BC] hover:text-[#F7F3E9] transition-colors tracking-wide"
             >
               Sign In
             </Link>
             <Link
               href="/intake"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#F1EBDD] hover:bg-white text-[#173C32] font-semibold text-sm transition-all shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#F1EBDD] hover:bg-white text-[#173C32] font-medium text-[13.5px] transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               <span>Get Started</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center gap-3 lg:hidden">
+          <div className="flex items-center gap-4 lg:hidden">
             <Link
               href="/login"
-              className="text-xs font-medium text-[#C9D2BC] hover:text-[#F7F3E9] px-2 py-1"
+              className="text-[13px] font-medium text-[#C9D2BC] hover:text-[#F7F3E9]"
             >
               Sign In
             </Link>
             <button
-              type="button"
               onClick={() => setIsOpen(!isOpen)}
-              aria-label={isOpen ? "Close menu" : "Open menu"}
-              className="w-11 h-11 flex items-center justify-center rounded-2xl bg-[#244F42]/80 border border-[#C9D2BC]/20 text-[#F7F3E9] active:scale-95 transition-all"
+              className="p-2 -mr-2 text-[#C9D2BC] hover:text-[#F7F3E9] transition-colors focus:outline-none"
+              aria-label="Toggle Menu"
             >
-              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile Navigation Full-Screen Overlay / Drawer */}
+      {/* Full-Screen Mobile Navigation Drawer */}
       {isOpen && (
-        <div className="fixed inset-0 z-40 lg:hidden bg-[#173C32]/98 backdrop-blur-xl pt-24 px-6 pb-10 flex flex-col justify-between overflow-y-auto animate-in fade-in duration-200">
-          <div className="space-y-6">
-            <div className="border-b border-[#C9D2BC]/15 pb-4">
-              <span className="text-xs uppercase tracking-widest text-[#9CAF91] font-semibold">
-                Navigation
-              </span>
-            </div>
-            <div className="flex flex-col space-y-4">
-              {navLinks.map((link) => (
+        <div className="fixed inset-0 z-40 bg-[#173C32] pt-24 px-6 flex flex-col justify-between font-sans overflow-y-auto">
+          <nav className="flex flex-col space-y-6">
+            {navLinks.map((link) => {
+              const active = pathname === link.href;
+              return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="text-2xl font-serif font-medium text-[#F7F3E9] hover:text-[#F1EBDD] py-2 flex items-center justify-between border-b border-white/5 transition-colors"
+                  className={`text-2xl font-medium tracking-tight ${
+                    active ? "text-[#F1EBDD]" : "text-[#C9D2BC]"
+                  }`}
                 >
-                  <span>{link.label}</span>
-                  <ArrowRight className="w-5 h-5 text-[#9CAF91]" />
+                  {link.label}
                 </Link>
-              ))}
-            </div>
-          </div>
+              );
+            })}
+          </nav>
 
-          {/* Bottom Actions on Mobile */}
-          <div className="pt-8 space-y-3">
+          <div className="pt-8 pb-12 border-t border-white/10 mt-8 flex flex-col gap-4">
             <Link
               href="/intake"
-              onClick={() => setIsOpen(false)}
-              className="w-full py-4 rounded-2xl bg-[#F1EBDD] text-[#173C32] font-semibold text-center text-base flex items-center justify-center gap-2 shadow-lg active:scale-98 transition-transform"
+              className="w-full py-4 rounded-full bg-[#F1EBDD] text-[#173C32] font-medium text-center text-[15px]"
             >
-              <span>I&apos;m not sure what I need (Intake)</span>
-              <ArrowRight className="w-4 h-4" />
+              Get Started
             </Link>
-            <Link
-              href="/login"
-              onClick={() => setIsOpen(false)}
-              className="w-full py-3.5 rounded-2xl border border-[#C9D2BC]/30 text-[#F7F3E9] font-medium text-center text-sm hover:bg-white/5 block"
-            >
-              Sign In to Your Account
-            </Link>
-            <div className="text-center pt-2">
-              <span className="text-[11px] text-[#9CAF91]">
-                Mind Refill • You don&apos;t have to figure it all out alone.
-              </span>
-            </div>
           </div>
         </div>
       )}

@@ -36,14 +36,21 @@ export default async function PsychologistsDirectoryPage({
   const query = searchParams.q || "";
   const specializationSlug = searchParams.specialization || "";
 
-  // Fetch real data
-  const { psychologists } = await DirectoryService.search({
-    query,
-    specializationSlug,
-    limit: 50,
-  });
+  // Fetch real data (wrapped in try-catch for safe production rendering)
+  let psychologists: any[] = [];
+  let specializations: any[] = [];
 
-  const specializations = await TaxonomyService.getActiveSpecializations();
+  try {
+    const result = await DirectoryService.search({
+      query,
+      specializationSlug,
+      limit: 50,
+    });
+    psychologists = result.psychologists;
+    specializations = await TaxonomyService.getActiveSpecializations();
+  } catch (err) {
+    console.error("Failed to load directory data:", err);
+  }
 
   // If DB has no specializations, fallback to UI list
   const FALLBACK_SPECIALIZATIONS = specializations.length > 0 ? specializations : [

@@ -40,7 +40,14 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   // Fetch real verified psychologists directly from the database via DirectoryService
-  const { psychologists } = await DirectoryService.search({ limit: 3 });
+  // Wrapped in try/catch to gracefully handle DB connection errors in production
+  let psychologists: any[] = [];
+  try {
+    const result = await DirectoryService.search({ limit: 3 });
+    psychologists = result.psychologists;
+  } catch (error) {
+    console.error("Failed to fetch featured psychologists:", error);
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF8F2] text-[#29272C] font-sans selection:bg-[#A99BC7] selection:text-white">

@@ -3,15 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --color-deep-forest: #173C32;
-  --color-forest: #244F42;
-  --color-moss: #3F6855;
-  --color-sage: #718B73;
-  --color-eucalyptus: #9CAF91;
-  --color-mist: #C9D2BC;
-  --color-cream: #F1EBDD;
-  --color-ivory: #F7F3E9;
-  --color-rose: #C7A4A0;
+  --color-lavender: #A99BC7;
+  --color-violet: #62547F;
+  --color-lilac-light: #EEEAF5;
+  --color-lilac-vlight: #F7F5FA;
+  --color-cream: #FAF8F2;
+  --color-rose: #E8D4D8;
+  --color-sage: #AAB8A2;
+  --color-charcoal: #29272C;
 }
 
 html {
@@ -19,8 +18,8 @@ html {
 }
 
 body {
-  background-color: var(--color-deep-forest);
-  color: var(--color-ivory);
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
   min-height: 100vh;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   overflow-x: hidden;
@@ -33,56 +32,23 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #122922;
+  background: var(--color-lilac-vlight);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2D584B;
+  background: var(--color-lavender);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3F6855;
+  background: var(--color-violet);
 }
 
-/* Atmospheric glassmorphism card */
-.atmospheric-card {
-  background: rgba(36, 79, 66, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(201, 210, 188, 0.15);
+/* Base Utility Classes for the New Design System */
+.soft-shadow {
+  box-shadow: 0 4px 24px rgba(98, 84, 127, 0.04);
 }
 
-.atmospheric-card-subtle {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* Editorial light card on dark surface */
-.editorial-card {
-  background: #F1EBDD;
-  color: #173C32;
-  border: 1px solid rgba(201, 210, 188, 0.3);
-}
-
-/* Connecting lines visual motif */
-.connection-line-h {
-  background: linear-gradient(90deg, rgba(156, 175, 145, 0.1), rgba(156, 175, 145, 0.6), rgba(156, 175, 145, 0.1));
-}
-
-.connection-line-v {
-  background: linear-gradient(180deg, rgba(156, 175, 145, 0.1), rgba(156, 175, 145, 0.6), rgba(156, 175, 145, 0.1));
-}
-
-/* Organic curve dividers */
-.curve-mask-top {
-  border-top-left-radius: clamp(2rem, 5vw, 4rem);
-  border-top-right-radius: clamp(2rem, 5vw, 4rem);
-}
-
-.curve-mask-bottom {
-  border-bottom-left-radius: clamp(2rem, 5vw, 4rem);
-  border-bottom-right-radius: clamp(2rem, 5vw, 4rem);
+.soft-shadow-hover:hover {
+  box-shadow: 0 12px 32px rgba(98, 84, 127, 0.08);
 }

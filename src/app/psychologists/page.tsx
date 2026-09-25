@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import Image from "next/image";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -8,11 +8,10 @@ import {
   ShieldCheck,
   Search,
   ArrowRight,
-  Sparkles,
   HeartHandshake,
-  Clock,
   Compass,
   CheckCircle2,
+  Users
 } from "lucide-react";
 
 export const metadata = {
@@ -28,194 +27,64 @@ interface DirectoryPageProps {
     q?: string;
     specialization?: string;
     language?: string;
-    experience?: string;
-    page?: string;
   };
 }
 
-const FALLBACK_PSYCHOLOGISTS = [
-  {
-    id: "demo-1",
-    slug: "dr-sarah-jenkins",
-    fullName: "Dr. Sarah Jenkins, Ph.D.",
-    professionalTitle: "Licensed Clinical Psychologist & CBT Specialist",
-    profilePhotoUrl: "https://images.unsplash.com/photo-1594824813637-2804b494632b?auto=format&fit=crop&q=80&w=600",
-    shortIntro:
-      "Helping individuals untangle chronic anxiety, panic loops, and executive burnout using evidence-based cognitive and somatic methods.",
-    yearsOfExperience: 12,
-    location: "London, UK",
-    isVerified: true,
-    sessionFee: "â‚¹1,800",
-    availability: "Available this week",
-    specializations: [
-      { id: "s1", name: "Anxiety & Panic" },
-      { id: "s2", name: "Trauma Recovery" },
-      { id: "s3", name: "Career Burnout" },
-    ],
-    languages: [
-      { id: "l1", name: "English", code: "en" },
-      { id: "l2", name: "French", code: "fr" },
-    ],
-  },
-  {
-    id: "demo-2",
-    slug: "elena-vance",
-    fullName: "Elena Vance, LMFT",
-    professionalTitle: "Licensed Marriage & Family Therapist",
-    profilePhotoUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600",
-    shortIntro:
-      "Specializing in couples attachment, recurring communication friction, and emotional attunement. Creating safety for difficult conversations.",
-    yearsOfExperience: 9,
-    location: "Toronto, Canada",
-    isVerified: true,
-    sessionFee: "â‚¹2,200",
-    availability: "Next opening Thursday",
-    specializations: [
-      { id: "s4", name: "Couples & Relationships" },
-      { id: "s5", name: "Attachment Wounds" },
-      { id: "s6", name: "Family Transitions" },
-    ],
-    languages: [{ id: "l3", name: "English", code: "en" }],
-  },
-  {
-    id: "demo-3",
-    slug: "dr-marcus-thorne",
-    fullName: "Dr. Marcus Thorne, Psy.D.",
-    professionalTitle: "Neuropsychologist & Behavioral Health Specialist",
-    profilePhotoUrl: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=600",
-    shortIntro:
-      "Integrating neurobiological stabilization with ACT and DBT. Focused on adult ADHD, depressive episodes, and somatic emotional regulation.",
-    yearsOfExperience: 15,
-    location: "San Francisco, CA",
-    isVerified: true,
-    sessionFee: "â‚¹2,500",
-    availability: "Online sessions open",
-    specializations: [
-      { id: "s7", name: "Adult ADHD" },
-      { id: "s8", name: "Depression & Mood" },
-      { id: "s9", name: "Sleep & Somatic Care" },
-    ],
-    languages: [
-      { id: "l4", name: "English", code: "en" },
-      { id: "l5", name: "Spanish", code: "es" },
-    ],
-  },
-  {
-    id: "demo-4",
-    slug: "dr-ananya-sen",
-    fullName: "Dr. Ananya Sen, Ph.D.",
-    professionalTitle: "Clinical Psychologist & Mindfulness Practitioner",
-    profilePhotoUrl: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=600",
-    shortIntro:
-      "Compassionate inquiry exploring generational patterns, grief, and self-worth. Providing a safe, non-pathologizing space for women and young adults.",
-    yearsOfExperience: 8,
-    location: "Bangalore, India",
-    isVerified: true,
-    sessionFee: "â‚¹1,600",
-    availability: "Flexible evening slots",
-    specializations: [
-      { id: "s10", name: "Grief & Bereavement" },
-      { id: "s11", name: "Self-Esteem" },
-      { id: "s12", name: "Cultural Identity" },
-    ],
-    languages: [
-      { id: "l6", name: "English", code: "en" },
-      { id: "l7", name: "Hindi", code: "hi" },
-    ],
-  },
-];
-
-const FALLBACK_SPECIALIZATIONS = [
-  { id: "sp-1", name: "Anxiety & Stress", slug: "anxiety-stress" },
-  { id: "sp-2", name: "Depression & Mood", slug: "depression-mood" },
-  { id: "sp-3", name: "Trauma & PTSD", slug: "trauma-ptsd" },
-  { id: "sp-4", name: "Couples & Relationships", slug: "couples-relationship" },
-  { id: "sp-5", name: "Career & Burnout", slug: "career-burnout" },
-];
-
-export default async function DirectoryPage({ searchParams }: DirectoryPageProps) {
+export default async function PsychologistsDirectoryPage({
+  searchParams,
+}: DirectoryPageProps) {
   const query = searchParams.q || "";
   const specializationSlug = searchParams.specialization || "";
-  const languageCode = searchParams.language || "";
 
-  let psychologists = [...FALLBACK_PSYCHOLOGISTS];
+  // Fetch real data
+  const { psychologists } = await DirectoryService.search({
+    query,
+    specializationSlug,
+    limit: 50,
+  });
 
-  try {
-    const [dbResult] = await Promise.all([
-      DirectoryService.search({
-        query,
-        specializationSlug,
-        languageCode,
-        page: 1,
-        limit: 12,
-      }),
-    ]);
-    if (dbResult && dbResult.psychologists && dbResult.psychologists.length > 0) {
-      psychologists = dbResult.psychologists.map((p) => ({
-        ...p,
-        profilePhotoUrl: p.profilePhotoUrl || "https://images.unsplash.com/photo-1594824813637-2804b494632b?auto=format&fit=crop&q=80&w=600",
-        shortIntro: p.shortIntro || "Verified Mind Refill clinical practitioner.",
-        sessionFee: "â‚¹1,800",
-        availability: "Available this week",
-        location: "Verified Online Consultation",
-      }));
-    } else {
-      // Fallback search filter
-      if (query) {
-        const qLower = query.toLowerCase();
-        psychologists = psychologists.filter(
-          (p) =>
-            p.fullName.toLowerCase().includes(qLower) ||
-            p.professionalTitle.toLowerCase().includes(qLower) ||
-            p.shortIntro.toLowerCase().includes(qLower)
-        );
-      }
-      if (specializationSlug) {
-        psychologists = psychologists.filter((p) =>
-          p.specializations.some((s) =>
-            s.name.toLowerCase().includes(specializationSlug.replace("-", " "))
-          )
-        );
-      }
-    }
-  } catch {
-    // Graceful offline fallback
-  }
+  const specializations = await TaxonomyService.getActiveSpecializations();
+
+  // If DB has no specializations, fallback to UI list
+  const FALLBACK_SPECIALIZATIONS = specializations.length > 0 ? specializations : [
+    { name: "Anxiety", slug: "anxiety" },
+    { name: "Depression", slug: "depression" },
+    { name: "Trauma & PTSD", slug: "trauma-ptsd" },
+    { name: "Relationships", slug: "relationships" },
+    { name: "Life Transitions", slug: "life-transitions" },
+    { name: "Stress & Burnout", slug: "stress-burnout" },
+  ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD]">
+    <div className="min-h-screen flex flex-col bg-[#FAF8F2] text-[#29272C] font-sans selection:bg-[#A99BC7] selection:text-white">
       <Navbar />
 
       <main className="flex-grow">
-        {/* Directory Hero Header */}
-        <section className="pt-12 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#173C32] via-[#1C473C] to-[#244F42] border-b border-white/5 text-center">
-          <div className="max-w-4xl mx-auto space-y-5">
-            <span className="text-xs font-semibold tracking-widest text-[#9CAF91] uppercase">
-              Verified Practitioners
-            </span>
+        {/* ========================================================================= */}
+        {/* HERO & SEARCH BAR */}
+        {/* ========================================================================= */}
+        <section className="relative pt-16 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto text-center space-y-8">
+          <h1 className="text-[2.5rem] md:text-[3.5rem] font-medium text-[#29272C] leading-tight tracking-tight">
+            Meet people who understand.
+          </h1>
+          <p className="text-[16px] md:text-[18px] text-[#62547F] font-light max-w-2xl mx-auto leading-relaxed">
+            Connect with qualified, compassionate psychologists who specialize in exactly what you&apos;re going through.
+          </p>
 
-            <h1 className="font-sans  sm:text-5xl md:text-6xl font-normal text-[#F7F3E9] leading-tight">
-              Find the right psychologist to walk beside you.
-            </h1>
-
-            <p className="text-sm sm:text-base text-[#C9D2BC] max-w-2xl mx-auto font-light leading-relaxed">
-              Every clinician on Mind Refill is credential-verified, holding active clinical registration, degrees in psychology, and ongoing supervision.
-            </p>
-
-            {/* Integrated Search Bar */}
-            <form method="GET" action="/psychologists" className="pt-4 max-w-2xl mx-auto">
+          <div className="pt-6 max-w-2xl mx-auto space-y-6">
+            <form action="/psychologists" method="GET" className="relative w-full">
               <div className="relative flex items-center">
-                <Search className="w-5 h-5 text-[#9CAF91] absolute left-4 pointer-events-none" />
+                <Search className="absolute left-4 w-5 h-5 text-[#A99BC7]" />
                 <input
                   type="text"
                   name="q"
                   defaultValue={query}
-                  placeholder="Search by specialty, name, or concern (e.g., anxiety, couples, burnout)..."
-                  className="w-full h-14 pl-12 pr-28 rounded-full bg-[#173C32]/80 border border-[#C9D2BC]/30 text-sm text-[#F7F3E9] placeholder-[#9CAF91]/70 focus:outline-none focus:border-[#F1EBDD] focus:ring-2 focus:ring-[#C9D2BC]/20 backdrop-blur-md shadow-inner transition-all"
+                  placeholder="Search by name or focus area..."
+                  className="w-full h-14 pl-12 pr-28 rounded-full bg-white border border-[#EEEAF5] text-[#29272C] placeholder:text-[#A99BC7] focus:outline-none focus:ring-2 focus:ring-[#A99BC7]/30 transition-all text-sm soft-shadow"
                 />
                 <button
                   type="submit"
-                  className="absolute right-2 h-10 px-5 rounded-full bg-[#F1EBDD] hover:bg-white text-[#173C32] text-xs font-semibold transition-all"
+                  className="absolute right-2 h-10 px-5 rounded-full bg-[#62547F] hover:bg-[#29272C] text-white text-[13px] font-medium transition-colors"
                 >
                   Search
                 </button>
@@ -223,13 +92,13 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
             </form>
 
             {/* Specialty filter chips */}
-            <div className="pt-4 flex flex-wrap items-center justify-center gap-2">
+            <div className="flex flex-wrap items-center justify-center gap-2">
               <Link
                 href="/psychologists"
-                className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+                className={`px-4 py-2 rounded-full text-[13px] font-medium transition-colors ${
                   !specializationSlug
-                    ? "bg-[#F1EBDD] text-[#173C32] font-semibold"
-                    : "bg-white/5 border border-white/10 text-[#C9D2BC] hover:text-[#F7F3E9]"
+                    ? "bg-[#62547F] text-white"
+                    : "bg-white border border-[#EEEAF5] text-[#62547F] hover:border-[#A99BC7]"
                 }`}
               >
                 All Specializations
@@ -240,10 +109,10 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
                   <Link
                     key={spec.slug}
                     href={`/psychologists?specialization=${spec.slug}`}
-                    className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+                    className={`px-4 py-2 rounded-full text-[13px] font-medium transition-colors ${
                       active
-                        ? "bg-[#F1EBDD] text-[#173C32] font-semibold"
-                        : "bg-white/5 border border-white/10 text-[#C9D2BC] hover:text-[#F7F3E9]"
+                        ? "bg-[#62547F] text-white"
+                        : "bg-white border border-[#EEEAF5] text-[#62547F] hover:border-[#A99BC7]"
                     }`}
                   >
                     {spec.name}
@@ -254,92 +123,109 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
           </div>
         </section>
 
-        {/* Directory Listings */}
-        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        {/* ========================================================================= */}
+        {/* DIRECTORY LISTINGS */}
+        {/* ========================================================================= */}
+        <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           {psychologists.length === 0 ? (
-            <div className="text-center py-20 atmospheric-card rounded-3xl p-8 max-w-md mx-auto space-y-4">
-              <Compass className="w-10 h-10 text-[#9CAF91] mx-auto" />
-              <h3 className="font-sans  font-medium text-[#F7F3E9]">
+            <div className="text-center py-16 bg-white border border-[#EEEAF5] rounded-[2rem] p-8 max-w-lg mx-auto space-y-4 shadow-sm">
+              <Compass className="w-10 h-10 text-[#A99BC7] mx-auto" />
+              <h3 className="text-xl font-medium text-[#29272C]">
                 No exact match found
               </h3>
-              <p className="text-xs text-[#C9D2BC] leading-relaxed">
+              <p className="text-[14px] text-[#62547F] leading-relaxed">
                 We couldn&apos;t find a practitioner matching those exact filters. Try clearing your search or let our coordinators help you.
               </p>
-              <div className="pt-2">
+              <div className="pt-4">
                 <Link
                   href="/psychologists"
-                  className="px-5 py-2.5 rounded-full bg-[#F1EBDD] text-[#173C32] text-xs font-semibold inline-block"
+                  className="px-6 py-3 rounded-full bg-[#EEEAF5] hover:bg-[#A99BC7] text-[#29272C] text-[14px] font-medium inline-block transition-colors"
                 >
                   Clear Filters
                 </Link>
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {psychologists.map((psych) => (
                 <div
                   key={psych.id}
-                  className="atmospheric-card rounded-3xl overflow-hidden flex flex-col justify-between border border-white/10 hover:border-[#C9D2BC]/30 transition-all duration-300 group shadow-sm hover:shadow-xl hover:shadow-black/20"
+                  className="bg-white border border-[#EEEAF5] rounded-[1.5rem] overflow-hidden flex flex-col soft-shadow-hover transition-all duration-300 group"
                 >
-                  <div className="space-y-5">
-                    {/* Portrait Photo */}
-                    <div className="relative aspect-[4/3] w-full bg-[#122C25] overflow-hidden">
-                      <Image
-                        src={psych.profilePhotoUrl}
-                        alt={psych.fullName}
-                        fill
-                        className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#173C32] via-transparent to-transparent" />
-                      <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
-                        <span className="px-2.5 py-1 rounded-full bg-[#173C32]/90 backdrop-blur-md text-[11px] font-medium text-[#9CAF91] border border-white/10">
-                          {psych.availability}
-                        </span>
-                        <span className="text-xs font-serif font-semibold text-[#F1EBDD]">
-                          {psych.sessionFee} / session
-                        </span>
+                  <div className="p-6 md:p-8 flex flex-col gap-6">
+                    {/* Header: Photo + Name */}
+                    <div className="flex items-start gap-4">
+                      <div className="relative w-20 h-20 rounded-full overflow-hidden flex-shrink-0 bg-[#EEEAF5]">
+                        {psych.profilePhotoUrl ? (
+                          <Image
+                            src={psych.profilePhotoUrl}
+                            alt={psych.fullName}
+                            fill
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-[#A99BC7]">
+                            <Users className="w-8 h-8" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="space-y-1 pt-1">
+                        <div className="flex items-center gap-1.5">
+                          <h3 className="text-[1.15rem] font-medium text-[#29272C]">
+                            {psych.fullName}
+                          </h3>
+                          {psych.isVerified && (
+                            <CheckCircle2 className="w-4 h-4 text-[#AAB8A2]" />
+                          )}
+                        </div>
+                        <p className="text-[13px] text-[#62547F]">
+                          {psych.professionalTitle}
+                        </p>
+                        <p className="text-[12px] text-[#A99BC7] pt-1">
+                          {psych.yearsOfExperience} yrs exp
+                        </p>
                       </div>
                     </div>
 
-                    {/* Bio & Details */}
-                    <div className="px-6 space-y-3">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h3 className="font-sans  font-medium text-[#F7F3E9]">
-                            {psych.fullName}
-                          </h3>
-                          <ShieldCheck className="w-4 h-4 text-[#9CAF91] flex-shrink-0" />
-                        </div>
-                        <p className="text-xs text-[#9CAF91] font-light mt-0.5">
-                          {psych.professionalTitle} â€¢ {psych.yearsOfExperience} yrs exp
-                        </p>
-                      </div>
-
-                      <p className="text-xs sm:text-sm text-[#C9D2BC]/90 font-light leading-relaxed line-clamp-3">
+                    {/* Short Intro */}
+                    {psych.shortIntro && (
+                      <p className="text-[13px] sm:text-[14px] text-[#62547F] font-light leading-relaxed line-clamp-3">
                         {psych.shortIntro}
                       </p>
+                    )}
 
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        {psych.specializations.map((spec: any) => (
-                          <span
-                            key={spec.id || spec.name}
-                            className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[11px] text-[#C9D2BC]"
-                          >
-                            {spec.name}
+                    {/* Metadata Table */}
+                    <div className="space-y-4 text-[13.5px]">
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-start gap-2">
+                          <span className="text-[#A99BC7] w-20 flex-shrink-0">Specialties</span>
+                          <span className="text-[#29272C]">
+                            {psych.specializations.map((spec: any) => spec.name).join(", ") || "General Practice"}
                           </span>
-                        ))}
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <span className="text-[#A99BC7] w-20 flex-shrink-0">Languages</span>
+                          <span className="text-[#29272C]">
+                            {psych.languages.map((l: any) => l.name).join(", ") || "English"}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Profile CTA */}
-                  <div className="p-6 pt-4 border-t border-white/5">
+                  {/* Profile Action */}
+                  <div className="px-6 pb-6 pt-2 mt-auto flex items-center gap-3">
                     <Link
                       href={`/psychologists/${psych.slug}`}
-                      className="w-full py-3 rounded-2xl bg-[#F1EBDD] hover:bg-white text-[#173C32] font-semibold text-xs text-center flex items-center justify-center gap-2 transition-all shadow-sm"
+                      className="flex-1 h-12 rounded-full bg-white border border-[#EEEAF5] hover:border-[#A99BC7] text-[#29272C] font-medium text-[14px] text-center flex items-center justify-center transition-colors"
                     >
-                      <span>View Profile & Availability</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      View profile
+                    </Link>
+                    <Link
+                      href={`/psychologists/${psych.slug}/book`}
+                      className="flex-1 h-12 rounded-full bg-[#62547F] hover:bg-[#29272C] text-white font-medium text-[14px] text-center flex items-center justify-center transition-colors"
+                    >
+                      Book
                     </Link>
                   </div>
                 </div>
@@ -348,22 +234,24 @@ export default async function DirectoryPage({ searchParams }: DirectoryPageProps
           )}
         </section>
 
-        {/* Guided matching callout */}
-        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto pb-24">
-          <div className="atmospheric-card p-8 sm:p-12 rounded-3xl text-center space-y-5 border border-[#C9D2BC]/20">
-            <div className="w-12 h-12 mx-auto rounded-2xl bg-[#244F42] flex items-center justify-center text-[#F1EBDD]">
-              <HeartHandshake className="w-6 h-6 text-[#9CAF91]" />
+        {/* ========================================================================= */}
+        {/* GUIDED MATCHING CALLOUT */}
+        {/* ========================================================================= */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8 pb-24">
+          <div className="max-w-4xl mx-auto bg-[#F7F5FA] p-8 md:p-12 rounded-[2rem] text-center space-y-6">
+            <div className="w-14 h-14 mx-auto rounded-full bg-white border border-[#EEEAF5] flex items-center justify-center">
+              <HeartHandshake className="w-6 h-6 text-[#A99BC7]" />
             </div>
-            <h3 className="font-sans  sm:text-3xl font-normal text-[#F7F3E9]">
+            <h3 className="text-2xl md:text-3xl font-medium text-[#29272C]">
               Not sure which psychologist is right for you?
             </h3>
-            <p className="text-sm text-[#C9D2BC] max-w-xl mx-auto font-light leading-relaxed">
+            <p className="text-[15px] md:text-[16px] text-[#62547F] max-w-xl mx-auto font-light leading-relaxed">
               Take 3 minutes to share what you&apos;re going through. Our care coordinators will review your focus areas and connect you thoughtfully.
             </p>
-            <div className="pt-2">
+            <div className="pt-4">
               <Link
                 href="/intake"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#F1EBDD] hover:bg-white text-[#173C32] font-semibold text-sm transition-all shadow-md"
+                className="inline-flex items-center gap-2 px-8 h-14 rounded-full bg-[#29272C] hover:bg-[#62547F] text-white font-medium text-[15px] transition-colors"
               >
                 <span>Start Guided Matching</span>
                 <ArrowRight className="w-4 h-4" />

@@ -12,7 +12,7 @@ export function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -23,10 +23,9 @@ export function Navbar() {
   }, [pathname]);
 
   const navLinks = [
-    { label: "Find a Psychologist", href: "/psychologists" },
+    { label: "Find Support", href: "/intake" },
+    { label: "Psychologists", href: "/psychologists" },
     { label: "Resources", href: "/resources" },
-    { label: "E-Books", href: "/ebooks" },
-    { label: "Workshops & Events", href: "/events" },
     { label: "For Psychologists", href: "/register?role=PSYCHOLOGIST" },
   ];
 
@@ -35,18 +34,18 @@ export function Navbar() {
       <header
         className={`sticky top-0 z-50 w-full transition-all duration-300 font-sans ${
           scrolled
-            ? "bg-[#173C32]/85 backdrop-blur-md border-b border-[#C9D2BC]/10 py-3 sm:py-4 shadow-sm"
+            ? "bg-white/80 backdrop-blur-lg border-b border-[#EEEAF5] py-3 sm:py-4 shadow-[0_4px_24px_rgba(98,84,127,0.02)]"
             : "bg-transparent py-5 sm:py-6"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group focus:outline-none">
-            <div className="w-8 h-8 rounded bg-white/5 border border-white/10 flex items-center justify-center text-[#F1EBDD] group-hover:bg-white/10 transition-all">
+          <Link href="/" className="flex items-center gap-2 group focus:outline-none">
+            <div className="w-8 h-8 rounded-lg bg-[#FAF8F2] border border-[#EEEAF5] flex items-center justify-center text-[#62547F] group-hover:bg-[#F7F5FA] transition-colors">
               <span className="font-serif text-sm font-medium">Ψ</span>
             </div>
-            <span className="font-sans text-[1.1rem] font-medium tracking-wide text-[#F7F3E9] group-hover:text-white transition-colors">
+            <span className="font-sans text-[1.1rem] font-medium tracking-tight text-[#29272C]">
               Mind Refill
             </span>
           </Link>
@@ -59,10 +58,10 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-[13.5px] font-medium transition-colors tracking-wide ${
+                  className={`text-[14px] font-medium transition-colors ${
                     active
-                      ? "text-[#F1EBDD]"
-                      : "text-[#C9D2BC] hover:text-[#F7F3E9]"
+                      ? "text-[#29272C]"
+                      : "text-[#62547F] hover:text-[#29272C]"
                   }`}
                 >
                   {link.label}
@@ -72,36 +71,30 @@ export function Navbar() {
           </nav>
 
           {/* Desktop Right CTA Area */}
-          <div className="hidden lg:flex items-center gap-5">
+          <div className="hidden lg:flex items-center gap-6">
             <Link
               href="/login"
-              className="text-[13.5px] font-medium text-[#C9D2BC] hover:text-[#F7F3E9] transition-colors tracking-wide"
+              className="text-[14px] font-medium text-[#62547F] hover:text-[#29272C] transition-colors"
             >
               Sign In
             </Link>
             <Link
               href="/intake"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#F1EBDD] hover:bg-white text-[#173C32] font-medium text-[13.5px] transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#62547F] hover:bg-[#29272C] text-white font-medium text-[14px] transition-colors"
             >
-              <span>Get Started</span>
+              <span>Get Support</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="flex items-center gap-4 lg:hidden">
-            <Link
-              href="/login"
-              className="text-[13px] font-medium text-[#C9D2BC] hover:text-[#F7F3E9]"
-            >
-              Sign In
-            </Link>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 -mr-2 text-[#C9D2BC] hover:text-[#F7F3E9] transition-colors focus:outline-none"
+              className="p-2 -mr-2 text-[#29272C] focus:outline-none bg-[#FAF8F2] rounded-full border border-[#EEEAF5]"
               aria-label="Toggle Menu"
             >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -109,7 +102,7 @@ export function Navbar() {
 
       {/* Full-Screen Mobile Navigation Drawer */}
       {isOpen && (
-        <div className="fixed inset-0 z-40 bg-[#173C32] pt-24 px-6 flex flex-col justify-between font-sans overflow-y-auto">
+        <div className="fixed inset-0 z-40 bg-white pt-24 px-6 flex flex-col justify-between font-sans overflow-y-auto">
           <nav className="flex flex-col space-y-6">
             {navLinks.map((link) => {
               const active = pathname === link.href;
@@ -117,22 +110,29 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-2xl font-medium tracking-tight ${
-                    active ? "text-[#F1EBDD]" : "text-[#C9D2BC]"
+                  className={`text-[1.75rem] font-medium tracking-tight ${
+                    active ? "text-[#29272C]" : "text-[#62547F]"
                   }`}
                 >
                   {link.label}
                 </Link>
               );
             })}
+            <Link
+              href="/login"
+              className="text-[1.75rem] font-medium tracking-tight text-[#62547F]"
+            >
+              Sign In
+            </Link>
           </nav>
 
-          <div className="pt-8 pb-12 border-t border-white/10 mt-8 flex flex-col gap-4">
+          <div className="pt-8 pb-12 mt-8">
             <Link
               href="/intake"
-              className="w-full py-4 rounded-full bg-[#F1EBDD] text-[#173C32] font-medium text-center text-[15px]"
+              className="w-full h-14 rounded-full bg-[#62547F] text-white font-medium flex items-center justify-center text-[16px] gap-2"
             >
-              Get Started
+              <span>Get Support</span>
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

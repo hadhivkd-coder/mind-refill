@@ -235,13 +235,13 @@ export default async function HomePage() {
                         <div className="flex items-start gap-2">
                           <span className="text-[#A99BC7] w-20 flex-shrink-0">Specialties</span>
                           <span className="text-[#29272C]">
-                            {psych.specializations.map(s => s.name).join(", ") || "General Practice"}
+                            {psych.specializations.map((s: any) => s.name).join(", ") || "General Practice"}
                           </span>
                         </div>
                         <div className="flex items-start gap-2">
                           <span className="text-[#A99BC7] w-20 flex-shrink-0">Languages</span>
                           <span className="text-[#29272C]">
-                            {psych.languages.map(l => l.name).join(", ") || "English"}
+                            {psych.languages.map((l: any) => l.name).join(", ") || "English"}
                           </span>
                         </div>
                         <div className="flex items-start gap-2">

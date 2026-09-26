@@ -15,7 +15,7 @@ export function NewsletterForm() {
 
   if (isSubmitted) {
     return (
-      <div className="p-4 rounded-2xl bg-[#173C32]/10 border border-[#173C32]/20 text-[#173C32] max-w-md mx-auto flex items-center justify-center gap-2 text-sm font-medium">
+      <div className="p-4 rounded-2xl bg-[#FAF8F2]/10 border border-[#173C32]/20 text-[#173C32] max-w-md mx-auto flex items-center justify-center gap-2 text-sm font-medium">
         <Check className="w-5 h-5 text-[#173C32]" />
         <span>Thank you for subscribing to Mind Refill Insights.</span>
       </div>
@@ -37,7 +37,7 @@ export function NewsletterForm() {
       />
       <button
         type="submit"
-        className="h-13 px-7 rounded-full bg-[#173C32] hover:bg-[#244F42] text-[#F1EBDD] font-semibold text-sm transition-all shadow-md active:scale-95 whitespace-nowrap flex items-center justify-center gap-2"
+        className="h-13 px-7 rounded-full bg-[#FAF8F2] hover:bg-[#244F42] text-white font-semibold text-sm transition-all shadow-md active:scale-95 whitespace-nowrap flex items-center justify-center gap-2"
       >
         <span>Subscribe</span>
         <ArrowRight className="w-4 h-4" />

@@ -18,18 +18,18 @@ export default async function PsychologistPayoutsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD] p-6 sm:p-10">
+    <div className="min-h-screen bg-[#FAF8F2] text-[#29272C] selection:bg-[#A99BC7] selection:text-white p-6 sm:p-10">
       <div className="max-w-5xl mx-auto space-y-6">
         <Link
           href="/app/psychologist/earnings"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#9CAF91] hover:text-[#F1EBDD] transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#A99BC7] hover:text-white transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Earnings Ledger</span>
         </Link>
 
         <header className="border-b border-white/10 pb-4">
-          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#F7F3E9]">
+          <h1 className="font-sans tracking-tight text-2xl sm:text-3xl font-normal text-[#29272C]">
             Bank Payout History
           </h1>
           <p className="text-xs text-[#C9D2BC] mt-1 font-light">
@@ -40,8 +40,8 @@ export default async function PsychologistPayoutsPage() {
         <div className="atmospheric-card rounded-3xl overflow-hidden">
           {payouts.length === 0 ? (
             <div className="p-12 text-center text-xs text-[#C9D2BC]">
-              <Clock className="w-8 h-8 text-[#9CAF91] mx-auto mb-2 opacity-60" />
-              <h3 className="font-serif text-base text-[#F7F3E9]">No Disbursements Yet</h3>
+              <Clock className="w-8 h-8 text-[#A99BC7] mx-auto mb-2 opacity-60" />
+              <h3 className="font-sans tracking-tight text-base text-[#29272C]">No Disbursements Yet</h3>
               <p className="text-xs text-[#C9D2BC] mt-1 font-light">
                 Payout batches are generated weekly for all matured, eligible consultation earnings.
               </p>
@@ -51,7 +51,7 @@ export default async function PsychologistPayoutsPage() {
               {payouts.map((p) => (
                 <div key={p.id} className="p-5 flex items-center justify-between gap-4 text-xs">
                   <div>
-                    <div className="font-serif text-lg font-normal text-[#F7F3E9]">₹{p.totalAmountMajor}</div>
+                    <div className="font-sans tracking-tight text-lg font-normal text-[#29272C]">₹{p.totalAmountMajor}</div>
                     <div className="text-[#C9D2BC] text-[11px] mt-0.5 font-light">
                       Bank Ref: {p.payoutReference || "Processing transfer..."} • Created:{" "}
                       {new Date(p.createdAt).toLocaleDateString()}

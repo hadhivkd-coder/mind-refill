@@ -12,7 +12,7 @@ export function Footer() {
           <div className="md:col-span-5 space-y-6">
             <Link href="/" className="flex items-center gap-2 group focus:outline-none">
               <div className="w-8 h-8 rounded-lg bg-[#FAF8F2] border border-[#EEEAF5] flex items-center justify-center text-[#62547F]">
-                <span className="font-serif text-sm font-medium">Ψ</span>
+                <span className="font-sans tracking-tight text-sm font-medium">Ψ</span>
               </div>
               <span className="font-sans text-[1.1rem] font-medium tracking-tight text-[#29272C]">
                 Mind Refill

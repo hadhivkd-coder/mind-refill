@@ -88,7 +88,7 @@ export default async function EbooksPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD]">
+    <div className="min-h-screen flex flex-col bg-[#FAF8F2] text-[#29272C] selection:bg-[#A99BC7] selection:text-white">
       <Navbar />
 
       <main className="flex-grow">
@@ -96,11 +96,11 @@ export default async function EbooksPage() {
         <section className="pt-14 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#173C32] via-[#1C473C] to-[#244F42] border-b border-white/5 text-center">
           <div className="max-w-4xl mx-auto space-y-5">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-[#C9D2BC]">
-              <BookMarked className="w-3.5 h-3.5 text-[#9CAF91]" />
+              <BookMarked className="w-3.5 h-3.5 text-[#A99BC7]" />
               <span>Curated Psychological Library</span>
             </div>
 
-            <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal text-[#F7F3E9] leading-tight">
+            <h1 className="font-sans tracking-tight text-3xl sm:text-5xl md:text-6xl font-normal text-[#29272C] leading-tight">
               Tools for understanding yourself, one page at a time.
             </h1>
 
@@ -126,25 +126,25 @@ export default async function EbooksPage() {
                 <div>
                   {/* Book Cover Mockup */}
                   <div className="h-56 w-full rounded-2xl bg-gradient-to-br from-[#122C25] via-[#173C32] to-[#244F42] p-6 text-white flex flex-col justify-between border border-white/10 relative overflow-hidden mb-6 shadow-inner">
-                    <div className="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-[#3F6855]/30 blur-xl pointer-events-none" />
+                    <div className="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-[#EAE6F0]/30 blur-xl pointer-events-none" />
                     <div>
-                      <span className="text-[10px] font-semibold text-[#9CAF91] uppercase tracking-widest block mb-1">
+                      <span className="text-[10px] font-semibold text-[#A99BC7] uppercase tracking-widest block mb-1">
                         Mind Refill Publication
                       </span>
-                      <h3 className="font-serif text-lg font-normal leading-snug line-clamp-3 text-[#F7F3E9]">
+                      <h3 className="font-sans tracking-tight text-lg font-normal leading-snug line-clamp-3 text-[#29272C]">
                         {ebook.title}
                       </h3>
                     </div>
 
                     <div className="flex items-center justify-between text-[11px] text-[#C9D2BC] pt-3 border-t border-white/10">
                       <span className="truncate max-w-[140px]">{ebook.authorName}</span>
-                      <span className="font-medium px-2.5 py-0.5 rounded-full bg-[#173C32] text-[10px] text-[#F1EBDD] border border-white/10">
+                      <span className="font-medium px-2.5 py-0.5 rounded-full bg-[#FAF8F2] text-[10px] text-white border border-white/10">
                         Guided Manual
                       </span>
                     </div>
                   </div>
 
-                  <h2 className="font-serif text-xl font-normal text-[#F7F3E9] leading-snug mb-2 group-hover:text-[#F1EBDD] transition-colors">
+                  <h2 className="font-sans tracking-tight text-xl font-normal text-[#29272C] leading-snug mb-2 group-hover:text-white transition-colors">
                     {ebook.title}
                   </h2>
 
@@ -152,7 +152,7 @@ export default async function EbooksPage() {
                     {ebook.description}
                   </p>
 
-                  <div className="space-y-2 mb-6 text-xs text-[#9CAF91]">
+                  <div className="space-y-2 mb-6 text-xs text-[#A99BC7]">
                     <div className="flex items-center gap-2">
                       <Check className="w-3.5 h-3.5 text-[#C9D2BC] shrink-0" />
                       <span>{ebook.pageCount} pages of structured clinical exercises</span>
@@ -166,10 +166,10 @@ export default async function EbooksPage() {
 
                 <div className="pt-5 border-t border-white/10 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] uppercase tracking-wider text-[#9CAF91] font-semibold block">
+                    <span className="text-[10px] uppercase tracking-wider text-[#A99BC7] font-semibold block">
                       Access Mode
                     </span>
-                    <span className="text-xs font-semibold text-[#F7F3E9]">
+                    <span className="text-xs font-semibold text-[#29272C]">
                       Instant PDF & Reader
                     </span>
                   </div>
@@ -191,11 +191,11 @@ export default async function EbooksPage() {
           {/* Clinician Ethos Banner */}
           <div className="mt-16 atmospheric-card rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
             <div className="flex items-center gap-4">
-              <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#F1EBDD] shrink-0">
+              <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white shrink-0">
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-[#F7F3E9]">Ethically Authored & Clinically Reviewed</h3>
+                <h3 className="text-sm font-semibold text-[#29272C]">Ethically Authored & Clinically Reviewed</h3>
                 <p className="text-xs text-[#C9D2BC] mt-0.5 font-light">
                   Every workbook is authored by verified, registered practitioners and grounded in contemporary therapeutic research.
                 </p>
@@ -203,7 +203,7 @@ export default async function EbooksPage() {
             </div>
             <Link
               href="/psychologists"
-              className="text-xs font-semibold text-[#F1EBDD] hover:text-white shrink-0 underline underline-offset-4 flex items-center gap-1"
+              className="text-xs font-semibold text-white hover:text-white shrink-0 underline underline-offset-4 flex items-center gap-1"
             >
               <span>Meet the Authors</span>
               <ArrowRight className="w-3 h-3" />

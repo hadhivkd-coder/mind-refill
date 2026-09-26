@@ -106,7 +106,7 @@ export default async function EventsPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD]">
+    <div className="min-h-screen flex flex-col bg-[#FAF8F2] text-[#29272C] selection:bg-[#A99BC7] selection:text-white">
       <Navbar />
 
       <main className="flex-grow">
@@ -114,11 +114,11 @@ export default async function EventsPage() {
         <section className="pt-14 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#173C32] via-[#1C473C] to-[#244F42] border-b border-white/5 text-center">
           <div className="max-w-4xl mx-auto space-y-5">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-[#C9D2BC]">
-              <Users className="w-3.5 h-3.5 text-[#9CAF91]" />
+              <Users className="w-3.5 h-3.5 text-[#A99BC7]" />
               <span>Community Cohorts & Guided Groups</span>
             </div>
 
-            <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal text-[#F7F3E9] leading-tight">
+            <h1 className="font-sans tracking-tight text-3xl sm:text-5xl md:text-6xl font-normal text-[#29272C] leading-tight">
               Learn, reflect, and grow — together.
             </h1>
 
@@ -144,7 +144,7 @@ export default async function EventsPage() {
                 Live Interactive Zoom
               </span>
             </div>
-            <span className="text-xs text-[#9CAF91] font-medium">
+            <span className="text-xs text-[#A99BC7] font-medium">
               {events.length} sessions open for enrollment
             </span>
           </div>
@@ -158,17 +158,17 @@ export default async function EventsPage() {
                 <div>
                   {/* Event Timing & Status Badge */}
                   <div className="flex items-center justify-between mb-4">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#3F6855]/30 text-[#F1EBDD] border border-white/10 text-[10px] font-semibold uppercase tracking-wider">
-                      <Radio className="w-3 h-3 text-[#9CAF91] animate-pulse" />
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAE6F0]/30 text-white border border-white/10 text-[10px] font-semibold uppercase tracking-wider">
+                      <Radio className="w-3 h-3 text-[#A99BC7] animate-pulse" />
                       Live Virtual Cohort
                     </span>
                     <span className="text-[11px] text-[#C9D2BC] font-medium flex items-center gap-1">
-                      <Clock className="w-3 h-3 text-[#9CAF91]" />
+                      <Clock className="w-3 h-3 text-[#A99BC7]" />
                       {event.durationMinutes} mins
                     </span>
                   </div>
 
-                  <h2 className="font-serif text-xl font-normal text-[#F7F3E9] leading-snug mb-3 group-hover:text-[#F1EBDD] transition-colors">
+                  <h2 className="font-sans tracking-tight text-xl font-normal text-[#29272C] leading-snug mb-3 group-hover:text-white transition-colors">
                     {event.title}
                   </h2>
 
@@ -179,12 +179,12 @@ export default async function EventsPage() {
                   {/* Facilitator & Date Box */}
                   <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2 mb-6 text-xs text-[#C9D2BC]">
                     <div className="flex items-center gap-2">
-                      <Calendar className="w-3.5 h-3.5 text-[#9CAF91] shrink-0" />
-                      <span className="font-medium text-[#F7F3E9]">{event.scheduledAt}</span>
+                      <Calendar className="w-3.5 h-3.5 text-[#A99BC7] shrink-0" />
+                      <span className="font-medium text-[#29272C]">{event.scheduledAt}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Users className="w-3.5 h-3.5 text-[#9CAF91] shrink-0" />
-                      <span>Facilitated by <strong className="text-[#F7F3E9] font-medium">{event.hostName}</strong></span>
+                      <Users className="w-3.5 h-3.5 text-[#A99BC7] shrink-0" />
+                      <span>Facilitated by <strong className="text-[#29272C] font-medium">{event.hostName}</strong></span>
                     </div>
                   </div>
                 </div>
@@ -192,10 +192,10 @@ export default async function EventsPage() {
                 {/* Action Footer */}
                 <div className="pt-5 border-t border-white/10 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] uppercase tracking-wider text-[#9CAF91] font-semibold block">
+                    <span className="text-[10px] uppercase tracking-wider text-[#A99BC7] font-semibold block">
                       Cohort Fee
                     </span>
-                    <span className="text-base font-serif font-normal text-[#F7F3E9]">
+                    <span className="text-base font-sans tracking-tight font-normal text-[#29272C]">
                       ₹{event.priceMajor}
                     </span>
                   </div>
@@ -215,11 +215,11 @@ export default async function EventsPage() {
           {/* Safety & Confidentiality Banner */}
           <div className="mt-16 atmospheric-card rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
             <div className="flex items-center gap-4">
-              <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#F1EBDD] shrink-0">
+              <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white shrink-0">
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-[#F7F3E9]">Psychologically Safe & Strictly Confidential</h3>
+                <h3 className="text-sm font-semibold text-[#29272C]">Psychologically Safe & Strictly Confidential</h3>
                 <p className="text-xs text-[#C9D2BC] mt-0.5 font-light">
                   Cohort sizes are limited so every participant has room to listen, reflect, or share in comfort.
                 </p>
@@ -227,7 +227,7 @@ export default async function EventsPage() {
             </div>
             <Link
               href="/psychologists"
-              className="text-xs font-semibold text-[#F1EBDD] hover:text-white shrink-0 underline underline-offset-4 flex items-center gap-1"
+              className="text-xs font-semibold text-white hover:text-white shrink-0 underline underline-offset-4 flex items-center gap-1"
             >
               <span>Meet Facilitators</span>
               <ArrowRight className="w-3 h-3" />

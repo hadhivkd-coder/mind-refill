@@ -235,7 +235,7 @@ export function PortfolioStudio({
   }
 
   return (
-    <div className="space-y-6 text-[#F7F3E9]">
+    <div className="space-y-6 text-[#29272C]">
       {/* Top Action Bar */}
       <div className="atmospheric-card rounded-3xl border border-white/10 p-5 shadow-xl flex flex-wrap items-center justify-between gap-4 bg-[#122C25]/85 backdrop-blur-md">
         <div className="flex items-center gap-3">
@@ -249,7 +249,7 @@ export function PortfolioStudio({
             {isPublished ? "Live Published" : "Draft Only"}
           </span>
           {currentVersionNum && (
-            <span className="text-xs font-mono text-[#9CAF91] bg-white/5 border border-white/10 px-2.5 py-1 rounded-lg">
+            <span className="text-xs font-mono text-[#A99BC7] bg-white/5 border border-white/10 px-2.5 py-1 rounded-lg">
               v{currentVersionNum}
             </span>
           )}
@@ -257,7 +257,7 @@ export function PortfolioStudio({
             href={`/psychologists/${slug}`}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs text-[#9CAF91] hover:text-[#F1EBDD] font-medium ml-1 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs text-[#A99BC7] hover:text-white font-medium ml-1 transition-colors"
           >
             <Globe className="w-3.5 h-3.5" />
             <span>View Public Profile</span>
@@ -268,9 +268,9 @@ export function PortfolioStudio({
           {hasAiEntitlement ? (
             <button
               onClick={() => setShowAiModal(true)}
-              className="bg-[#244F42] hover:bg-[#3F6855] text-[#F1EBDD] border border-white/15 px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
+              className="bg-[#244F42] hover:bg-[#EAE6F0] text-white border border-white/15 px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#F1EBDD]" />
+              <Sparkles className="w-3.5 h-3.5 text-white" />
               <span>Generate with AI</span>
             </button>
           ) : (
@@ -286,7 +286,7 @@ export function PortfolioStudio({
           <button
             onClick={handleSaveDraft}
             disabled={isSaving}
-            className="bg-white/10 hover:bg-white/15 text-[#F7F3E9] border border-white/15 px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all disabled:opacity-50"
+            className="bg-white/10 hover:bg-white/15 text-[#29272C] border border-white/15 px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all disabled:opacity-50"
           >
             <Save className="w-3.5 h-3.5" />
             <span>{isSaving ? "Saving..." : "Save Draft"}</span>
@@ -360,7 +360,7 @@ export function PortfolioStudio({
         <div className="space-y-6">
           {/* Template Style Selector */}
           <div className="atmospheric-card rounded-3xl border border-white/10 p-6 sm:p-8 space-y-4 bg-[#122C25]/80">
-            <h3 className="text-xs font-semibold text-[#9CAF91] uppercase tracking-wider">
+            <h3 className="text-xs font-semibold text-[#A99BC7] uppercase tracking-wider">
               Choose Visual Template Theme
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
@@ -371,11 +371,11 @@ export function PortfolioStudio({
                   onClick={() => setSelectedStyle(tmpl.id)}
                   className={`p-4 rounded-2xl text-left border transition-all ${
                     selectedStyle === tmpl.id
-                      ? "border-[#F1EBDD] bg-[#244F42] text-[#F1EBDD] ring-2 ring-[#F1EBDD]/30"
+                      ? "border-[#F1EBDD] bg-[#244F42] text-white ring-2 ring-[#F1EBDD]/30"
                       : "border-white/10 hover:border-white/20 bg-white/5 text-[#C9D2BC]"
                   }`}
                 >
-                  <div className="font-serif font-medium text-sm text-[#F7F3E9]">{tmpl.name}</div>
+                  <div className="font-sans tracking-tight font-medium text-sm text-[#29272C]">{tmpl.name}</div>
                   <div className="text-[11px] text-[#C9D2BC] font-light mt-1 line-clamp-2">
                     {tmpl.description}
                   </div>
@@ -387,7 +387,7 @@ export function PortfolioStudio({
           {/* Form Fields - High Contrast Dark Inputs */}
           <div className="atmospheric-card rounded-3xl border border-white/10 p-6 sm:p-8 space-y-5 bg-[#122C25]/80">
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#A99BC7] mb-1.5">
                 Headline / Clinical Title
               </label>
               <input
@@ -395,12 +395,12 @@ export function PortfolioStudio({
                 value={content.headline}
                 onChange={(e) => setContent({ ...content, headline: e.target.value })}
                 placeholder="e.g. Licensed Clinical Psychologist & Somatic CBT Specialist"
-                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
+                className="w-full text-sm rounded-xl bg-[#FAF8F2]/90 border border-white/20 text-[#29272C] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#A99BC7] mb-1.5">
                 Introduction
               </label>
               <textarea
@@ -408,12 +408,12 @@ export function PortfolioStudio({
                 value={content.introduction}
                 onChange={(e) => setContent({ ...content, introduction: e.target.value })}
                 placeholder="Brief, empathetic summary of how you help individuals find emotional grounding..."
-                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all resize-none"
+                className="w-full text-sm rounded-xl bg-[#FAF8F2]/90 border border-white/20 text-[#29272C] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all resize-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#A99BC7] mb-1.5">
                 About & Clinical Bio
               </label>
               <textarea
@@ -421,12 +421,12 @@ export function PortfolioStudio({
                 value={content.about}
                 onChange={(e) => setContent({ ...content, about: e.target.value })}
                 placeholder="Clinical background, modalities, experience, and therapeutic philosophy..."
-                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
+                className="w-full text-sm rounded-xl bg-[#FAF8F2]/90 border border-white/20 text-[#29272C] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#A99BC7] mb-1.5">
                 Areas of Clinical Expertise (comma-separated)
               </label>
               <input
@@ -439,12 +439,12 @@ export function PortfolioStudio({
                   })
                 }
                 placeholder="Anxiety & Panic, Trauma Recovery, Burnout, Sleep & Somatics"
-                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
+                className="w-full text-sm rounded-xl bg-[#FAF8F2]/90 border border-white/20 text-[#29272C] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#A99BC7] mb-1.5">
                 Who I Help / Client Profiles (one per line)
               </label>
               <textarea
@@ -457,12 +457,12 @@ export function PortfolioStudio({
                   })
                 }
                 placeholder="Adults dealing with chronic anxiety and racing thoughts&#10;High-achieving professionals facing burnout&#10;Individuals navigating major life transitions"
-                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
+                className="w-full text-sm rounded-xl bg-[#FAF8F2]/90 border border-white/20 text-[#29272C] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#A99BC7] mb-1.5">
                 Counseling Approach & Modalities
               </label>
               <textarea
@@ -470,12 +470,12 @@ export function PortfolioStudio({
                 value={content.counselingApproach}
                 onChange={(e) => setContent({ ...content, counselingApproach: e.target.value })}
                 placeholder="I integrate cognitive behavioral techniques with somatic grounding to restore emotional safety..."
-                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
+                className="w-full text-sm rounded-xl bg-[#FAF8F2]/90 border border-white/20 text-[#29272C] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#A99BC7] mb-1.5">
                 Experience Summary
               </label>
               <textarea
@@ -483,12 +483,12 @@ export function PortfolioStudio({
                 value={content.experienceSummary}
                 onChange={(e) => setContent({ ...content, experienceSummary: e.target.value })}
                 placeholder="Over 12 years of clinical practice across hospital outpatient and private tele-psychology settings..."
-                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all resize-none"
+                className="w-full text-sm rounded-xl bg-[#FAF8F2]/90 border border-white/20 text-[#29272C] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all resize-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#A99BC7] mb-1.5">
                 Call to Action Button Text
               </label>
               <input
@@ -496,7 +496,7 @@ export function PortfolioStudio({
                 value={content.ctaText}
                 onChange={(e) => setContent({ ...content, ctaText: e.target.value })}
                 placeholder="Book an Intake Consultation"
-                className="w-full text-sm rounded-xl bg-[#173C32]/90 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
+                className="w-full text-sm rounded-xl bg-[#FAF8F2]/90 border border-white/20 text-[#29272C] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD] transition-all"
               />
             </div>
           </div>
@@ -507,9 +507,9 @@ export function PortfolioStudio({
       {activeTab === "preview" && (
         <div className="atmospheric-card rounded-3xl border border-white/10 p-8 sm:p-12 space-y-8 bg-[#122C25]/85 shadow-xl">
           <div className="border-b border-white/10 pb-4 flex items-center justify-between">
-            <div className="text-xs text-[#9CAF91]">
+            <div className="text-xs text-[#A99BC7]">
               Visual Preview Theme:{" "}
-              <span className="font-semibold text-[#F1EBDD] uppercase tracking-wider">
+              <span className="font-semibold text-white uppercase tracking-wider">
                 {selectedStyle}
               </span>
             </div>
@@ -517,10 +517,10 @@ export function PortfolioStudio({
 
           {/* Hero Preview */}
           <div className="space-y-4">
-            <span className="text-xs font-semibold uppercase tracking-widest text-[#9CAF91]">
+            <span className="text-xs font-semibold uppercase tracking-widest text-[#A99BC7]">
               Clinical Focus
             </span>
-            <h1 className="font-serif text-3xl sm:text-5xl font-normal text-[#F7F3E9] leading-tight">
+            <h1 className="font-sans tracking-tight text-3xl sm:text-5xl font-normal text-[#29272C] leading-tight">
               {content.headline || "Clinical Psychologist & Psychotherapist"}
             </h1>
             <p className="text-sm sm:text-base text-[#C9D2BC] font-light leading-relaxed max-w-3xl">
@@ -535,7 +535,7 @@ export function PortfolioStudio({
 
           {/* About */}
           <div className="border-t border-white/10 pt-6 space-y-2">
-            <h2 className="font-serif text-xl font-medium text-[#F7F3E9]">About My Practice</h2>
+            <h2 className="font-sans tracking-tight text-xl font-medium text-[#29272C]">About My Practice</h2>
             <p className="text-xs sm:text-sm text-[#C9D2BC] font-light leading-relaxed">
               {content.about}
             </p>
@@ -543,12 +543,12 @@ export function PortfolioStudio({
 
           {/* Expertise */}
           <div className="border-t border-white/10 pt-6 space-y-3">
-            <h2 className="font-serif text-xl font-medium text-[#F7F3E9]">Areas of Clinical Expertise</h2>
+            <h2 className="font-sans tracking-tight text-xl font-medium text-[#29272C]">Areas of Clinical Expertise</h2>
             <div className="flex flex-wrap gap-2">
               {content.expertise?.map((exp: string, i: number) => (
                 <span
                   key={i}
-                  className="px-3.5 py-1 bg-white/5 text-[#F1EBDD] border border-white/10 rounded-full text-xs"
+                  className="px-3.5 py-1 bg-white/5 text-white border border-white/10 rounded-full text-xs"
                 >
                   {exp}
                 </span>
@@ -558,11 +558,11 @@ export function PortfolioStudio({
 
           {/* Who I Help */}
           <div className="border-t border-white/10 pt-6 space-y-3">
-            <h2 className="font-serif text-xl font-medium text-[#F7F3E9]">Who I Help</h2>
+            <h2 className="font-sans tracking-tight text-xl font-medium text-[#29272C]">Who I Help</h2>
             <ul className="space-y-2 text-xs sm:text-sm text-[#C9D2BC] font-light">
               {content.whoTheyHelp?.map((w: string, i: number) => (
                 <li key={i} className="flex items-center gap-2.5">
-                  <Check className="w-4 h-4 text-[#9CAF91] shrink-0" />
+                  <Check className="w-4 h-4 text-[#A99BC7] shrink-0" />
                   <span>{w}</span>
                 </li>
               ))}
@@ -571,7 +571,7 @@ export function PortfolioStudio({
 
           {/* Approach */}
           <div className="border-t border-white/10 pt-6 space-y-2">
-            <h2 className="font-serif text-xl font-medium text-[#F7F3E9]">Therapeutic Philosophy & Approach</h2>
+            <h2 className="font-sans tracking-tight text-xl font-medium text-[#29272C]">Therapeutic Philosophy & Approach</h2>
             <p className="text-xs sm:text-sm text-[#C9D2BC] font-light leading-relaxed">
               {content.counselingApproach}
             </p>
@@ -582,30 +582,30 @@ export function PortfolioStudio({
       {/* Tab: History */}
       {activeTab === "history" && (
         <div className="atmospheric-card rounded-3xl border border-white/10 p-6 sm:p-8 space-y-5 bg-[#122C25]/80">
-          <h3 className="font-serif text-xl font-normal text-[#F7F3E9]">Version History & Rollback</h3>
+          <h3 className="font-sans tracking-tight text-xl font-normal text-[#29272C]">Version History & Rollback</h3>
           {versionsHistory.length === 0 ? (
-            <p className="text-xs text-[#9CAF91] py-8 text-center font-light">No previous versions saved yet.</p>
+            <p className="text-xs text-[#A99BC7] py-8 text-center font-light">No previous versions saved yet.</p>
           ) : (
             <div className="divide-y divide-white/10">
               {versionsHistory.map((ver) => (
                 <div key={ver.id} className="py-4 flex items-center justify-between gap-4">
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-mono font-bold text-xs text-[#F7F3E9]">
+                      <span className="font-mono font-bold text-xs text-[#29272C]">
                         Version {ver.versionNum}
                       </span>
-                      <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded-full text-[#F1EBDD] font-semibold">
+                      <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded-full text-white font-semibold">
                         {ver.styleName}
                       </span>
                     </div>
-                    <p className="text-[11px] text-[#9CAF91] mt-1 font-light">
+                    <p className="text-[11px] text-[#A99BC7] mt-1 font-light">
                       {ver.changeNotes || "Update"} • {new Date(ver.createdAt).toLocaleString()}
                     </p>
                   </div>
 
                   <button
                     onClick={() => handleRollback(ver.versionNum)}
-                    className="text-xs text-[#F1EBDD] hover:text-white font-medium flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
+                    className="text-xs text-white hover:text-white font-medium flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
                     <span>Restore</span>
@@ -620,15 +620,15 @@ export function PortfolioStudio({
       {/* AI Assistant Modal */}
       {showAiModal && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-[#173C32] rounded-3xl border border-white/20 max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl animate-in fade-in zoom-in-95">
+          <div className="bg-[#FAF8F2] rounded-3xl border border-white/20 max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl animate-in fade-in zoom-in-95">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-xl bg-white/5 text-[#F1EBDD]">
+                <div className="p-2 rounded-xl bg-white/5 text-white">
                   <Sparkles className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-serif text-lg font-medium text-[#F7F3E9]">AI Portfolio Assistant</h3>
-                  <p className="text-[11px] text-[#9CAF91]">Synthesize your credentials and clinical voice</p>
+                  <h3 className="font-sans tracking-tight text-lg font-medium text-[#29272C]">AI Portfolio Assistant</h3>
+                  <p className="text-[11px] text-[#A99BC7]">Synthesize your credentials and clinical voice</p>
                 </div>
               </div>
               <button
@@ -641,7 +641,7 @@ export function PortfolioStudio({
 
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#A99BC7] mb-1.5">
                   Raw Bio, Clinical Notes, or Resume Excerpt
                 </label>
                 <textarea
@@ -649,18 +649,18 @@ export function PortfolioStudio({
                   placeholder="e.g. Specialized in CBT and somatic grounding for acute anxiety and tech burnout over the past 8 years..."
                   value={aiBio}
                   onChange={(e) => setAiBio(e.target.value)}
-                  className="w-full text-sm rounded-xl bg-black/40 border border-white/20 text-[#F7F3E9] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD]"
+                  className="w-full text-sm rounded-xl bg-black/40 border border-white/20 text-[#29272C] placeholder-[#9CAF91]/60 p-3 focus:outline-none focus:border-[#F1EBDD] focus:ring-1 focus:ring-[#F1EBDD]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#9CAF91] mb-1.5">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#A99BC7] mb-1.5">
                   Preferred Tone
                 </label>
                 <select
                   value={aiTone}
                   onChange={(e) => setAiTone(e.target.value)}
-                  className="w-full text-sm rounded-xl bg-[#122C25] border border-white/20 text-[#F7F3E9] p-3 focus:outline-none focus:border-[#F1EBDD]"
+                  className="w-full text-sm rounded-xl bg-[#122C25] border border-white/20 text-[#29272C] p-3 focus:outline-none focus:border-[#F1EBDD]"
                 >
                   <option value="warm">Warm & Compassionate</option>
                   <option value="authoritative">Clinical & Academic Authority</option>

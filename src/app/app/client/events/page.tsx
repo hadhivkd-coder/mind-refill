@@ -11,12 +11,12 @@ export default async function ClientEventsPage() {
   const registrations = await EventService.getClientEvents(session.user.id);
 
   return (
-    <div className="min-h-screen bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD] p-4 sm:p-8 lg:p-12">
+    <div className="min-h-screen bg-[#FAF8F2] text-[#29272C] selection:bg-[#A99BC7] selection:text-white p-4 sm:p-8 lg:p-12">
       <div className="max-w-5xl mx-auto space-y-8">
         <div className="flex items-center justify-between">
           <Link
             href="/app/client"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#9CAF91] hover:text-[#F1EBDD] transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#A99BC7] hover:text-white transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Client Sanctuary</span>
@@ -31,8 +31,8 @@ export default async function ClientEventsPage() {
 
         <header className="border-b border-white/10 pb-5">
           <div className="flex items-center gap-2.5">
-            <Calendar className="w-6 h-6 text-[#9CAF91]" />
-            <h1 className="font-serif text-3xl sm:text-4xl font-normal text-[#F7F3E9]">
+            <Calendar className="w-6 h-6 text-[#A99BC7]" />
+            <h1 className="font-sans tracking-tight text-3xl sm:text-4xl font-normal text-[#29272C]">
               Registered Workshops & Circles
             </h1>
           </div>
@@ -43,8 +43,8 @@ export default async function ClientEventsPage() {
 
         {registrations.length === 0 ? (
           <div className="atmospheric-card rounded-3xl border border-white/10 p-12 text-center space-y-3 bg-[#122C25]/80 shadow-lg">
-            <Calendar className="w-10 h-10 text-[#9CAF91] mx-auto opacity-60" />
-            <h2 className="font-serif text-xl text-[#F7F3E9]">No active workshop registrations</h2>
+            <Calendar className="w-10 h-10 text-[#A99BC7] mx-auto opacity-60" />
+            <h2 className="font-sans tracking-tight text-xl text-[#29272C]">No active workshop registrations</h2>
             <p className="text-xs text-[#C9D2BC] max-w-sm mx-auto font-light leading-relaxed">
               You have not registered for any group workshops or clinical webinars yet.
             </p>
@@ -66,22 +66,22 @@ export default async function ClientEventsPage() {
               >
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-semibold tracking-wider text-[#9CAF91]">
+                    <span className="text-[10px] uppercase font-semibold tracking-wider text-[#A99BC7]">
                       Hosted by {r.event.hostName}
                     </span>
                     <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                       CONFIRMED
                     </span>
                   </div>
-                  <h3 className="font-serif text-xl font-normal text-[#F7F3E9]">{r.event.title}</h3>
+                  <h3 className="font-sans tracking-tight text-xl font-normal text-[#29272C]">{r.event.title}</h3>
                   <p className="text-xs text-[#C9D2BC] font-light line-clamp-3 leading-relaxed">
                     {r.event.description}
                   </p>
                 </div>
 
                 <div className="border-t border-white/10 pt-4 space-y-2 text-xs text-[#C9D2BC] font-light">
-                  <div className="flex items-center gap-2 text-[#F7F3E9]">
-                    <Clock className="w-4 h-4 text-[#9CAF91]" />
+                  <div className="flex items-center gap-2 text-[#29272C]">
+                    <Clock className="w-4 h-4 text-[#A99BC7]" />
                     <span>
                       {new Date(r.event.startDateTimeUtc).toLocaleDateString()} at{" "}
                       {new Date(r.event.startDateTimeUtc).toLocaleTimeString([], {
@@ -92,8 +92,8 @@ export default async function ClientEventsPage() {
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2 text-[#F1EBDD]">
-                    <Video className="w-4 h-4 text-[#9CAF91]" />
+                  <div className="flex items-center gap-2 text-white">
+                    <Video className="w-4 h-4 text-[#A99BC7]" />
                     <span>Encrypted video link sent to email prior to circle</span>
                   </div>
                 </div>

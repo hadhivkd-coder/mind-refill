@@ -3,14 +3,17 @@
 @tailwind utilities;
 
 :root {
-  --color-lavender: #A99BC7;
-  --color-violet: #62547F;
-  --color-lilac-light: #EEEAF5;
-  --color-lilac-vlight: #F7F5FA;
-  --color-cream: #FAF8F2;
+  --color-ivory: #FAF8F2;
+  --color-lavender: #EAE6F0;
+  --color-lilac: #F7F5FA;
+  --color-white: #FFFFFF;
+  --color-violet: #897B9D;
+  --color-purple: #62547F;
   --color-rose: #E8D4D8;
+  --color-peach: #F6E9E5;
   --color-sage: #AAB8A2;
   --color-charcoal: #29272C;
+  --color-plum: #433852;
 }
 
 html {

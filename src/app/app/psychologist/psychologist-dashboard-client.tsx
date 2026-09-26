@@ -408,19 +408,19 @@ export function PsychologistDashboardClient({
   });
 
   return (
-    <div className="min-h-screen bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD] pb-24 md:pb-12">
+    <div className="min-h-screen bg-[#FAF8F2] text-[#29272C] selection:bg-[#EAE6F0] selection:text-white pb-24 md:pb-12">
       {/* Top Header Bar */}
-      <header className="sticky top-0 z-40 bg-[#173C32]/95 backdrop-blur-md border-b border-white/10 px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-40 bg-[#FAF8F2]/95 backdrop-blur-md border-b border-[#EEEAF5] px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="h-9 w-9 rounded-xl bg-[#244F42] border border-white/10 flex items-center justify-center font-bold text-sm text-[#F1EBDD] group-hover:border-[#9CAF91]/50 transition-colors">
+            <div className="h-9 w-9 rounded-xl bg-[#244F42] border border-[#EEEAF5] flex items-center justify-center font-bold text-sm text-white group-hover:border-[#9CAF91]/50 transition-colors">
               Ψ
             </div>
             <div>
-              <span className="font-serif text-lg font-normal tracking-tight text-[#F7F3E9] block leading-none">
+              <span className="font-sans tracking-tight text-lg font-normal tracking-tight text-[#29272C] block leading-none">
                 Mind Refill
               </span>
-              <span className="text-[10px] uppercase tracking-wider text-[#9CAF91] font-semibold">
+              <span className="text-[10px] uppercase tracking-wider text-[#A99BC7] font-semibold">
                 Practitioner Studio
               </span>
             </div>
@@ -428,7 +428,7 @@ export function PsychologistDashboardClient({
         </div>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1 bg-[#122C25]/80 p-1 rounded-full border border-white/10">
+        <nav className="hidden md:flex items-center gap-1 bg-[#122C25]/80 p-1 rounded-full border border-[#EEEAF5]">
           <button
             onClick={() => setActiveTab("home")}
             className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${
@@ -487,7 +487,7 @@ export function PsychologistDashboardClient({
           <Link
             href={`/psychologists/${profile.slug}`}
             target="_blank"
-            className="text-xs font-medium text-[#C9D2BC] hover:text-[#F1EBDD] px-2.5 py-1.5 rounded-full bg-white/5 border border-white/10 hidden lg:flex items-center gap-1.5 transition-colors"
+            className="text-xs font-medium text-[#C9D2BC] hover:text-white px-2.5 py-1.5 rounded-full bg-white/5 border border-[#EEEAF5] hidden lg:flex items-center gap-1.5 transition-colors"
           >
             <span>Live Profile</span>
             <ExternalLink className="w-3 h-3" />
@@ -504,11 +504,11 @@ export function PsychologistDashboardClient({
             <div className="atmospheric-card rounded-3xl p-6 sm:p-8 relative overflow-hidden">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="space-y-1">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#3F6855]/30 text-[#F1EBDD] border border-white/10 text-[10px] font-semibold uppercase tracking-wider">
-                    <ShieldCheck className="w-3.5 h-3.5 text-[#9CAF91]" />
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAE6F0]/30 text-white border border-[#EEEAF5] text-[10px] font-semibold uppercase tracking-wider">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#A99BC7]" />
                     <span>Verified Mind Refill Clinician</span>
                   </div>
-                  <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#F7F3E9] pt-1">
+                  <h1 className="font-sans tracking-tight text-2xl sm:text-3xl font-normal text-[#29272C] pt-1">
                     Welcome, {profile.fullName}
                   </h1>
                   <p className="text-xs sm:text-sm text-[#C9D2BC] font-light">
@@ -532,37 +532,37 @@ export function PsychologistDashboardClient({
             {/* Quick Overview Metrics */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div className="atmospheric-card rounded-2xl p-4 text-center">
-                <span className="text-[10px] uppercase font-semibold text-[#9CAF91] tracking-wider block">
+                <span className="text-[10px] uppercase font-semibold text-[#A99BC7] tracking-wider block">
                   Active Sessions
                 </span>
-                <span className="font-serif text-2xl font-normal text-[#F7F3E9] block mt-1">
+                <span className="font-sans tracking-tight text-2xl font-normal text-[#29272C] block mt-1">
                   {stats.activeSessionsCount}
                 </span>
                 <span className="text-[10px] text-[#C9D2BC] mt-0.5 block">Scheduled consultations</span>
               </div>
               <div className="atmospheric-card rounded-2xl p-4 text-center">
-                <span className="text-[10px] uppercase font-semibold text-[#9CAF91] tracking-wider block">
+                <span className="text-[10px] uppercase font-semibold text-[#A99BC7] tracking-wider block">
                   Client Inquiries
                 </span>
-                <span className="font-serif text-2xl font-normal text-[#F7F3E9] block mt-1">
+                <span className="font-sans tracking-tight text-2xl font-normal text-[#29272C] block mt-1">
                   {stats.inquiriesCount}
                 </span>
                 <span className="text-[10px] text-[#C9D2BC] mt-0.5 block">Guided matches</span>
               </div>
               <div className="atmospheric-card rounded-2xl p-4 text-center">
-                <span className="text-[10px] uppercase font-semibold text-[#9CAF91] tracking-wider block">
+                <span className="text-[10px] uppercase font-semibold text-[#A99BC7] tracking-wider block">
                   Reflections & Posts
                 </span>
-                <span className="font-serif text-2xl font-normal text-[#F7F3E9] block mt-1">
+                <span className="font-sans tracking-tight text-2xl font-normal text-[#29272C] block mt-1">
                   {contentList.length}
                 </span>
                 <span className="text-[10px] text-[#C9D2BC] mt-0.5 block">Published to profile</span>
               </div>
               <div className="atmospheric-card rounded-2xl p-4 text-center">
-                <span className="text-[10px] uppercase font-semibold text-[#9CAF91] tracking-wider block">
+                <span className="text-[10px] uppercase font-semibold text-[#A99BC7] tracking-wider block">
                   Digital Guides
                 </span>
-                <span className="font-serif text-2xl font-normal text-[#F7F3E9] block mt-1">
+                <span className="font-sans tracking-tight text-2xl font-normal text-[#29272C] block mt-1">
                   {productList.length}
                 </span>
                 <span className="text-[10px] text-[#C9D2BC] mt-0.5 block">Active workbooks</span>
@@ -572,7 +572,7 @@ export function PsychologistDashboardClient({
             {/* Quick Share Prompt ("What's on your mind?") */}
             <div className="atmospheric-card rounded-2xl p-4 sm:p-5">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-[#244F42] border border-white/10 flex items-center justify-center font-bold text-xs text-[#F1EBDD] shrink-0">
+                <div className="h-10 w-10 rounded-full bg-[#244F42] border border-[#EEEAF5] flex items-center justify-center font-bold text-xs text-white shrink-0">
                   {profile.fullName.charAt(0)}
                 </div>
                 <button
@@ -580,22 +580,22 @@ export function PsychologistDashboardClient({
                     setCreateType("post");
                     setIsCreateOpen(true);
                   }}
-                  className="flex-1 text-left px-4 py-2.5 rounded-full bg-white/5 border border-white/10 text-xs text-[#9CAF91] hover:border-[#9CAF91]/40 hover:text-[#C9D2BC] transition-all"
+                  className="flex-1 text-left px-4 py-2.5 rounded-full bg-white/5 border border-[#EEEAF5] text-xs text-[#A99BC7] hover:border-[#9CAF91]/40 hover:text-[#C9D2BC] transition-all"
                 >
                   Share a grounding thought, clinical reflection, or prompt...
                 </button>
               </div>
 
               {/* 5 Fast Create Buttons */}
-              <div className="flex items-center justify-around gap-2 pt-4 mt-3 border-t border-white/10">
+              <div className="flex items-center justify-around gap-2 pt-4 mt-3 border-t border-[#EEEAF5]">
                 <button
                   onClick={() => {
                     setCreateType("photo");
                     setIsCreateOpen(true);
                   }}
-                  className="flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-[#F1EBDD] transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
+                  className="flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
                 >
-                  <ImageIcon className="w-4 h-4 text-[#9CAF91]" />
+                  <ImageIcon className="w-4 h-4 text-[#A99BC7]" />
                   <span className="text-[11px]">Photo</span>
                 </button>
                 <button
@@ -603,9 +603,9 @@ export function PsychologistDashboardClient({
                     setCreateType("video");
                     setIsCreateOpen(true);
                   }}
-                  className="flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-[#F1EBDD] transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
+                  className="flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
                 >
-                  <Video className="w-4 h-4 text-[#9CAF91]" />
+                  <Video className="w-4 h-4 text-[#A99BC7]" />
                   <span className="text-[11px]">Video</span>
                 </button>
                 <button
@@ -613,9 +613,9 @@ export function PsychologistDashboardClient({
                     setCreateType("post");
                     setIsCreateOpen(true);
                   }}
-                  className="flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-[#F1EBDD] transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
+                  className="flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
                 >
-                  <FileText className="w-4 h-4 text-[#9CAF91]" />
+                  <FileText className="w-4 h-4 text-[#A99BC7]" />
                   <span className="text-[11px]">Post</span>
                 </button>
                 <button
@@ -623,9 +623,9 @@ export function PsychologistDashboardClient({
                     setCreateType("article");
                     setIsCreateOpen(true);
                   }}
-                  className="flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-[#F1EBDD] transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
+                  className="flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
                 >
-                  <BookOpen className="w-4 h-4 text-[#9CAF91]" />
+                  <BookOpen className="w-4 h-4 text-[#A99BC7]" />
                   <span className="text-[11px]">Article</span>
                 </button>
                 <button
@@ -633,9 +633,9 @@ export function PsychologistDashboardClient({
                     setCreateType("resource");
                     setIsCreateOpen(true);
                   }}
-                  className="flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-[#F1EBDD] transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
+                  className="flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
                 >
-                  <Bookmark className="w-4 h-4 text-[#9CAF91]" />
+                  <Bookmark className="w-4 h-4 text-[#A99BC7]" />
                   <span className="text-[11px]">Resource</span>
                 </button>
               </div>
@@ -643,7 +643,7 @@ export function PsychologistDashboardClient({
 
             {/* Practice Administration Shortcuts */}
             <div className="space-y-3">
-              <span className="text-xs font-semibold text-[#9CAF91] uppercase tracking-widest block">
+              <span className="text-xs font-semibold text-[#A99BC7] uppercase tracking-widest block">
                 Practice Management
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -652,15 +652,15 @@ export function PsychologistDashboardClient({
                   className="atmospheric-card rounded-2xl p-4 flex items-center justify-between hover:border-[#9CAF91]/50 transition-all group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-white/5 text-[#9CAF91]">
+                    <div className="p-2.5 rounded-xl bg-white/5 text-[#A99BC7]">
                       <Calendar className="w-4 h-4" />
                     </div>
                     <div>
-                      <h3 className="text-xs font-semibold text-[#F7F3E9]">Availability</h3>
+                      <h3 className="text-xs font-semibold text-[#29272C]">Availability</h3>
                       <p className="text-[11px] text-[#C9D2BC] font-light">Manage consultation hours</p>
                     </div>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-[#9CAF91] group-hover:translate-x-0.5 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[#A99BC7] group-hover:translate-x-0.5 transition-transform" />
                 </Link>
 
                 <Link
@@ -668,15 +668,15 @@ export function PsychologistDashboardClient({
                   className="atmospheric-card rounded-2xl p-4 flex items-center justify-between hover:border-[#9CAF91]/50 transition-all group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-white/5 text-[#9CAF91]">
+                    <div className="p-2.5 rounded-xl bg-white/5 text-[#A99BC7]">
                       <DollarSign className="w-4 h-4" />
                     </div>
                     <div>
-                      <h3 className="text-xs font-semibold text-[#F7F3E9]">Earnings & Ledger</h3>
+                      <h3 className="text-xs font-semibold text-[#29272C]">Earnings & Ledger</h3>
                       <p className="text-[11px] text-[#C9D2BC] font-light">Session fees & payouts</p>
                     </div>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-[#9CAF91] group-hover:translate-x-0.5 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[#A99BC7] group-hover:translate-x-0.5 transition-transform" />
                 </Link>
 
                 <Link
@@ -684,15 +684,15 @@ export function PsychologistDashboardClient({
                   className="atmospheric-card rounded-2xl p-4 flex items-center justify-between hover:border-[#9CAF91]/50 transition-all group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-white/5 text-[#9CAF91]">
+                    <div className="p-2.5 rounded-xl bg-white/5 text-[#A99BC7]">
                       <Sparkles className="w-4 h-4" />
                     </div>
                     <div>
-                      <h3 className="text-xs font-semibold text-[#F7F3E9]">AI Portfolio</h3>
+                      <h3 className="text-xs font-semibold text-[#29272C]">AI Portfolio</h3>
                       <p className="text-[11px] text-[#C9D2BC] font-light">Practice styles & builder</p>
                     </div>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-[#9CAF91] group-hover:translate-x-0.5 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[#A99BC7] group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               </div>
             </div>
@@ -705,7 +705,7 @@ export function PsychologistDashboardClient({
             {/* Header + Filter Pills */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#F7F3E9]">
+                <h1 className="font-sans tracking-tight text-2xl sm:text-3xl font-normal text-[#29272C]">
                   Published Content & Reflections
                 </h1>
                 <p className="text-xs text-[#C9D2BC] font-light mt-0.5">
@@ -734,7 +734,7 @@ export function PsychologistDashboardClient({
                   className={`px-3.5 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
                     contentFilter === filter
                       ? "bg-[#F1EBDD] text-[#173C32] font-semibold"
-                      : "bg-white/5 border border-white/10 text-[#C9D2BC] hover:text-white"
+                      : "bg-white/5 border border-[#EEEAF5] text-[#C9D2BC] hover:text-white"
                   }`}
                 >
                   {filter === "ALL" ? "All Content" : filter.charAt(0) + filter.slice(1).toLowerCase() + "s"}
@@ -745,8 +745,8 @@ export function PsychologistDashboardClient({
             {/* Content Feed / Grid */}
             {filteredContent.length === 0 ? (
               <div className="atmospheric-card rounded-3xl p-12 text-center max-w-md mx-auto">
-                <FileText className="w-8 h-8 text-[#9CAF91] mx-auto mb-3 opacity-60" />
-                <h3 className="font-serif text-lg text-[#F7F3E9]">No items in this category yet</h3>
+                <FileText className="w-8 h-8 text-[#A99BC7] mx-auto mb-3 opacity-60" />
+                <h3 className="font-sans tracking-tight text-lg text-[#29272C]">No items in this category yet</h3>
                 <p className="text-xs text-[#C9D2BC] mt-1 font-light">
                   Share your first thought, photo, video, or clinical insight with prospective clients.
                 </p>
@@ -784,8 +784,8 @@ export function PsychologistDashboardClient({
                     >
                       <div>
                         {/* Type & Date */}
-                        <div className="flex items-center justify-between mb-3 text-[10px] text-[#9CAF91]">
-                          <span className="uppercase font-semibold tracking-wider px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[#F1EBDD]">
+                        <div className="flex items-center justify-between mb-3 text-[10px] text-[#A99BC7]">
+                          <span className="uppercase font-semibold tracking-wider px-2 py-0.5 rounded-full bg-white/5 border border-[#EEEAF5] text-white">
                             {item.contentType}
                           </span>
                           <span className="text-[#C9D2BC]">
@@ -829,7 +829,7 @@ export function PsychologistDashboardClient({
                         )}
 
                         {/* Title & Body */}
-                        <h3 className="font-serif text-base font-normal text-[#F7F3E9] leading-snug mb-2">
+                        <h3 className="font-sans tracking-tight text-base font-normal text-[#29272C] leading-snug mb-2">
                           {item.title}
                         </h3>
 
@@ -839,7 +839,7 @@ export function PsychologistDashboardClient({
                       </div>
 
                       {/* Footer Actions */}
-                      <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-[#9CAF91]">
+                      <div className="pt-3 border-t border-[#EEEAF5] flex items-center justify-between text-xs text-[#A99BC7]">
                         <span className="text-[10px] text-[#C9D2BC]">{tag}</span>
                         <div className="flex items-center gap-2">
                           <button
@@ -864,7 +864,7 @@ export function PsychologistDashboardClient({
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#F7F3E9]">
+                <h1 className="font-sans tracking-tight text-2xl sm:text-3xl font-normal text-[#29272C]">
                   Digital Books & Guided Workbooks
                 </h1>
                 <p className="text-xs text-[#C9D2BC] font-light mt-0.5">
@@ -884,8 +884,8 @@ export function PsychologistDashboardClient({
             {/* Products List */}
             {productList.length === 0 ? (
               <div className="atmospheric-card rounded-3xl p-12 text-center max-w-md mx-auto">
-                <BookOpen className="w-8 h-8 text-[#9CAF91] mx-auto mb-3 opacity-60" />
-                <h3 className="font-serif text-lg text-[#F7F3E9]">No digital products listed yet</h3>
+                <BookOpen className="w-8 h-8 text-[#A99BC7] mx-auto mb-3 opacity-60" />
+                <h3 className="font-sans tracking-tight text-lg text-[#29272C]">No digital products listed yet</h3>
                 <p className="text-xs text-[#C9D2BC] mt-1 font-light">
                   Publish a workbook, guided protocol, or psychoeducational PDF guide.
                 </p>
@@ -904,16 +904,16 @@ export function PsychologistDashboardClient({
                     className="atmospheric-card rounded-2xl p-5 flex flex-col justify-between hover:border-[#9CAF91]/50 transition-all"
                   >
                     <div>
-                      <div className="flex items-center justify-between mb-3 text-[10px] text-[#9CAF91]">
-                        <span className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[#F1EBDD] font-semibold uppercase tracking-wider">
+                      <div className="flex items-center justify-between mb-3 text-[10px] text-[#A99BC7]">
+                        <span className="px-2 py-0.5 rounded-full bg-white/5 border border-[#EEEAF5] text-white font-semibold uppercase tracking-wider">
                           Digital Workbook
                         </span>
-                        <span className="font-serif text-sm font-semibold text-[#F7F3E9]">
+                        <span className="font-sans tracking-tight text-sm font-semibold text-[#29272C]">
                           ₹{prod.priceMajor}
                         </span>
                       </div>
 
-                      <h3 className="font-serif text-base font-normal text-[#F7F3E9] leading-snug mb-1.5">
+                      <h3 className="font-sans tracking-tight text-base font-normal text-[#29272C] leading-snug mb-1.5">
                         {prod.title}
                       </h3>
 
@@ -922,15 +922,15 @@ export function PsychologistDashboardClient({
                       </p>
                     </div>
 
-                    <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs">
-                      <span className="text-[10px] text-[#9CAF91] flex items-center gap-1">
-                        <Check className="w-3 h-3 text-[#9CAF91]" />
+                    <div className="pt-3 border-t border-[#EEEAF5] flex items-center justify-between text-xs">
+                      <span className="text-[10px] text-[#A99BC7] flex items-center gap-1">
+                        <Check className="w-3 h-3 text-[#A99BC7]" />
                         <span>Instant PDF Reader</span>
                       </span>
                       <Link
                         href={`/ebooks/${prod.slug}`}
                         target="_blank"
-                        className="text-xs text-[#F1EBDD] hover:underline flex items-center gap-1"
+                        className="text-xs text-white hover:underline flex items-center gap-1"
                       >
                         <span>View</span>
                         <ExternalLink className="w-3 h-3" />
@@ -948,7 +948,7 @@ export function PsychologistDashboardClient({
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#F7F3E9]">
+                <h1 className="font-sans tracking-tight text-2xl sm:text-3xl font-normal text-[#29272C]">
                   Practitioner Profile
                 </h1>
                 <p className="text-xs text-[#C9D2BC] font-light mt-0.5">
@@ -969,7 +969,7 @@ export function PsychologistDashboardClient({
             {/* Profile Summary Card */}
             <div className="atmospheric-card rounded-3xl p-6 sm:p-8 space-y-6">
               <div className="flex items-center gap-4">
-                <div className="h-16 w-16 rounded-full bg-[#244F42] border border-white/10 flex items-center justify-center font-serif text-2xl text-[#F1EBDD] overflow-hidden">
+                <div className="h-16 w-16 rounded-full bg-[#244F42] border border-[#EEEAF5] flex items-center justify-center font-sans tracking-tight text-2xl text-white overflow-hidden">
                   {profile.profilePhotoUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={profile.profilePhotoUrl} alt={profile.fullName} className="w-full h-full object-cover" />
@@ -978,18 +978,18 @@ export function PsychologistDashboardClient({
                   )}
                 </div>
                 <div>
-                  <h2 className="font-serif text-xl sm:text-2xl font-normal text-[#F7F3E9]">
+                  <h2 className="font-sans tracking-tight text-xl sm:text-2xl font-normal text-[#29272C]">
                     {profile.fullName}
                   </h2>
                   <p className="text-xs text-[#C9D2BC] font-light">{profile.professionalTitle}</p>
-                  <p className="text-[11px] text-[#9CAF91] mt-0.5">
+                  <p className="text-[11px] text-[#A99BC7] mt-0.5">
                     {profile.yearsOfExperience} years experience • {profile.location || "Verified Online Consultation"}
                   </p>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-white/10 space-y-2">
-                <span className="text-[10px] uppercase font-semibold text-[#9CAF91] tracking-wider block">
+              <div className="pt-4 border-t border-[#EEEAF5] space-y-2">
+                <span className="text-[10px] uppercase font-semibold text-[#A99BC7] tracking-wider block">
                   Bio / Clinical Approach
                 </span>
                 <p className="text-xs text-[#C9D2BC] font-light leading-relaxed">
@@ -997,15 +997,15 @@ export function PsychologistDashboardClient({
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
-                <span className="text-xs text-[#9CAF91]">
-                  Authenticated as <strong className="text-[#F7F3E9]">{user.email}</strong>
+              <div className="pt-4 border-t border-[#EEEAF5] flex flex-wrap items-center justify-between gap-4">
+                <span className="text-xs text-[#A99BC7]">
+                  Authenticated as <strong className="text-[#29272C]">{user.email}</strong>
                 </span>
 
                 <form action="/api/auth/logout" method="POST">
                   <button
                     type="submit"
-                    className="inline-flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-white px-3 py-1.5 rounded-full bg-white/5 border border-white/10 transition-colors"
+                    className="inline-flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-white px-3 py-1.5 rounded-full bg-white/5 border border-[#EEEAF5] transition-colors"
                   >
                     <LogOut className="w-3.5 h-3.5" />
                     <span>Sign Out</span>
@@ -1021,10 +1021,10 @@ export function PsychologistDashboardClient({
                 className="atmospheric-card rounded-2xl p-4 flex items-center justify-between hover:border-[#9CAF91]/50 transition-all group"
               >
                 <div>
-                  <h3 className="text-xs font-semibold text-[#F7F3E9]">Edit Profile Information</h3>
+                  <h3 className="text-xs font-semibold text-[#29272C]">Edit Profile Information</h3>
                   <p className="text-[11px] text-[#C9D2BC] font-light">Bio, titles, specializations, photo</p>
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-[#9CAF91] group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#A99BC7] group-hover:translate-x-0.5 transition-transform" />
               </Link>
 
               <Link
@@ -1032,10 +1032,10 @@ export function PsychologistDashboardClient({
                 className="atmospheric-card rounded-2xl p-4 flex items-center justify-between hover:border-[#9CAF91]/50 transition-all group"
               >
                 <div>
-                  <h3 className="text-xs font-semibold text-[#F7F3E9]">Clinical Verification</h3>
+                  <h3 className="text-xs font-semibold text-[#29272C]">Clinical Verification</h3>
                   <p className="text-[11px] text-[#C9D2BC] font-light">License documents and accreditation</p>
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-[#9CAF91] group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#A99BC7] group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
           </div>
@@ -1045,12 +1045,12 @@ export function PsychologistDashboardClient({
       {/* ============================== '+ CREATE' MODAL SHEET ============================== */}
       {isCreateOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
-          <div className="w-full sm:max-w-lg bg-[#173C32] border border-white/10 rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+          <div className="w-full sm:max-w-lg bg-[#FAF8F2] border border-[#EEEAF5] rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
             {/* Sheet Header */}
-            <div className="px-5 py-4 border-b border-white/10 flex items-center justify-between">
+            <div className="px-5 py-4 border-b border-[#EEEAF5] flex items-center justify-between">
               <div>
-                <h3 className="font-serif text-lg font-normal text-[#F7F3E9]">Create New Content</h3>
-                <p className="text-[11px] text-[#9CAF91] font-light">
+                <h3 className="font-sans tracking-tight text-lg font-normal text-[#29272C]">Create New Content</h3>
+                <p className="text-[11px] text-[#A99BC7] font-light">
                   Simple publishing, directly to your public profile
                 </p>
               </div>
@@ -1063,7 +1063,7 @@ export function PsychologistDashboardClient({
             </div>
 
             {/* 5 Type Switcher */}
-            <div className="grid grid-cols-5 p-2 bg-[#122C25] border-b border-white/10 text-center text-[10px]">
+            <div className="grid grid-cols-5 p-2 bg-[#122C25] border-b border-[#EEEAF5] text-center text-[10px]">
               <button
                 type="button"
                 onClick={() => setCreateType("photo")}
@@ -1126,7 +1126,7 @@ export function PsychologistDashboardClient({
 
               {/* Title / Heading / Thought */}
               <div>
-                <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block mb-1">
+                <label className="text-[11px] font-semibold text-[#A99BC7] uppercase tracking-wider block mb-1">
                   {createType === "post" ? "Reflection Headline" : "Title / Caption"}
                 </label>
                 <input
@@ -1143,14 +1143,14 @@ export function PsychologistDashboardClient({
                       ? "e.g. How to calm overthinking in 3 minutes..."
                       : "e.g. Understanding Nervous System Safety..."
                   }
-                  className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 text-xs text-[#F7F3E9] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
+                  className="w-full h-11 px-4 rounded-xl bg-white/5 border border-[#EEEAF5] text-xs text-[#29272C] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
                 />
               </div>
 
               {/* Video Creation Section: Upload Video File vs Add Video Link */}
               {createType === "video" && (
                 <div className="space-y-3">
-                  <div className="flex items-center gap-2 p-1 bg-[#122C25] rounded-xl border border-white/10">
+                  <div className="flex items-center gap-2 p-1 bg-[#122C25] rounded-xl border border-[#EEEAF5]">
                     <button
                       type="button"
                       onClick={() => setVideoSourceMode("upload")}
@@ -1178,17 +1178,17 @@ export function PsychologistDashboardClient({
                   {videoSourceMode === "upload" ? (
                     <div>
                       {!videoPreviewUrl ? (
-                        <label className="border-2 border-dashed border-white/20 hover:border-[#9CAF91] rounded-2xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer bg-white/5 hover:bg-white/10 transition-all text-center group">
+                        <label className="border-2 border-dashed border-[#EAE6F0] hover:border-[#9CAF91] rounded-2xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer bg-white/5 hover:bg-white/10 transition-all text-center group">
                           <input
                             type="file"
                             accept="video/mp4,video/quicktime,video/webm"
                             onChange={handleVideoSelect}
                             className="hidden"
                           />
-                          <div className="h-12 w-12 rounded-full bg-[#244F42] flex items-center justify-center text-[#F1EBDD] group-hover:scale-110 transition-transform">
+                          <div className="h-12 w-12 rounded-full bg-[#244F42] flex items-center justify-center text-white group-hover:scale-110 transition-transform">
                             <UploadCloud className="w-6 h-6" />
                           </div>
-                          <span className="text-xs font-semibold text-[#F7F3E9] block">
+                          <span className="text-xs font-semibold text-[#29272C] block">
                             Choose video from phone or computer
                           </span>
                           <span className="text-[11px] text-[#C9D2BC] font-light">
@@ -1198,7 +1198,7 @@ export function PsychologistDashboardClient({
                       ) : (
                         <div className="space-y-3">
                           {/* Live Native Video Preview Player */}
-                          <div className="relative rounded-2xl overflow-hidden bg-black aspect-video flex items-center justify-center border border-white/10">
+                          <div className="relative rounded-2xl overflow-hidden bg-black aspect-video flex items-center justify-center border border-[#EEEAF5]">
                             <video
                               src={videoPreviewUrl}
                               controls
@@ -1210,7 +1210,7 @@ export function PsychologistDashboardClient({
                           {/* Upload Progress Bar */}
                           {uploadState !== "ready" && (
                             <div className="space-y-1">
-                              <div className="flex justify-between text-[11px] text-[#9CAF91]">
+                              <div className="flex justify-between text-[11px] text-[#A99BC7]">
                                 <span>
                                   {uploadState === "uploading"
                                     ? `Uploading video... ${uploadProgress}%`
@@ -1228,12 +1228,12 @@ export function PsychologistDashboardClient({
                           )}
 
                           {uploadState === "ready" && (
-                            <div className="flex items-center justify-between text-xs px-2 text-[#9CAF91]">
-                              <span className="flex items-center gap-1.5 text-[#F1EBDD]">
-                                <Check className="w-3.5 h-3.5 text-[#9CAF91]" />
+                            <div className="flex items-center justify-between text-xs px-2 text-[#A99BC7]">
+                              <span className="flex items-center gap-1.5 text-white">
+                                <Check className="w-3.5 h-3.5 text-[#A99BC7]" />
                                 <span>Ready to publish</span>
                               </span>
-                              <label className="text-[11px] text-[#C9D2BC] hover:text-[#F1EBDD] underline cursor-pointer">
+                              <label className="text-[11px] text-[#C9D2BC] hover:text-white underline cursor-pointer">
                                 <span>Change video</span>
                                 <input
                                   type="file"
@@ -1249,7 +1249,7 @@ export function PsychologistDashboardClient({
                     </div>
                   ) : (
                     <div>
-                      <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block mb-1">
+                      <label className="text-[11px] font-semibold text-[#A99BC7] uppercase tracking-wider block mb-1">
                         Video / Reel URL
                       </label>
                       <input
@@ -1257,7 +1257,7 @@ export function PsychologistDashboardClient({
                         value={formMediaUrl}
                         onChange={(e) => setFormMediaUrl(e.target.value)}
                         placeholder="https://www.youtube.com/watch?v=... or direct video link"
-                        className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 text-xs text-[#F7F3E9] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
+                        className="w-full h-11 px-4 rounded-xl bg-white/5 border border-[#EEEAF5] text-xs text-[#29272C] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
                       />
                     </div>
                   )}
@@ -1267,7 +1267,7 @@ export function PsychologistDashboardClient({
               {/* Photo Creation Section: File Upload or Link */}
               {createType === "photo" && (
                 <div className="space-y-3">
-                  <div className="flex items-center gap-2 p-1 bg-[#122C25] rounded-xl border border-white/10">
+                  <div className="flex items-center gap-2 p-1 bg-[#122C25] rounded-xl border border-[#EEEAF5]">
                     <button
                       type="button"
                       onClick={() => setPhotoSourceMode("upload")}
@@ -1295,17 +1295,17 @@ export function PsychologistDashboardClient({
                   {photoSourceMode === "upload" ? (
                     <div>
                       {!formMediaUrl ? (
-                        <label className="border-2 border-dashed border-white/20 hover:border-[#9CAF91] rounded-2xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer bg-white/5 hover:bg-white/10 transition-all text-center group">
+                        <label className="border-2 border-dashed border-[#EAE6F0] hover:border-[#9CAF91] rounded-2xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer bg-white/5 hover:bg-white/10 transition-all text-center group">
                           <input
                             type="file"
                             accept="image/jpeg,image/png,image/webp,image/gif"
                             onChange={handlePhotoSelect}
                             className="hidden"
                           />
-                          <div className="h-12 w-12 rounded-full bg-[#244F42] flex items-center justify-center text-[#F1EBDD] group-hover:scale-110 transition-transform">
+                          <div className="h-12 w-12 rounded-full bg-[#244F42] flex items-center justify-center text-white group-hover:scale-110 transition-transform">
                             <UploadCloud className="w-6 h-6" />
                           </div>
-                          <span className="text-xs font-semibold text-[#F7F3E9] block">
+                          <span className="text-xs font-semibold text-[#29272C] block">
                             Choose photo from phone or computer
                           </span>
                           <span className="text-[11px] text-[#C9D2BC] font-light">
@@ -1314,16 +1314,16 @@ export function PsychologistDashboardClient({
                         </label>
                       ) : (
                         <div className="space-y-3">
-                          <div className="relative rounded-2xl overflow-hidden bg-black/40 h-48 flex items-center justify-center border border-white/10">
+                          <div className="relative rounded-2xl overflow-hidden bg-black/40 h-48 flex items-center justify-center border border-[#EEEAF5]">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src={formMediaUrl} alt="Preview" className="w-full h-full object-cover" />
                           </div>
-                          <div className="flex items-center justify-between text-xs px-2 text-[#9CAF91]">
-                            <span className="flex items-center gap-1.5 text-[#F1EBDD]">
-                              <Check className="w-3.5 h-3.5 text-[#9CAF91]" />
+                          <div className="flex items-center justify-between text-xs px-2 text-[#A99BC7]">
+                            <span className="flex items-center gap-1.5 text-white">
+                              <Check className="w-3.5 h-3.5 text-[#A99BC7]" />
                               <span>Photo ready to publish</span>
                             </span>
-                            <label className="text-[11px] text-[#C9D2BC] hover:text-[#F1EBDD] underline cursor-pointer">
+                            <label className="text-[11px] text-[#C9D2BC] hover:text-white underline cursor-pointer">
                               <span>Change photo</span>
                               <input
                                 type="file"
@@ -1338,7 +1338,7 @@ export function PsychologistDashboardClient({
                     </div>
                   ) : (
                     <div>
-                      <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block mb-1">
+                      <label className="text-[11px] font-semibold text-[#A99BC7] uppercase tracking-wider block mb-1">
                         Photo Image URL (or Unsplash link)
                       </label>
                       <input
@@ -1346,10 +1346,10 @@ export function PsychologistDashboardClient({
                         value={formMediaUrl}
                         onChange={(e) => setFormMediaUrl(e.target.value)}
                         placeholder="https://images.unsplash.com/photo-..."
-                        className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 text-xs text-[#F7F3E9] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
+                        className="w-full h-11 px-4 rounded-xl bg-white/5 border border-[#EEEAF5] text-xs text-[#29272C] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
                       />
                       {formMediaUrl && (
-                        <div className="mt-2 h-36 rounded-xl overflow-hidden bg-black/40 border border-white/10 relative">
+                        <div className="mt-2 h-36 rounded-xl overflow-hidden bg-black/40 border border-[#EEEAF5] relative">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img src={formMediaUrl} alt="Preview" className="w-full h-full object-cover" />
                         </div>
@@ -1363,7 +1363,7 @@ export function PsychologistDashboardClient({
               {(createType === "post" || createType === "article" || createType === "resource") && (
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block">
+                    <label className="text-[11px] font-semibold text-[#A99BC7] uppercase tracking-wider block">
                       Attachment (Optional Photo or Video)
                     </label>
                     {formMediaUrl && (
@@ -1383,7 +1383,7 @@ export function PsychologistDashboardClient({
                   </div>
 
                   {!formMediaUrl ? (
-                    <label className="border border-dashed border-white/20 hover:border-[#F1EBDD] rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer bg-white/5 hover:bg-white/10 transition-all text-center">
+                    <label className="border border-dashed border-[#EAE6F0] hover:border-[#F1EBDD] rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer bg-white/5 hover:bg-white/10 transition-all text-center">
                       <input
                         type="file"
                         accept="image/*,video/mp4,video/quicktime,video/webm"
@@ -1397,13 +1397,13 @@ export function PsychologistDashboardClient({
                         }}
                         className="hidden"
                       />
-                      <UploadCloud className="w-4 h-4 text-[#9CAF91]" />
-                      <span className="text-xs text-[#F7F3E9] font-medium">
+                      <UploadCloud className="w-4 h-4 text-[#A99BC7]" />
+                      <span className="text-xs text-[#29272C] font-medium">
                         Upload photo or video from device
                       </span>
                     </label>
                   ) : (
-                    <div className="relative rounded-xl overflow-hidden bg-black/40 border border-white/10 h-36 flex items-center justify-center">
+                    <div className="relative rounded-xl overflow-hidden bg-black/40 border border-[#EEEAF5] h-36 flex items-center justify-center">
                       {formMediaUrl.match(/\.(mp4|webm|mov)($|\?)/i) || videoPreviewUrl ? (
                         <video
                           src={videoPreviewUrl || formMediaUrl}
@@ -1425,7 +1425,7 @@ export function PsychologistDashboardClient({
 
               {/* Reflection Body / Content */}
               <div>
-                <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block mb-1">
+                <label className="text-[11px] font-semibold text-[#A99BC7] uppercase tracking-wider block mb-1">
                   {createType === "article" ? "Article Body (Markdown supported)" : "Caption / Reflection Notes"}
                 </label>
                 <textarea
@@ -1433,19 +1433,19 @@ export function PsychologistDashboardClient({
                   value={formBody}
                   onChange={(e) => setFormBody(e.target.value)}
                   placeholder="Add your clinical thoughts, guidance, or psychoeducational message here..."
-                  className="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-xs text-[#F7F3E9] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD] resize-none"
+                  className="w-full p-3 rounded-xl bg-white/5 border border-[#EEEAF5] text-xs text-[#29272C] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD] resize-none"
                 />
               </div>
 
               {/* Tag / Clinical Theme */}
               <div>
-                <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block mb-1">
+                <label className="text-[11px] font-semibold text-[#A99BC7] uppercase tracking-wider block mb-1">
                   Focus Theme
                 </label>
                 <select
                   value={formTag}
                   onChange={(e) => setFormTag(e.target.value)}
-                  className="w-full h-10 px-3 rounded-xl bg-[#122C25] border border-white/10 text-xs text-[#F7F3E9] focus:outline-none focus:border-[#F1EBDD]"
+                  className="w-full h-10 px-3 rounded-xl bg-[#122C25] border border-[#EEEAF5] text-xs text-[#29272C] focus:outline-none focus:border-[#F1EBDD]"
                 >
                   <option value="Stress & Anxiety">Stress & Anxiety</option>
                   <option value="Relationships">Relationships</option>
@@ -1481,11 +1481,11 @@ export function PsychologistDashboardClient({
       {/* ============================== '+ ADD PRODUCT' MODAL ============================== */}
       {isAddProductOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
-          <div className="w-full sm:max-w-md bg-[#173C32] border border-white/10 rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col">
-            <div className="px-5 py-4 border-b border-white/10 flex items-center justify-between">
+          <div className="w-full sm:max-w-md bg-[#FAF8F2] border border-[#EEEAF5] rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+            <div className="px-5 py-4 border-b border-[#EEEAF5] flex items-center justify-between">
               <div>
-                <h3 className="font-serif text-lg font-normal text-[#F7F3E9]">Add Digital Product</h3>
-                <p className="text-[11px] text-[#9CAF91] font-light">E-Book or Guided Workbook</p>
+                <h3 className="font-sans tracking-tight text-lg font-normal text-[#29272C]">Add Digital Product</h3>
+                <p className="text-[11px] text-[#A99BC7] font-light">E-Book or Guided Workbook</p>
               </div>
               <button
                 onClick={() => setIsAddProductOpen(false)}
@@ -1497,7 +1497,7 @@ export function PsychologistDashboardClient({
 
             <form onSubmit={handleCreateProduct} className="p-5 space-y-4">
               <div>
-                <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block mb-1">
+                <label className="text-[11px] font-semibold text-[#A99BC7] uppercase tracking-wider block mb-1">
                   Product Title
                 </label>
                 <input
@@ -1506,12 +1506,12 @@ export function PsychologistDashboardClient({
                   value={prodTitle}
                   onChange={(e) => setProdTitle(e.target.value)}
                   placeholder="e.g. The Anxiety Companion Workbook"
-                  className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 text-xs text-[#F7F3E9] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
+                  className="w-full h-11 px-4 rounded-xl bg-white/5 border border-[#EEEAF5] text-xs text-[#29272C] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
                 />
               </div>
 
               <div>
-                <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block mb-1">
+                <label className="text-[11px] font-semibold text-[#A99BC7] uppercase tracking-wider block mb-1">
                   Description
                 </label>
                 <textarea
@@ -1520,13 +1520,13 @@ export function PsychologistDashboardClient({
                   value={prodDesc}
                   onChange={(e) => setProdDesc(e.target.value)}
                   placeholder="Summarize what exercises and insights are inside this companion..."
-                  className="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-xs text-[#F7F3E9] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD] resize-none"
+                  className="w-full p-3 rounded-xl bg-white/5 border border-[#EEEAF5] text-xs text-[#29272C] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD] resize-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block mb-1">
+                  <label className="text-[11px] font-semibold text-[#A99BC7] uppercase tracking-wider block mb-1">
                     Price (INR)
                   </label>
                   <input
@@ -1534,21 +1534,21 @@ export function PsychologistDashboardClient({
                     value={prodPrice}
                     onChange={(e) => setProdPrice(e.target.value)}
                     placeholder="499"
-                    className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 text-xs text-[#F7F3E9] focus:outline-none focus:border-[#F1EBDD]"
+                    className="w-full h-11 px-4 rounded-xl bg-white/5 border border-[#EEEAF5] text-xs text-[#29272C] focus:outline-none focus:border-[#F1EBDD]"
                   />
                 </div>
                 <div>
-                  <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block mb-1">
+                  <label className="text-[11px] font-semibold text-[#A99BC7] uppercase tracking-wider block mb-1">
                     Format
                   </label>
-                  <div className="h-11 px-3 rounded-xl bg-white/5 border border-white/10 text-xs text-[#C9D2BC] flex items-center">
+                  <div className="h-11 px-3 rounded-xl bg-white/5 border border-[#EEEAF5] text-xs text-[#C9D2BC] flex items-center">
                     PDF & Reader
                   </div>
                 </div>
               </div>
 
               <div>
-                <label className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider block mb-1">
+                <label className="text-[11px] font-semibold text-[#A99BC7] uppercase tracking-wider block mb-1">
                   Cover Image URL (Optional)
                 </label>
                 <input
@@ -1556,7 +1556,7 @@ export function PsychologistDashboardClient({
                   value={prodCoverUrl}
                   onChange={(e) => setProdCoverUrl(e.target.value)}
                   placeholder="https://images.unsplash.com/photo-..."
-                  className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 text-xs text-[#F7F3E9] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
+                  className="w-full h-11 px-4 rounded-xl bg-white/5 border border-[#EEEAF5] text-xs text-[#29272C] placeholder-[#9CAF91]/60 focus:outline-none focus:border-[#F1EBDD]"
                 />
               </div>
 
@@ -1577,14 +1577,14 @@ export function PsychologistDashboardClient({
       {/* ============================== NATIVE VIDEO MODAL ============================== */}
       {watchingVideo && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md">
-          <div className="relative w-full max-w-2xl bg-[#173C32] rounded-3xl border border-white/20 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+          <div className="relative w-full max-w-2xl bg-[#FAF8F2] rounded-3xl border border-[#EAE6F0] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             {/* Modal Header */}
-            <div className="p-4 sm:p-5 flex items-center justify-between border-b border-white/10 bg-[#122C25]/90">
+            <div className="p-4 sm:p-5 flex items-center justify-between border-b border-[#EEEAF5] bg-[#122C25]/90">
               <div className="pr-4">
-                <h3 className="font-serif text-lg text-[#F7F3E9] font-medium line-clamp-1">
+                <h3 className="font-sans tracking-tight text-lg text-[#29272C] font-medium line-clamp-1">
                   {watchingVideo.title}
                 </h3>
-                <span className="text-[11px] text-[#9CAF91]">Native Video Reflection</span>
+                <span className="text-[11px] text-[#A99BC7]">Native Video Reflection</span>
               </div>
               <button
                 onClick={() => setWatchingVideo(null)}
@@ -1608,7 +1608,7 @@ export function PsychologistDashboardClient({
 
             {/* Video Caption */}
             {watchingVideo.caption && (
-              <div className="p-4 sm:p-5 bg-[#173C32] text-xs text-[#C9D2BC] font-light border-t border-white/10 max-h-32 overflow-y-auto">
+              <div className="p-4 sm:p-5 bg-[#FAF8F2] text-xs text-[#C9D2BC] font-light border-t border-[#EEEAF5] max-h-32 overflow-y-auto">
                 <p className="leading-relaxed whitespace-pre-wrap">{watchingVideo.caption}</p>
               </div>
             )}
@@ -1617,11 +1617,11 @@ export function PsychologistDashboardClient({
       )}
 
       {/* ============================== MOBILE BOTTOM NAVIGATION BAR ============================== */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#122C25]/95 backdrop-blur-md border-t border-white/10 px-4 h-16 flex items-center justify-around">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#122C25]/95 backdrop-blur-md border-t border-[#EEEAF5] px-4 h-16 flex items-center justify-around">
         <button
           onClick={() => setActiveTab("home")}
           className={`flex flex-col items-center gap-1 transition-colors min-w-[50px] ${
-            activeTab === "home" ? "text-[#F1EBDD]" : "text-[#9CAF91]"
+            activeTab === "home" ? "text-white" : "text-[#A99BC7]"
           }`}
         >
           <Home className="w-5 h-5" />
@@ -1631,7 +1631,7 @@ export function PsychologistDashboardClient({
         <button
           onClick={() => setActiveTab("content")}
           className={`flex flex-col items-center gap-1 transition-colors min-w-[50px] ${
-            activeTab === "content" ? "text-[#F1EBDD]" : "text-[#9CAF91]"
+            activeTab === "content" ? "text-white" : "text-[#A99BC7]"
           }`}
         >
           <LayoutGrid className="w-5 h-5" />
@@ -1653,7 +1653,7 @@ export function PsychologistDashboardClient({
         <button
           onClick={() => setActiveTab("products")}
           className={`flex flex-col items-center gap-1 transition-colors min-w-[50px] ${
-            activeTab === "products" ? "text-[#F1EBDD]" : "text-[#9CAF91]"
+            activeTab === "products" ? "text-white" : "text-[#A99BC7]"
           }`}
         >
           <BookOpen className="w-5 h-5" />
@@ -1663,7 +1663,7 @@ export function PsychologistDashboardClient({
         <button
           onClick={() => setActiveTab("profile")}
           className={`flex flex-col items-center gap-1 transition-colors min-w-[50px] ${
-            activeTab === "profile" ? "text-[#F1EBDD]" : "text-[#9CAF91]"
+            activeTab === "profile" ? "text-white" : "text-[#A99BC7]"
           }`}
         >
           <User className="w-5 h-5" />

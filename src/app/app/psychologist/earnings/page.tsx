@@ -30,12 +30,12 @@ export default async function PsychologistEarningsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD] p-6 sm:p-10">
+    <div className="min-h-screen bg-[#FAF8F2] text-[#29272C] selection:bg-[#A99BC7] selection:text-white p-6 sm:p-10">
       <div className="max-w-6xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <Link
             href="/app/psychologist"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#9CAF91] hover:text-[#F1EBDD] transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#A99BC7] hover:text-white transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Practitioner Workspace</span>
@@ -43,14 +43,14 @@ export default async function PsychologistEarningsPage() {
 
           <Link
             href="/app/psychologist/payouts"
-            className="px-4 py-2 border border-white/10 hover:bg-white/5 text-[#F1EBDD] text-xs font-semibold rounded-full transition-colors shadow-sm"
+            className="px-4 py-2 border border-white/10 hover:bg-white/5 text-white text-xs font-semibold rounded-full transition-colors shadow-sm"
           >
             <span>View Payout History &rarr;</span>
           </Link>
         </div>
 
         <header className="border-b border-white/10 pb-4">
-          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[#F7F3E9]">
+          <h1 className="font-sans tracking-tight text-2xl sm:text-3xl font-normal text-[#29272C]">
             Practice Earnings & Revenue Ledger
           </h1>
           <p className="text-xs text-[#C9D2BC] mt-1 font-light">
@@ -61,40 +61,40 @@ export default async function PsychologistEarningsPage() {
         {/* Financial Metric Cards */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="atmospheric-card p-6 rounded-3xl">
-            <span className="text-xs font-semibold text-[#9CAF91] uppercase tracking-wider block">
+            <span className="text-xs font-semibold text-[#A99BC7] uppercase tracking-wider block">
               Gross Consultations
             </span>
-            <span className="font-serif text-3xl font-normal text-[#F7F3E9] block mt-1">
+            <span className="font-sans tracking-tight text-3xl font-normal text-[#29272C] block mt-1">
               ₹{data.summary.grossTotalMajor}
             </span>
             <p className="text-[11px] text-[#C9D2BC] mt-1 font-light">Total client payments</p>
           </div>
 
           <div className="atmospheric-card p-6 rounded-3xl">
-            <span className="text-xs font-semibold text-[#9CAF91] uppercase tracking-wider block">
+            <span className="text-xs font-semibold text-[#A99BC7] uppercase tracking-wider block">
               Platform Support (15%)
             </span>
-            <span className="font-serif text-3xl font-normal text-[#C9D2BC] block mt-1">
+            <span className="font-sans tracking-tight text-3xl font-normal text-[#C9D2BC] block mt-1">
               ₹{data.summary.commissionTotalMajor}
             </span>
-            <p className="text-[11px] text-[#9CAF91] mt-1 font-light">Direct clinical platform maintenance</p>
+            <p className="text-[11px] text-[#A99BC7] mt-1 font-light">Direct clinical platform maintenance</p>
           </div>
 
           <div className="atmospheric-card p-6 rounded-3xl">
-            <span className="text-xs font-semibold text-[#9CAF91] uppercase tracking-wider block">
+            <span className="text-xs font-semibold text-[#A99BC7] uppercase tracking-wider block">
               7-Day Holding Escrow
             </span>
-            <span className="font-serif text-3xl font-normal text-[#F1EBDD] block mt-1">
+            <span className="font-sans tracking-tight text-3xl font-normal text-white block mt-1">
               ₹{data.summary.pendingSettlementMajor}
             </span>
             <p className="text-[11px] text-[#C9D2BC] mt-1 font-light">Held during dispute/refund window</p>
           </div>
 
           <div className="atmospheric-card p-6 rounded-3xl border-[#9CAF91]/40">
-            <span className="text-xs font-semibold text-[#9CAF91] uppercase tracking-wider block">
+            <span className="text-xs font-semibold text-[#A99BC7] uppercase tracking-wider block">
               Ready for Payout
             </span>
-            <span className="font-serif text-3xl font-normal text-[#F1EBDD] block mt-1">
+            <span className="font-sans tracking-tight text-3xl font-normal text-white block mt-1">
               ₹{data.summary.eligibleForPayoutMajor}
             </span>
             <p className="text-[11px] text-[#C9D2BC] mt-1 font-light">Disbursed automatically on weekly batch</p>
@@ -103,23 +103,23 @@ export default async function PsychologistEarningsPage() {
 
         {/* Transactions Table */}
         <section className="atmospheric-card rounded-3xl overflow-hidden p-6 sm:p-8">
-          <h2 className="font-serif text-xl font-normal text-[#F7F3E9] mb-4">
+          <h2 className="font-sans tracking-tight text-xl font-normal text-[#29272C] mb-4">
             Recent Consultation Settlements
           </h2>
 
           {data.transactions.length === 0 ? (
             <div className="p-12 text-center text-xs text-[#C9D2BC]">
-              <Clock className="w-8 h-8 text-[#9CAF91] mx-auto mb-2 opacity-60" />
-              <h3 className="font-serif text-base text-[#F7F3E9]">No settlement items recorded yet</h3>
+              <Clock className="w-8 h-8 text-[#A99BC7] mx-auto mb-2 opacity-60" />
+              <h3 className="font-sans tracking-tight text-base text-[#29272C]">No settlement items recorded yet</h3>
               <p className="text-xs text-[#C9D2BC] mt-1 font-light">
                 Consultation settlements appear automatically when appointments are booked and confirmed.
               </p>
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-[#F7F3E9]">
+              <table className="w-full text-left text-xs text-[#29272C]">
                 <thead>
-                  <tr className="border-b border-white/10 text-[10px] uppercase tracking-wider text-[#9CAF91]">
+                  <tr className="border-b border-white/10 text-[10px] uppercase tracking-wider text-[#A99BC7]">
                     <th className="py-3 px-4">Client / Service</th>
                     <th className="py-3 px-4">Gross</th>
                     <th className="py-3 px-4">Net Payout</th>
@@ -131,11 +131,11 @@ export default async function PsychologistEarningsPage() {
                   {data.transactions.map((t: any) => (
                     <tr key={t.id}>
                       <td className="py-3 px-4">
-                        <span className="font-medium text-[#F7F3E9] block">{t.clientName}</span>
+                        <span className="font-medium text-[#29272C] block">{t.clientName}</span>
                         <span className="text-[11px] text-[#C9D2BC]">{t.serviceName}</span>
                       </td>
                       <td className="py-3 px-4">₹{t.grossAmountMajor}</td>
-                      <td className="py-3 px-4 font-semibold text-[#F1EBDD]">₹{t.netPayableMajor}</td>
+                      <td className="py-3 px-4 font-semibold text-white">₹{t.netPayableMajor}</td>
                       <td className="py-3 px-4">
                         <span className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[10px] uppercase font-semibold text-[#C9D2BC]">
                           {t.status}

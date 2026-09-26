@@ -76,7 +76,7 @@ export function ProfileReflections({ posts, psychologistName }: ProfileReflectio
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-[#173C32] to-[#0E241E] flex items-center justify-center">
-                      <Video className="w-12 h-12 text-[#9CAF91]/50" />
+                      <Video className="w-12 h-12 text-[#A99BC7]/50" />
                     </div>
                   )}
 
@@ -87,7 +87,7 @@ export function ProfileReflections({ posts, psychologistName }: ProfileReflectio
                     </div>
                   </div>
 
-                  <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-semibold tracking-wider uppercase text-[#F1EBDD] border border-white/10">
+                  <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-semibold tracking-wider uppercase text-white border border-white/10">
                     Video
                   </span>
                 </div>
@@ -102,7 +102,7 @@ export function ProfileReflections({ posts, psychologistName }: ProfileReflectio
                 </div>
               ) : (
                 <div className="p-8 aspect-square bg-[#244F42]/50 flex items-center justify-center text-center">
-                  <p className="font-serif text-lg italic text-[#F1EBDD] leading-relaxed">
+                  <p className="font-sans tracking-tight text-lg italic text-white leading-relaxed">
                     {post.caption}
                   </p>
                 </div>
@@ -113,7 +113,7 @@ export function ProfileReflections({ posts, psychologistName }: ProfileReflectio
                 <div className="p-4 text-xs text-[#C9D2BC] font-light space-y-2">
                   <p className="line-clamp-2 leading-relaxed">{post.caption}</p>
                   {post.date && (
-                    <span className="text-[10px] text-[#9CAF91] block">
+                    <span className="text-[10px] text-[#A99BC7] block">
                       {post.date}
                     </span>
                   )}
@@ -127,14 +127,14 @@ export function ProfileReflections({ posts, psychologistName }: ProfileReflectio
       {/* Video Lightbox Player Modal */}
       {activeVideo && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md">
-          <div className="relative w-full max-w-3xl bg-[#173C32] rounded-3xl border border-white/20 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+          <div className="relative w-full max-w-3xl bg-[#FAF8F2] rounded-3xl border border-white/20 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             {/* Header */}
             <div className="p-4 sm:p-5 flex items-center justify-between border-b border-white/10 bg-[#122C25]/90">
               <div className="pr-4">
-                <h3 className="font-serif text-lg text-[#F7F3E9] font-medium line-clamp-1">
+                <h3 className="font-sans tracking-tight text-lg text-[#29272C] font-medium line-clamp-1">
                   {activeVideo.title}
                 </h3>
-                <span className="text-[11px] text-[#9CAF91]">
+                <span className="text-[11px] text-[#A99BC7]">
                   Mind Refill Clinical Reflection
                 </span>
               </div>
@@ -160,7 +160,7 @@ export function ProfileReflections({ posts, psychologistName }: ProfileReflectio
 
             {/* Caption */}
             {activeVideo.caption && (
-              <div className="p-4 sm:p-5 bg-[#173C32] text-xs text-[#C9D2BC] font-light border-t border-white/10 max-h-36 overflow-y-auto">
+              <div className="p-4 sm:p-5 bg-[#FAF8F2] text-xs text-[#C9D2BC] font-light border-t border-white/10 max-h-36 overflow-y-auto">
                 <p className="leading-relaxed whitespace-pre-wrap">{activeVideo.caption}</p>
               </div>
             )}

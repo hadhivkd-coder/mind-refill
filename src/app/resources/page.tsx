@@ -159,7 +159,7 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
   const regularArticles = filteredArticles.filter((a) => a.id !== featuredArticle?.id);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD]">
+    <div className="min-h-screen flex flex-col bg-[#FAF8F2] text-[#29272C] selection:bg-[#A99BC7] selection:text-white">
       <Navbar />
 
       <main className="flex-grow">
@@ -167,11 +167,11 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
         <section className="pt-14 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#173C32] via-[#1C473C] to-[#244F42] border-b border-white/5 text-center">
           <div className="max-w-4xl mx-auto space-y-5">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-[#C9D2BC]">
-              <BookOpen className="w-3.5 h-3.5 text-[#9CAF91]" />
+              <BookOpen className="w-3.5 h-3.5 text-[#A99BC7]" />
               <span>Clinical Insights & Psychoeducation</span>
             </div>
 
-            <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal text-[#F7F3E9] leading-tight">
+            <h1 className="font-sans tracking-tight text-3xl sm:text-5xl md:text-6xl font-normal text-[#29272C] leading-tight">
               Sometimes understanding is the first step toward feeling safe.
             </h1>
 
@@ -182,13 +182,13 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
             {/* Search Bar */}
             <form method="GET" action="/resources" className="pt-4 max-w-2xl mx-auto">
               <div className="relative flex items-center">
-                <Search className="w-5 h-5 text-[#9CAF91] absolute left-4 pointer-events-none" />
+                <Search className="w-5 h-5 text-[#A99BC7] absolute left-4 pointer-events-none" />
                 <input
                   type="text"
                   name="q"
                   defaultValue={query}
                   placeholder="Search essays, concepts, or topics (e.g. nervous system, grief, burnout)..."
-                  className="w-full h-14 pl-12 pr-28 rounded-full bg-[#173C32]/80 border border-[#C9D2BC]/30 text-sm text-[#F7F3E9] placeholder-[#9CAF91]/70 focus:outline-none focus:border-[#F1EBDD] focus:ring-2 focus:ring-[#C9D2BC]/20 backdrop-blur-md shadow-inner transition-all"
+                  className="w-full h-14 pl-12 pr-28 rounded-full bg-[#FAF8F2]/80 border border-[#C9D2BC]/30 text-sm text-[#29272C] placeholder-[#9CAF91]/70 focus:outline-none focus:border-[#F1EBDD] focus:ring-2 focus:ring-[#C9D2BC]/20 backdrop-blur-md shadow-inner transition-all"
                 />
                 <button
                   type="submit"
@@ -205,17 +205,17 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-6">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <span className="text-xs font-semibold text-[#9CAF91] uppercase tracking-widest block mb-1">
+              <span className="text-xs font-semibold text-[#A99BC7] uppercase tracking-widest block mb-1">
                 Browse by Theme
               </span>
-              <h2 className="font-serif text-2xl sm:text-3xl font-normal text-[#F7F3E9]">
+              <h2 className="font-sans tracking-tight text-2xl sm:text-3xl font-normal text-[#29272C]">
                 Explore by what you&apos;re experiencing
               </h2>
             </div>
             {selectedCategory && (
               <Link
                 href="/resources"
-                className="text-xs font-medium text-[#C9D2BC] hover:text-[#F1EBDD] underline underline-offset-4"
+                className="text-xs font-medium text-[#C9D2BC] hover:text-white underline underline-offset-4"
               >
                 Clear filter
               </Link>
@@ -232,18 +232,18 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
                   className={`p-4 rounded-2xl border text-left transition-all flex flex-col justify-between group ${
                     isSelected
                       ? "bg-[#F1EBDD] text-[#173C32] border-[#F1EBDD] shadow-md"
-                      : "bg-[#244F42]/40 border-white/10 hover:border-[#9CAF91]/50 hover:bg-[#244F42]/70 text-[#F7F3E9]"
+                      : "bg-[#244F42]/40 border-white/10 hover:border-[#9CAF91]/50 hover:bg-[#244F42]/70 text-[#29272C]"
                   }`}
                 >
                   <div>
-                    <span className={`text-xs font-semibold block ${isSelected ? "text-[#173C32]" : "text-[#F7F3E9]"}`}>
+                    <span className={`text-xs font-semibold block ${isSelected ? "text-[#173C32]" : "text-[#29272C]"}`}>
                       {topic.label}
                     </span>
                     <p className={`text-[11px] mt-1 line-clamp-2 leading-relaxed ${isSelected ? "text-[#244F42]" : "text-[#C9D2BC]/80"}`}>
                       {topic.desc}
                     </p>
                   </div>
-                  <div className={`mt-3 text-[10px] font-semibold flex items-center gap-1 ${isSelected ? "text-[#173C32]" : "text-[#9CAF91] group-hover:text-[#F1EBDD]"}`}>
+                  <div className={`mt-3 text-[10px] font-semibold flex items-center gap-1 ${isSelected ? "text-[#173C32]" : "text-[#A99BC7] group-hover:text-white"}`}>
                     <span>{isSelected ? "Active" : "Explore"}</span>
                     <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                   </div>
@@ -257,22 +257,22 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
         {featuredArticle && (
           <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="atmospheric-card rounded-3xl p-8 sm:p-12 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-96 h-96 bg-[#3F6855]/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute top-0 right-0 w-96 h-96 bg-[#EAE6F0]/20 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative z-10 max-w-3xl space-y-4">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-[10px] font-semibold text-[#173C32] uppercase tracking-widest px-3 py-1 rounded-full bg-[#F1EBDD]">
                     Featured Insight
                   </span>
-                  <span className="text-xs text-[#9CAF91]">•</span>
+                  <span className="text-xs text-[#A99BC7]">•</span>
                   <span className="text-xs text-[#C9D2BC] font-medium">{featuredArticle.category}</span>
-                  <span className="text-xs text-[#9CAF91]">•</span>
+                  <span className="text-xs text-[#A99BC7]">•</span>
                   <span className="text-xs text-[#C9D2BC] flex items-center gap-1">
                     <Clock className="w-3.5 h-3.5" /> {featuredArticle.readingTimeMinutes} min read
                   </span>
                 </div>
 
-                <h2 className="font-serif text-2xl sm:text-4xl font-normal tracking-tight leading-tight text-[#F7F3E9]">
+                <h2 className="font-sans tracking-tight text-2xl sm:text-4xl font-normal tracking-tight leading-tight text-[#29272C]">
                   {featuredArticle.title}
                 </h2>
 
@@ -282,12 +282,12 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
 
                 <div className="pt-6 flex flex-wrap items-center justify-between gap-4 border-t border-white/10">
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-[#3F6855]/50 flex items-center justify-center font-bold text-xs text-[#F1EBDD] border border-white/10">
+                    <div className="h-10 w-10 rounded-full bg-[#EAE6F0]/50 flex items-center justify-center font-bold text-xs text-white border border-white/10">
                       {featuredArticle.authorName.charAt(0)}
                     </div>
                     <div>
-                      <span className="text-xs font-semibold text-[#F7F3E9] block">{featuredArticle.authorName}</span>
-                      <span className="text-[11px] text-[#9CAF91] block">{featuredArticle.authorTitle}</span>
+                      <span className="text-xs font-semibold text-[#29272C] block">{featuredArticle.authorName}</span>
+                      <span className="text-[11px] text-[#A99BC7] block">{featuredArticle.authorTitle}</span>
                     </div>
                   </div>
 
@@ -307,7 +307,7 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
         {/* Regular Articles Grid */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 flex-1">
           <div className="flex justify-between items-center mb-8">
-            <h3 className="font-serif text-xl sm:text-2xl font-normal text-[#F7F3E9]">
+            <h3 className="font-sans tracking-tight text-xl sm:text-2xl font-normal text-[#29272C]">
               {selectedCategory ? `Articles in ${selectedCategory}` : "All Clinical Reflections"}
             </h3>
           </div>
@@ -315,7 +315,7 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
           {regularArticles.length === 0 ? (
             <div className="atmospheric-card rounded-3xl p-10 text-center max-w-md mx-auto my-8">
               <p className="text-xs text-[#C9D2BC]">No essays found matching this topic right now.</p>
-              <Link href="/resources" className="mt-3 inline-block text-xs font-semibold text-[#F1EBDD] underline underline-offset-4">
+              <Link href="/resources" className="mt-3 inline-block text-xs font-semibold text-white underline underline-offset-4">
                 View all reflections
               </Link>
             </div>
@@ -327,7 +327,7 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
                   className="atmospheric-card rounded-3xl p-6 sm:p-7 flex flex-col justify-between group hover:border-[#9CAF91]/50 transition-all"
                 >
                   <div>
-                    <div className="flex items-center justify-between mb-4 text-xs text-[#9CAF91]">
+                    <div className="flex items-center justify-between mb-4 text-xs text-[#A99BC7]">
                       <span className="text-[10px] font-semibold uppercase tracking-wider text-[#173C32] bg-[#F1EBDD] px-2.5 py-0.5 rounded-full">
                         {article.category}
                       </span>
@@ -337,7 +337,7 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
                       </span>
                     </div>
 
-                    <h3 className="font-serif text-lg sm:text-xl font-normal text-[#F7F3E9] group-hover:text-[#F1EBDD] transition-colors mb-3 leading-snug">
+                    <h3 className="font-sans tracking-tight text-lg sm:text-xl font-normal text-[#29272C] group-hover:text-white transition-colors mb-3 leading-snug">
                       {article.title}
                     </h3>
 
@@ -346,8 +346,8 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-[#9CAF91]">
-                    <span className="font-medium text-[#F7F3E9] text-[11px] truncate max-w-[180px]">
+                  <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-[#A99BC7]">
+                    <span className="font-medium text-[#29272C] text-[11px] truncate max-w-[180px]">
                       {article.authorName}
                     </span>
                     <span className="text-[10px] text-[#C9D2BC]">

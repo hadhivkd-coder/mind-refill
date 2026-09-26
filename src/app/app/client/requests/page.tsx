@@ -29,23 +29,23 @@ export default async function ClientRequestsPage() {
       case "BOOKED":
         return <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-500/20 text-green-200 border border-green-500/30">Session Booked</span>;
       case "COMPLETED":
-        return <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-[#F1EBDD] border border-white/15">Completed</span>;
+        return <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/15">Completed</span>;
       case "CLOSED":
-        return <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/5 text-[#9CAF91]">Closed</span>;
+        return <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/5 text-[#A99BC7]">Closed</span>;
       case "CANCELLED":
         return <span className="px-3 py-1 rounded-full text-xs font-medium bg-rose-500/20 text-rose-200 border border-rose-500/30">Cancelled</span>;
       default:
-        return <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-[#F1EBDD]">{status}</span>;
+        return <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white">{status}</span>;
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD] p-4 sm:p-8 lg:p-12">
+    <div className="min-h-screen bg-[#FAF8F2] text-[#29272C] selection:bg-[#A99BC7] selection:text-white p-4 sm:p-8 lg:p-12">
       <div className="max-w-5xl mx-auto space-y-8">
         <div className="flex items-center justify-between">
           <Link
             href="/app/client"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#9CAF91] hover:text-[#F1EBDD] transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#A99BC7] hover:text-white transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Client Sanctuary</span>
@@ -59,7 +59,7 @@ export default async function ClientRequestsPage() {
         </div>
 
         <header className="border-b border-white/10 pb-5">
-          <h1 className="font-serif text-3xl sm:text-4xl font-normal text-[#F7F3E9]">
+          <h1 className="font-sans tracking-tight text-3xl sm:text-4xl font-normal text-[#29272C]">
             My Care Requests
           </h1>
           <p className="text-xs text-[#C9D2BC] mt-1 font-light">
@@ -69,8 +69,8 @@ export default async function ClientRequestsPage() {
 
         {requests.length === 0 ? (
           <div className="atmospheric-card rounded-3xl border border-white/10 p-12 text-center shadow-lg bg-[#122C25]/80">
-            <HeartHandshake className="w-12 h-12 text-[#9CAF91] mx-auto mb-3 opacity-60" />
-            <h2 className="font-serif text-xl text-[#F7F3E9]">No active care requests</h2>
+            <HeartHandshake className="w-12 h-12 text-[#A99BC7] mx-auto mb-3 opacity-60" />
+            <h2 className="font-sans tracking-tight text-xl text-[#29272C]">No active care requests</h2>
             <p className="text-xs text-[#C9D2BC] mt-1.5 max-w-md mx-auto leading-relaxed font-light">
               When you submit a guided matching request or need assistance selecting a therapist, our care team guides every step.
             </p>
@@ -93,11 +93,11 @@ export default async function ClientRequestsPage() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-semibold text-[#F1EBDD] uppercase tracking-wider">
+                      <span className="text-xs font-semibold text-white uppercase tracking-wider">
                         {req.isDirectBookingRequest ? "Direct Booking Request" : "Guided Matching Request"}
                       </span>
                       <span className="text-xs text-white/30">•</span>
-                      <span className="text-xs text-[#9CAF91] flex items-center gap-1">
+                      <span className="text-xs text-[#A99BC7] flex items-center gap-1">
                         <Calendar className="w-3.5 h-3.5" />
                         {new Date(req.createdAt).toLocaleDateString("en-US", {
                           month: "short",
@@ -106,7 +106,7 @@ export default async function ClientRequestsPage() {
                         })}
                       </span>
                     </div>
-                    <div className="font-serif text-lg text-[#F7F3E9]">
+                    <div className="font-sans tracking-tight text-lg text-[#29272C]">
                       {req.targetPsychologist
                         ? `Clinician: ${req.targetPsychologist.fullName} (${req.targetPsychologist.professionalTitle})`
                         : "General Clinical Care Coordination Pool"}
@@ -117,7 +117,7 @@ export default async function ClientRequestsPage() {
 
                 <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div>
-                    <span className="text-[#9CAF91] font-semibold uppercase tracking-wider text-[10px] block mb-1">
+                    <span className="text-[#A99BC7] font-semibold uppercase tracking-wider text-[10px] block mb-1">
                       Areas of Concern
                     </span>
                     <div className="flex flex-wrap gap-1.5">
@@ -133,7 +133,7 @@ export default async function ClientRequestsPage() {
                   </div>
 
                   <div>
-                    <span className="text-[#9CAF91] font-semibold uppercase tracking-wider text-[10px] block mb-1">
+                    <span className="text-[#A99BC7] font-semibold uppercase tracking-wider text-[10px] block mb-1">
                       Preferred Delivery & Format
                     </span>
                     <p className="text-[#C9D2BC] font-light">

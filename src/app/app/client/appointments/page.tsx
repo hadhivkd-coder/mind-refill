@@ -11,12 +11,12 @@ export default async function ClientAppointmentsPage() {
   const { upcoming, past } = await AppointmentService.getClientAppointments(session.user.id);
 
   return (
-    <div className="min-h-screen bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD] p-4 sm:p-8 lg:p-12">
+    <div className="min-h-screen bg-[#FAF8F2] text-[#29272C] selection:bg-[#A99BC7] selection:text-white p-4 sm:p-8 lg:p-12">
       <div className="max-w-5xl mx-auto space-y-8">
         <div className="flex items-center justify-between">
           <Link
             href="/app/client"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#9CAF91] hover:text-[#F1EBDD] transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#A99BC7] hover:text-white transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Client Sanctuary</span>
@@ -30,7 +30,7 @@ export default async function ClientAppointmentsPage() {
         </div>
 
         <header className="border-b border-white/10 pb-5">
-          <h1 className="font-serif text-3xl sm:text-4xl font-normal text-[#F7F3E9]">
+          <h1 className="font-sans tracking-tight text-3xl sm:text-4xl font-normal text-[#29272C]">
             My Scheduled Appointments
           </h1>
           <p className="text-xs text-[#C9D2BC] mt-1 font-light">
@@ -40,14 +40,14 @@ export default async function ClientAppointmentsPage() {
 
         {/* 1. Upcoming Appointments */}
         <section className="space-y-4">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-[#9CAF91]">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-[#A99BC7]">
             Upcoming Sessions ({upcoming.length})
           </h2>
 
           {upcoming.length === 0 ? (
             <div className="atmospheric-card rounded-3xl border border-white/10 p-10 text-center shadow-lg bg-[#122C25]/80">
-              <Calendar className="w-10 h-10 text-[#9CAF91] mx-auto mb-3 opacity-60" />
-              <h3 className="font-serif text-lg text-[#F7F3E9]">No upcoming sessions scheduled</h3>
+              <Calendar className="w-10 h-10 text-[#A99BC7] mx-auto mb-3 opacity-60" />
+              <h3 className="font-sans tracking-tight text-lg text-[#29272C]">No upcoming sessions scheduled</h3>
               <p className="text-xs text-[#C9D2BC] mt-1 font-light max-w-sm mx-auto">
                 When you feel ready to speak with a licensed psychologist, our care team is here to support you.
               </p>
@@ -67,7 +67,7 @@ export default async function ClientAppointmentsPage() {
                 >
                   <div className="space-y-3">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-semibold text-[#F1EBDD] uppercase tracking-wider">
+                      <span className="text-xs font-semibold text-white uppercase tracking-wider">
                         {apt.service.name}
                       </span>
                       <span className="text-xs text-white/30">•</span>
@@ -76,14 +76,14 @@ export default async function ClientAppointmentsPage() {
                       </span>
                     </div>
 
-                    <h3 className="font-serif text-xl font-normal text-[#F7F3E9]">
+                    <h3 className="font-sans tracking-tight text-xl font-normal text-[#29272C]">
                       Session with {apt.psychologist.fullName}
                     </h3>
                     <p className="text-xs text-[#C9D2BC] font-light">{apt.psychologist.professionalTitle}</p>
 
                     <div className="flex flex-wrap items-center gap-4 text-xs text-[#C9D2BC] pt-2">
-                      <span className="flex items-center gap-1.5 font-medium text-[#F7F3E9]">
-                        <Calendar className="w-4 h-4 text-[#9CAF91]" />
+                      <span className="flex items-center gap-1.5 font-medium text-[#29272C]">
+                        <Calendar className="w-4 h-4 text-[#A99BC7]" />
                         {new Date(apt.startTime).toLocaleDateString("en-US", {
                           weekday: "short",
                           month: "short",
@@ -92,7 +92,7 @@ export default async function ClientAppointmentsPage() {
                         })}
                       </span>
                       <span className="flex items-center gap-1.5">
-                        <Clock className="w-4 h-4 text-[#9CAF91]" />
+                        <Clock className="w-4 h-4 text-[#A99BC7]" />
                         {new Date(apt.startTime).toLocaleTimeString("en-US", {
                           hour: "2-digit",
                           minute: "2-digit",
@@ -106,24 +106,24 @@ export default async function ClientAppointmentsPage() {
                       <span className="flex items-center gap-1.5">
                         {apt.deliveryType === "ONLINE_VIDEO" ? (
                           <>
-                            <Video className="w-4 h-4 text-[#9CAF91]" /> Encrypted Video Room
+                            <Video className="w-4 h-4 text-[#A99BC7]" /> Encrypted Video Room
                           </>
                         ) : (
                           <>
-                            <MapPin className="w-4 h-4 text-[#9CAF91]" /> In-Person Consultation
+                            <MapPin className="w-4 h-4 text-[#A99BC7]" /> In-Person Consultation
                           </>
                         )}
                       </span>
                     </div>
 
                     {apt.meetingDetails && (
-                      <div className="mt-3 p-3.5 rounded-xl bg-white/5 border border-white/10 text-xs text-[#F1EBDD]">
+                      <div className="mt-3 p-3.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white">
                         Video Room Link:{" "}
                         <a
                           href={apt.meetingDetails}
                           target="_blank"
                           rel="noreferrer"
-                          className="underline font-semibold text-[#F1EBDD] hover:text-white"
+                          className="underline font-semibold text-white hover:text-white"
                         >
                           {apt.meetingDetails}
                         </a>
@@ -139,7 +139,7 @@ export default async function ClientAppointmentsPage() {
         {/* 2. Past Appointments */}
         {past.length > 0 && (
           <section className="space-y-4 pt-4">
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-[#9CAF91]">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-[#A99BC7]">
               Past Consultation History ({past.length})
             </h2>
 
@@ -147,10 +147,10 @@ export default async function ClientAppointmentsPage() {
               {past.map((apt) => (
                 <div key={apt.id} className="p-4 sm:p-5 flex items-center justify-between text-xs">
                   <div>
-                    <div className="font-serif text-base text-[#F7F3E9]">
+                    <div className="font-sans tracking-tight text-base text-[#29272C]">
                       {apt.psychologist.fullName} &mdash; {apt.service.name}
                     </div>
-                    <div className="text-[#9CAF91] text-[11px] mt-0.5">
+                    <div className="text-[#A99BC7] text-[11px] mt-0.5">
                       {new Date(apt.startTime).toLocaleDateString()} at{" "}
                       {new Date(apt.startTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                     </div>

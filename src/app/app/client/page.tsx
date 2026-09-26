@@ -22,9 +22,9 @@ export default async function ClientDashboardPage() {
   const session = await enforcePageRole(UserRole.CLIENT);
 
   return (
-    <div className="min-h-screen bg-[#173C32] text-[#F7F3E9] selection:bg-[#3F6855] selection:text-[#F1EBDD] p-4 sm:p-8 lg:p-12 relative overflow-hidden">
+    <div className="min-h-screen bg-[#FAF8F2] text-[#29272C] selection:bg-[#A99BC7] selection:text-white p-4 sm:p-8 lg:p-12 relative overflow-hidden">
       {/* Ambient background glows */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#3F6855]/20 blur-3xl pointer-events-none" />
+      <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#EAE6F0]/20 blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 -right-32 w-[32rem] h-[32rem] rounded-full bg-[#718B73]/15 blur-3xl pointer-events-none" />
 
       <div className="max-w-6xl mx-auto space-y-8 relative z-10">
@@ -32,14 +32,14 @@ export default async function ClientDashboardPage() {
         <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/10 pb-6">
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="h-10 w-10 rounded-2xl bg-[#244F42] border border-white/10 flex items-center justify-center font-bold text-base text-[#F1EBDD] group-hover:border-[#9CAF91]/50 transition-colors">
+              <div className="h-10 w-10 rounded-2xl bg-[#244F42] border border-white/10 flex items-center justify-center font-bold text-base text-white group-hover:border-[#9CAF91]/50 transition-colors">
                 Ψ
               </div>
               <div>
-                <span className="font-serif text-xl font-normal tracking-tight text-[#F7F3E9] block leading-none">
+                <span className="font-sans tracking-tight text-xl font-normal tracking-tight text-[#29272C] block leading-none">
                   Mind Refill
                 </span>
-                <span className="text-[10px] uppercase tracking-wider text-[#9CAF91] font-semibold">
+                <span className="text-[10px] uppercase tracking-wider text-[#A99BC7] font-semibold">
                   Client Wellbeing Sanctuary
                 </span>
               </div>
@@ -55,7 +55,7 @@ export default async function ClientDashboardPage() {
             <form action="/api/auth/logout" method="POST">
               <button
                 type="submit"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 text-[#F1EBDD] transition-all active:scale-95"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 text-white transition-all active:scale-95"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 <span>Sign Out</span>
@@ -67,12 +67,12 @@ export default async function ClientDashboardPage() {
         {/* Welcoming Emotionally-Intelligent Hero Card */}
         <section className="atmospheric-card rounded-3xl p-6 sm:p-10 border border-white/15 shadow-2xl relative overflow-hidden bg-[#122C25]/85 backdrop-blur-md">
           <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/5 border border-white/10 text-[#9CAF91] text-xs font-semibold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5 text-[#F1EBDD]" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/5 border border-white/10 text-[#A99BC7] text-xs font-semibold uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5 text-white" />
               <span>Your Safe Space</span>
             </div>
 
-            <h1 className="font-serif text-3xl sm:text-5xl font-normal text-[#F7F3E9] leading-tight">
+            <h1 className="font-sans tracking-tight text-3xl sm:text-5xl font-normal text-[#29272C] leading-tight">
               Welcome to your quiet space.
             </h1>
 
@@ -90,9 +90,9 @@ export default async function ClientDashboardPage() {
               </Link>
               <Link
                 href="/intake"
-                className="h-12 px-6 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-[#F7F3E9] font-medium text-xs flex items-center gap-2 transition-all"
+                className="h-12 px-6 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-[#29272C] font-medium text-xs flex items-center gap-2 transition-all"
               >
-                <Compass className="w-3.5 h-3.5 text-[#9CAF91]" />
+                <Compass className="w-3.5 h-3.5 text-[#A99BC7]" />
                 <span>Guided Intake Assessment</span>
               </Link>
             </div>
@@ -107,11 +107,11 @@ export default async function ClientDashboardPage() {
             className="atmospheric-card p-6 rounded-3xl border border-white/10 shadow-lg hover:border-[#9CAF91]/50 transition-all duration-300 group flex flex-col justify-between space-y-6 hover:-translate-y-1 bg-[#122C25]/80"
           >
             <div className="space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-[#173C32] border border-white/10 flex items-center justify-center text-[#F1EBDD] group-hover:scale-105 transition-transform">
-                <Calendar className="w-5 h-5 text-[#9CAF91]" />
+              <div className="w-12 h-12 rounded-2xl bg-[#FAF8F2] border border-white/10 flex items-center justify-center text-white group-hover:scale-105 transition-transform">
+                <Calendar className="w-5 h-5 text-[#A99BC7]" />
               </div>
               <div>
-                <h2 className="font-serif text-xl font-medium text-[#F7F3E9] group-hover:text-[#F1EBDD] transition-colors">
+                <h2 className="font-sans tracking-tight text-xl font-medium text-[#29272C] group-hover:text-white transition-colors">
                   Appointments
                 </h2>
                 <p className="text-xs text-[#C9D2BC] font-light mt-1.5 leading-relaxed">
@@ -119,7 +119,7 @@ export default async function ClientDashboardPage() {
                 </p>
               </div>
             </div>
-            <div className="pt-2 flex items-center text-xs font-semibold text-[#9CAF91] group-hover:text-[#F1EBDD] transition-colors gap-1.5">
+            <div className="pt-2 flex items-center text-xs font-semibold text-[#A99BC7] group-hover:text-white transition-colors gap-1.5">
               <span>View Agenda</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </div>
@@ -131,11 +131,11 @@ export default async function ClientDashboardPage() {
             className="atmospheric-card p-6 rounded-3xl border border-white/10 shadow-lg hover:border-[#9CAF91]/50 transition-all duration-300 group flex flex-col justify-between space-y-6 hover:-translate-y-1 bg-[#122C25]/80"
           >
             <div className="space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-[#173C32] border border-white/10 flex items-center justify-center text-[#F1EBDD] group-hover:scale-105 transition-transform">
-                <HeartHandshake className="w-5 h-5 text-[#9CAF91]" />
+              <div className="w-12 h-12 rounded-2xl bg-[#FAF8F2] border border-white/10 flex items-center justify-center text-white group-hover:scale-105 transition-transform">
+                <HeartHandshake className="w-5 h-5 text-[#A99BC7]" />
               </div>
               <div>
-                <h2 className="font-serif text-xl font-medium text-[#F7F3E9] group-hover:text-[#F1EBDD] transition-colors">
+                <h2 className="font-sans tracking-tight text-xl font-medium text-[#29272C] group-hover:text-white transition-colors">
                   Care Requests
                 </h2>
                 <p className="text-xs text-[#C9D2BC] font-light mt-1.5 leading-relaxed">
@@ -143,7 +143,7 @@ export default async function ClientDashboardPage() {
                 </p>
               </div>
             </div>
-            <div className="pt-2 flex items-center text-xs font-semibold text-[#9CAF91] group-hover:text-[#F1EBDD] transition-colors gap-1.5">
+            <div className="pt-2 flex items-center text-xs font-semibold text-[#A99BC7] group-hover:text-white transition-colors gap-1.5">
               <span>Active Requests</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </div>
@@ -155,11 +155,11 @@ export default async function ClientDashboardPage() {
             className="atmospheric-card p-6 rounded-3xl border border-white/10 shadow-lg hover:border-[#9CAF91]/50 transition-all duration-300 group flex flex-col justify-between space-y-6 hover:-translate-y-1 bg-[#122C25]/80"
           >
             <div className="space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-[#173C32] border border-white/10 flex items-center justify-center text-[#F1EBDD] group-hover:scale-105 transition-transform">
-                <BookOpen className="w-5 h-5 text-[#9CAF91]" />
+              <div className="w-12 h-12 rounded-2xl bg-[#FAF8F2] border border-white/10 flex items-center justify-center text-white group-hover:scale-105 transition-transform">
+                <BookOpen className="w-5 h-5 text-[#A99BC7]" />
               </div>
               <div>
-                <h2 className="font-serif text-xl font-medium text-[#F7F3E9] group-hover:text-[#F1EBDD] transition-colors">
+                <h2 className="font-sans tracking-tight text-xl font-medium text-[#29272C] group-hover:text-white transition-colors">
                   Digital Library
                 </h2>
                 <p className="text-xs text-[#C9D2BC] font-light mt-1.5 leading-relaxed">
@@ -167,7 +167,7 @@ export default async function ClientDashboardPage() {
                 </p>
               </div>
             </div>
-            <div className="pt-2 flex items-center text-xs font-semibold text-[#9CAF91] group-hover:text-[#F1EBDD] transition-colors gap-1.5">
+            <div className="pt-2 flex items-center text-xs font-semibold text-[#A99BC7] group-hover:text-white transition-colors gap-1.5">
               <span>Open Library</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </div>
@@ -179,11 +179,11 @@ export default async function ClientDashboardPage() {
             className="atmospheric-card p-6 rounded-3xl border border-white/10 shadow-lg hover:border-[#9CAF91]/50 transition-all duration-300 group flex flex-col justify-between space-y-6 hover:-translate-y-1 bg-[#122C25]/80"
           >
             <div className="space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-[#173C32] border border-white/10 flex items-center justify-center text-[#F1EBDD] group-hover:scale-105 transition-transform">
-                <Video className="w-5 h-5 text-[#9CAF91]" />
+              <div className="w-12 h-12 rounded-2xl bg-[#FAF8F2] border border-white/10 flex items-center justify-center text-white group-hover:scale-105 transition-transform">
+                <Video className="w-5 h-5 text-[#A99BC7]" />
               </div>
               <div>
-                <h2 className="font-serif text-xl font-medium text-[#F7F3E9] group-hover:text-[#F1EBDD] transition-colors">
+                <h2 className="font-sans tracking-tight text-xl font-medium text-[#29272C] group-hover:text-white transition-colors">
                   Workshops & Events
                 </h2>
                 <p className="text-xs text-[#C9D2BC] font-light mt-1.5 leading-relaxed">
@@ -191,7 +191,7 @@ export default async function ClientDashboardPage() {
                 </p>
               </div>
             </div>
-            <div className="pt-2 flex items-center text-xs font-semibold text-[#9CAF91] group-hover:text-[#F1EBDD] transition-colors gap-1.5">
+            <div className="pt-2 flex items-center text-xs font-semibold text-[#A99BC7] group-hover:text-white transition-colors gap-1.5">
               <span>My Events</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </div>
@@ -201,11 +201,11 @@ export default async function ClientDashboardPage() {
         {/* Somatic Check-in / Grounding Note */}
         <section className="atmospheric-card rounded-3xl p-6 sm:p-8 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 bg-[#122C25]/60">
           <div className="space-y-1.5">
-            <span className="text-[11px] font-semibold text-[#9CAF91] uppercase tracking-wider flex items-center gap-1.5">
+            <span className="text-[11px] font-semibold text-[#A99BC7] uppercase tracking-wider flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5" />
               <span>Gentle Nervous System Pause</span>
             </span>
-            <p className="font-serif italic text-base sm:text-lg text-[#F1EBDD]">
+            <p className="font-sans tracking-tight italic text-base sm:text-lg text-white">
               &ldquo;Inhale for 4 seconds, hold gently for 4, exhale for 6. Let your shoulders soften.&rdquo;
             </p>
             <p className="text-xs text-[#C9D2BC] font-light">
@@ -215,18 +215,18 @@ export default async function ClientDashboardPage() {
 
           <Link
             href="/ebooks"
-            className="px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-xs text-[#F1EBDD] font-medium transition-colors shrink-0"
+            className="px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-xs text-white font-medium transition-colors shrink-0"
           >
             Explore Wellbeing Guides
           </Link>
         </section>
 
         {/* Crisis Safety Net Notice */}
-        <div className="p-5 rounded-2xl bg-[#122C25]/90 border border-white/10 text-xs text-[#9CAF91] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="p-5 rounded-2xl bg-[#122C25]/90 border border-white/10 text-xs text-[#A99BC7] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <HeartHandshake className="w-4 h-4 text-[#C7A4A0] shrink-0" />
             <span>
-              If you are in immediate emotional distress, free 24/7 confidential support is always available. Dial <strong className="text-[#F1EBDD]">988</strong> (or 112 / KIRAN 1800-599-0019).
+              If you are in immediate emotional distress, free 24/7 confidential support is always available. Dial <strong className="text-white">988</strong> (or 112 / KIRAN 1800-599-0019).
             </span>
           </div>
           <Link

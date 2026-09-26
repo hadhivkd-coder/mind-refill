@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BookOpen, Search, ShieldCheck, Heart, Sparkles, MoveRight, UserPlus, PlayCircle, Star } from "lucide-react";
+import { ArrowRight, BookOpen, Search, ShieldCheck, Heart, Sparkles, MoveRight, UserPlus, PlayCircle, Star, Brain, Moon, Leaf, User, MoreHorizontal, MessageCircle, Users, Wind } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { DirectoryService } from "@/modules/directory/services/directory.service";
@@ -168,25 +168,59 @@ export default async function HomePage() {
         {/* ========================================================================= */}
         {/* 2. WHAT ARE YOU LOOKING FOR? */}
         {/* ========================================================================= */}
-        <section className="w-full py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <section className="relative w-full py-24 bg-[#FCFBFA] overflow-hidden">
+          {/* Subtle background blobbly shapes */}
+          <div className="absolute top-0 left-0 w-80 h-80 bg-[#F4EFF9] rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#F4EFF9] rounded-full blur-[120px] translate-x-1/3 translate-y-1/3 pointer-events-none" />
+
+          {/* Decorative Arrow & Text (Desktop only) */}
+          <div className="hidden lg:flex absolute right-[15%] top-[25%] text-[#AFA1CE] flex-col items-center">
+            <span className="font-serif italic text-lg transform -rotate-12 whitespace-nowrap">Take the<br/>first step</span>
+            <svg width="40" height="50" viewBox="0 0 40 50" fill="none" className="transform -scale-x-100 rotate-12 -mt-2 ml-8">
+              <path d="M5 5 Q 35 25 20 45" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+              <path d="M15 40 L 20 45 L 25 38" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+            </svg>
+          </div>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
             <div className="text-center max-w-2xl mx-auto space-y-4">
-              <h2 className="text-[2rem] md:text-[2.5rem] font-medium text-[#29272C] tracking-tight">
-                What&apos;s on your mind?
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="h-[1px] w-8 bg-[#D1C4E9]" />
+                <span className="text-[11px] font-bold tracking-[0.2em] text-[#AFA1CE] uppercase">A safe place to start</span>
+                <div className="h-[1px] w-8 bg-[#D1C4E9]" />
+              </div>
+              <h2 className="text-[2.5rem] md:text-[3.5rem] font-bold text-[#1A1A1A] tracking-tight">
+                What&apos;s on your <span className="text-[#7856A4]">mind?</span>
               </h2>
-              <p className="text-[#62547F] text-[16px] font-light">
+              <p className="text-[#666666] text-[16px] md:text-[18px] font-normal pt-2">
                 Click what feels relevant to you, and we&apos;ll help you find the right path forward.
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 max-w-4xl mx-auto">
-              {MIND_CATEGORIES.map((cat) => (
+            <div className="flex flex-wrap items-center justify-center gap-4 max-w-[950px] mx-auto">
+              {[
+                { title: "Feeling\noverwhelmed", id: "overwhelmed", bg: "bg-[#F3EEFA]", icon: <Brain className="w-5 h-5 text-[#7856A4]" /> },
+                { title: "Relationship\ndifficulties", id: "relationships", bg: "bg-[#FCEAEA]", icon: <Heart className="w-5 h-5 text-[#D9534F]" /> },
+                { title: "Anxiety &\nstress", id: "anxiety", bg: "bg-[#F3E8FF]", icon: <Wind className="w-5 h-5 text-[#9333EA]" /> },
+                { title: "Sleep & rest", id: "sleep", bg: "bg-[#EBF4FF]", icon: <Moon className="w-5 h-5 text-[#3B82F6]" /> },
+                { title: "Life changes", id: "changes", bg: "bg-[#EAF5EE]", icon: <Leaf className="w-5 h-5 text-[#10B981]" /> },
+                { title: "Understanding\nyourself", id: "self", bg: "bg-[#FDF0E6]", icon: <User className="w-5 h-5 text-[#F97316]" /> },
+                { title: "Something else", id: "other", bg: "bg-[#F0EDF5]", icon: <MoreHorizontal className="w-5 h-5 text-[#7856A4]" /> },
+              ].map((cat) => (
                 <Link
                   key={cat.id}
                   href={`/intake?focus=${cat.id}`}
-                  className="px-6 py-4 rounded-2xl bg-[#FAF8F2] border border-[#EEEAF5] hover:border-[#A99BC7] hover:bg-[#F7F5FA] text-[#29272C] text-[15px] font-medium transition-all hover:-translate-y-1 hover:shadow-md"
+                  className="group bg-white rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(120,86,164,0.12)] p-2 pr-5 flex items-center gap-4 transition-all hover:-translate-y-1"
                 >
-                  {cat.title}
+                  <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${cat.bg}`}>
+                    {cat.icon}
+                  </div>
+                  <span className="text-[14px] font-semibold text-[#1A1A1A] leading-tight whitespace-pre-line pr-2">
+                    {cat.title}
+                  </span>
+                  <div className="w-8 h-8 rounded-full border border-[#EEEAF5] group-hover:border-[#7856A4] group-hover:text-[#7856A4] flex items-center justify-center text-[#AFA1CE] transition-colors shrink-0">
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
                 </Link>
               ))}
             </div>
@@ -196,46 +230,83 @@ export default async function HomePage() {
         {/* ========================================================================= */}
         {/* 3. HOW MIND REFILL WORKS */}
         {/* ========================================================================= */}
-        <section className="w-full py-24 bg-[#F7F5FA]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-[2rem] md:text-[2.5rem] font-medium text-[#29272C] tracking-tight">
+        <section className="relative w-full py-28 bg-[#F8F6FC] overflow-hidden">
+          {/* Subtle floral left graphic */}
+          <div className="absolute left-[-5%] bottom-0 text-[#EAE6F0] pointer-events-none opacity-50">
+            <svg width="300" height="300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.5">
+              <path d="M12 22C12 22 12 14 18 14C24 14 24 6 24 6C24 6 16 6 16 12C16 12 16 6 12 6M0 14C0 14 0 22 6 22C12 22 12 14 12 14C12 14 4 14 4 20C4 20 4 14 0 14Z" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="text-center mb-24 space-y-4">
+              <span className="text-[11px] font-bold tracking-[0.2em] text-[#7856A4] uppercase">Simple. Human. Personal.</span>
+              <h2 className="text-[2.5rem] md:text-[3.5rem] font-bold text-[#1A1A1A] tracking-tight">
                 How it works
               </h2>
+              <p className="text-[#666666] text-[16px] md:text-[18px] font-normal">
+                A simple path to the support you deserve.
+              </p>
             </div>
 
-            <div className="relative grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto">
-              {/* Desktop Connecting Line */}
-              <div className="hidden md:block absolute top-8 left-[16%] right-[16%] h-[1px] bg-gradient-to-r from-transparent via-[#A99BC7] to-transparent opacity-30" />
-
-              <div className="relative text-center space-y-6">
-                <div className="w-16 h-16 mx-auto rounded-full bg-white border border-[#EEEAF5] text-[#62547F] flex items-center justify-center font-medium text-xl shadow-sm z-10 relative">
-                  01
-                </div>
-                <h3 className="text-xl font-medium text-[#29272C]">Tell us what you&apos;re going through</h3>
-                <p className="text-[15px] text-[#62547F] font-light leading-relaxed">
-                  Take a moment to share your feelings securely. You set the pace.
-                </p>
+            <div className="relative">
+              {/* Desktop Connecting Wavy Line */}
+              <div className="hidden md:block absolute top-[52px] left-[15%] right-[15%] h-[2px] -z-10">
+                <svg className="w-full h-[100px] overflow-visible" preserveAspectRatio="none" viewBox="0 0 1000 100">
+                  <path d="M0,50 C250,-20 250,120 500,50 C750,-20 750,120 1000,50" fill="none" stroke="#D1C4E9" strokeWidth="2" />
+                  <circle cx="250" cy="50" r="4" fill="#D1C4E9" />
+                  <circle cx="750" cy="50" r="4" fill="#D1C4E9" />
+                </svg>
               </div>
 
-              <div className="relative text-center space-y-6">
-                <div className="w-16 h-16 mx-auto rounded-full bg-white border border-[#EEEAF5] text-[#62547F] flex items-center justify-center font-medium text-xl shadow-sm z-10 relative">
-                  02
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8">
+                {/* Step 1 */}
+                <div className="relative text-center flex flex-col items-center">
+                  <div className="relative mb-8">
+                    <div className="w-[104px] h-[104px] bg-white rounded-full shadow-[0_15px_40px_-10px_rgba(120,86,164,0.12)] flex items-center justify-center text-[#7856A4] z-10 relative">
+                      <MessageCircle className="w-8 h-8" strokeWidth={1.5} />
+                    </div>
+                    <div className="absolute top-0 left-0 -ml-2 -mt-2 w-[34px] h-[34px] bg-[#7856A4] rounded-full flex items-center justify-center text-white text-[13px] font-bold z-20 shadow-sm border-[3px] border-[#F8F6FC]">
+                      01
+                    </div>
+                  </div>
+                  <h3 className="text-[1.35rem] font-bold text-[#1A1A1A] mb-3">Tell us what you&apos;re<br/>going through</h3>
+                  <p className="text-[15px] text-[#666666] font-normal leading-relaxed max-w-[280px]">
+                    Take a moment to share your feelings securely. You set the pace.
+                  </p>
                 </div>
-                <h3 className="text-xl font-medium text-[#29272C]">Find the right psychologist</h3>
-                <p className="text-[15px] text-[#62547F] font-light leading-relaxed">
-                  We match you with professionals who specialize exactly in your needs.
-                </p>
-              </div>
 
-              <div className="relative text-center space-y-6">
-                <div className="w-16 h-16 mx-auto rounded-full bg-[#62547F] text-white flex items-center justify-center font-medium text-xl shadow-md z-10 relative">
-                  03
+                {/* Step 2 */}
+                <div className="relative text-center flex flex-col items-center">
+                  <div className="relative mb-8">
+                    <div className="w-[104px] h-[104px] bg-white rounded-full shadow-[0_15px_40px_-10px_rgba(120,86,164,0.12)] flex items-center justify-center text-[#7856A4] z-10 relative">
+                      <Users className="w-8 h-8" strokeWidth={1.5} />
+                    </div>
+                    <div className="absolute top-0 left-0 -ml-2 -mt-2 w-[34px] h-[34px] bg-[#7856A4] rounded-full flex items-center justify-center text-white text-[13px] font-bold z-20 shadow-sm border-[3px] border-[#F8F6FC]">
+                      02
+                    </div>
+                  </div>
+                  <h3 className="text-[1.35rem] font-bold text-[#1A1A1A] mb-3">Find the right<br/>psychologist</h3>
+                  <p className="text-[15px] text-[#666666] font-normal leading-relaxed max-w-[280px]">
+                    We match you with professionals who specialize exactly in your needs.
+                  </p>
                 </div>
-                <h3 className="text-xl font-medium text-[#29272C]">Take your next step</h3>
-                <p className="text-[15px] text-[#62547F] font-light leading-relaxed">
-                  Book a session, read resources, or just start a conversation. It&apos;s up to you.
-                </p>
+
+                {/* Step 3 */}
+                <div className="relative text-center flex flex-col items-center">
+                  <div className="relative mb-8">
+                    <div className="w-[104px] h-[104px] bg-white rounded-full shadow-[0_15px_40px_-10px_rgba(120,86,164,0.12)] flex items-center justify-center text-[#7856A4] z-10 relative">
+                      <Leaf className="w-8 h-8" strokeWidth={1.5} />
+                    </div>
+                    <div className="absolute top-0 left-0 -ml-2 -mt-2 w-[34px] h-[34px] bg-[#7856A4] rounded-full flex items-center justify-center text-white text-[13px] font-bold z-20 shadow-sm border-[3px] border-[#F8F6FC]">
+                      03
+                    </div>
+                  </div>
+                  <h3 className="text-[1.35rem] font-bold text-[#1A1A1A] mb-3">Take your next step</h3>
+                  <p className="text-[15px] text-[#666666] font-normal leading-relaxed max-w-[280px]">
+                    Book a session, read resources, or just start a conversation. It&apos;s up to you.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

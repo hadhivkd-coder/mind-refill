@@ -47,70 +47,120 @@ export default async function HomePage() {
         {/* ========================================================================= */}
         {/* 1. HERO SECTION */}
         {/* ========================================================================= */}
-        <section className="relative w-full max-w-[1600px] mx-auto pt-16 pb-20 md:pt-24 md:pb-32 px-4 sm:px-6 lg:px-12 overflow-hidden">
-          {/* Subtle background color shape for the right side */}
-          <div className="absolute top-0 right-0 w-[90vw] md:w-[45vw] h-full bg-[#F7F5FA] rounded-l-[4rem] -z-10" />
+        <section className="relative w-full pt-32 pb-20 md:pt-40 md:pb-32 px-4 sm:px-6 lg:px-12 overflow-hidden bg-[#FCFBFA]">
+          {/* Organic Background Shape & SVG Definitions */}
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            <svg
+              className="absolute right-0 top-0 w-[65vw] h-full"
+              viewBox="0 0 1000 800"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M1000,0 L200,0 C200,0 150,200 400,450 C550,600 200,750 200,800 L1000,800 Z"
+                fill="#F4EFF9"
+              />
+            </svg>
+            <svg
+              className="absolute left-[38%] bottom-[12%] w-12 h-12 text-[#AFA1CE]"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M21 3C21 3 20 12 12 12C4 12 3 3 3 3C3 3 12 4 12 12C12 20 3 21 3 21C3 21 12 20 12 12C12 4 21 3 21 3Z" />
+            </svg>
+          </div>
+          
+          <svg width="0" height="0" className="absolute">
+            <defs>
+              <clipPath id="hero-image-mask" clipPathUnits="objectBoundingBox">
+                <path d="M 0.25 0 L 1 0 L 1 1 L 0.35 1 C 0.05 0.7 -0.15 0.2 0.25 0 Z" />
+              </clipPath>
+            </defs>
+          </svg>
 
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          <div className="relative z-10 max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             
             {/* LEFT: Typography & CTAs */}
-            <div className="lg:col-span-5 space-y-8 md:space-y-10 z-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-[#EEEAF5] text-[12px] font-medium text-[#62547F] shadow-sm">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Modern Mental Wellbeing</span>
+            <div className="lg:pr-10 xl:pr-16 space-y-6">
+              
+              <div className="inline-flex items-center gap-2 bg-[#F4EFF9] text-[#7856A4] px-4 py-2 rounded-full text-xs font-semibold">
+                <Sparkles className="w-3.5 h-3.5" /> Modern Mental Wellbeing
               </div>
 
-              <div className="space-y-6">
-                <h1 className="text-[2.75rem] sm:text-5xl md:text-[4.25rem] font-medium text-[#29272C] leading-[1.05] tracking-tight">
-                  You don&apos;t have to figure it all out alone.
-                </h1>
+              <h1 className="text-[3rem] sm:text-[4rem] lg:text-[4.5rem] font-bold text-[#0D0D0D] leading-[1.05] tracking-tight">
+                You don&apos;t have to<br />
+                figure it all out<br />
+                <span className="text-[#7856A4]">alone.</span>
+              </h1>
 
-                <p className="text-lg md:text-[1.35rem] text-[#62547F] font-light leading-relaxed max-w-lg">
-                  A safe, simple space to find the right support — at your own pace.
-                </p>
-              </div>
+              <p className="text-[#666666] text-[1.125rem] md:text-[1.25rem] font-normal leading-relaxed max-w-[420px] pb-2">
+                A safe, simple space to find the right support — at your own pace.
+              </p>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
                 <Link
                   href="/psychologists"
-                  className="h-14 px-8 rounded-full bg-[#62547F] hover:bg-[#29272C] text-white font-medium text-[15px] flex items-center justify-center gap-2 transition-colors shadow-md hover:shadow-xl hover:-translate-y-0.5 duration-300"
+                  className="bg-[#7856A4] hover:bg-[#63458A] text-white rounded-full px-8 py-4 font-semibold text-[15px] flex items-center justify-center gap-2 transition-all"
                 >
                   <span>Find support</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
                   href="/intake"
-                  className="h-14 px-8 rounded-full bg-white border border-[#EEEAF5] hover:border-[#A99BC7] text-[#62547F] hover:text-[#29272C] font-medium text-[15px] flex items-center justify-center transition-colors shadow-sm"
+                  className="bg-white border border-[#E5E5E5] text-[#7856A4] rounded-full px-8 py-4 font-semibold text-[15px] flex items-center justify-center transition-all hover:border-[#7856A4] hover:shadow-sm"
                 >
                   <span>I&apos;m not sure where to start</span>
                 </Link>
               </div>
 
               {/* Trust Indicators */}
-              <div className="pt-6 flex items-center gap-4 text-[13px] text-[#A99BC7]">
-                <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-[#AAB8A2]" />
-                  <span>Licensed Professionals</span>
+              <div className="pt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[#F4EFF9] flex items-center justify-center text-[#7856A4] shrink-0">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                  </div>
+                  <span className="text-[13px] text-[#444] leading-[1.2] font-medium">Verified<br/>professionals</span>
                 </div>
-                <div className="w-1 h-1 rounded-full bg-[#EEEAF5]" />
-                <div className="flex items-center gap-1.5">
-                  <Heart className="w-4 h-4 text-[#E8D4D8]" />
-                  <span>Confidential Space</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[#F4EFF9] flex items-center justify-center text-[#7856A4] shrink-0">
+                    <ShieldCheck className="w-5 h-5" />
+                  </div>
+                  <span className="text-[13px] text-[#444] leading-[1.2] font-medium">100% private<br/>and secure</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[#F4EFF9] flex items-center justify-center text-[#7856A4] shrink-0">
+                    <Heart className="w-5 h-5" />
+                  </div>
+                  <span className="text-[13px] text-[#444] leading-[1.2] font-medium">Human care,<br/>not just a platform</span>
                 </div>
               </div>
             </div>
 
-            {/* RIGHT: Large Emotional Image */}
-            <div className="lg:col-span-7 relative w-full aspect-[4/3] md:aspect-[16/10] lg:aspect-[4/3] rounded-[2rem] overflow-hidden shadow-[0_20px_60px_-15px_rgba(98,84,127,0.15)]">
-              <Image
-                src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=1600"
-                alt="Therapist listening warmly"
-                fill
-                priority
-                className="object-cover object-top"
-                sizes="(max-width: 1024px) 100vw, 60vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+            {/* RIGHT: Large Emotional Image with Organic Mask */}
+            <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[650px]">
+              <div 
+                className="absolute inset-0 bg-[#EAE6F0] overflow-hidden" 
+                style={{ clipPath: 'url(#hero-image-mask)' }}
+              >
+                <Image
+                  src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=1600"
+                  alt="Therapy session"
+                  fill
+                  priority
+                  className="object-cover object-top"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+
+              {/* Floating Testimonial Card */}
+              <div className="absolute -bottom-6 -left-6 sm:left-0 lg:-left-12 bg-white/95 backdrop-blur-md rounded-2xl p-5 flex items-start gap-4 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] w-[280px] sm:w-[320px]">
+                <div className="w-12 h-12 rounded-full bg-[#F4EFF9] flex items-center justify-center flex-shrink-0 text-[#7856A4]">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2H4c-1.25 0-2 .75-2 2v8c0 7 4 8 7 8zM14 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2h-4c-1.25 0-2 .75-2 2v8c0 7 4 8 7 8z"/></svg>
+                </div>
+                <div>
+                  <h4 className="font-bold text-[#1A1A1A] text-[13px] sm:text-[14px]">Your well-being matters.</h4>
+                  <p className="text-[12px] text-[#666] leading-relaxed mt-1 font-medium">Confidential, compassionate and always at your pace.</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>

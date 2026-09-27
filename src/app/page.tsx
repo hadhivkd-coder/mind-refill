@@ -1,6 +1,6 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BookOpen, Search, ShieldCheck, Heart, Sparkles, MoveRight, UserPlus, PlayCircle, Star, Brain, Moon, Leaf, User, MoreHorizontal, MessageCircle, Users, Wind } from "lucide-react";
+import { ArrowRight, BookOpen, Search, ShieldCheck, Heart, Sparkles, MoveRight, UserPlus, PlayCircle, Star, Brain, Moon, Leaf, User, MoreHorizontal, MessageCircle, Users, Wind, ChevronLeft, ChevronRight, Globe, Calendar, CheckCircle2, FileText } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { DirectoryService } from "@/modules/directory/services/directory.service";
@@ -10,34 +10,16 @@ import { EbookService } from "@/modules/content/services/ebook.service";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  // Fetch real data safely
-  let psychologists: any[] = [];
-  let articles: any[] = [];
-  let ebooks: any[] = [];
-
+  // Fetch logic omitted to use high-fidelity design mockups
   try {
-    const pResult = await DirectoryService.search({ limit: 3 });
-    psychologists = pResult.psychologists || [];
-    
-    // Attempt to fetch real content, fallback to empty arrays to prevent crashes
-    const cResult = await ContentService.listPublicArticles(1, 3);
-    articles = cResult.items || [];
-    
-    const eResult = await EbookService.listPublicEbooks();
-    ebooks = eResult ? eResult.slice(0, 3) : [];
+    await DirectoryService.search({ limit: 1 });
+    await ContentService.listPublicArticles(1, 1);
+    await EbookService.listPublicEbooks();
   } catch (err) {
-    console.error("Failed to load homepage dynamic data:", err);
+    console.error(err);
   }
 
-  const MIND_CATEGORIES = [
-    { title: "Feeling overwhelmed", id: "overwhelmed" },
-    { title: "Relationship difficulties", id: "relationships" },
-    { title: "Anxiety & stress", id: "anxiety" },
-    { title: "Sleep & rest", id: "sleep" },
-    { title: "Life changes", id: "changes" },
-    { title: "Understanding yourself", id: "self" },
-    { title: "Something else", id: "other" },
-  ];
+
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-[#FAF8F2] text-[#29272C] selection:bg-[#A99BC7] selection:text-white">
@@ -312,216 +294,192 @@ export default async function HomePage() {
           </div>
         </section>
 
+                {/* ========================================================================= */}
+        {/* 4. MEET PEOPLE WHO UNDERSTAND (Psychologists) */}
         {/* ========================================================================= */}
-        {/* 4. MEET PSYCHOLOGISTS */}
-        {/* ========================================================================= */}
-        <section className="w-full py-24 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-              <div className="space-y-3 max-w-xl">
-                <h2 className="text-[2rem] md:text-[2.5rem] font-medium text-[#29272C] tracking-tight leading-tight">
-                  Meet people who understand.
+        <section className="relative w-full py-28 bg-[#FCFBFA] overflow-hidden">
+          {/* Subtle floral/blob background left */}
+          <div className="absolute top-0 left-0 w-80 h-80 bg-[#F4EFF9] rounded-br-[100px] opacity-70 -translate-x-1/4 -translate-y-1/4 pointer-events-none" />
+
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10 relative z-10">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <div className="h-[1px] w-8 bg-[#D1C4E9]" />
+                  <span className="text-[11px] font-bold tracking-[0.2em] text-[#AFA1CE] uppercase">Verified � Compassionate � Professional</span>
+                  <div className="h-[1px] w-8 bg-[#D1C4E9]" />
+                </div>
+                <h2 className="text-[2.5rem] md:text-[3.25rem] font-bold text-[#1A1A1A] tracking-tight leading-tight">
+                  Meet people who <span className="text-[#7856A4]">understand.</span>
                 </h2>
-                <p className="text-[16px] text-[#62547F] font-light">
-                  Our network of verified, licensed professionals is here to listen.
+                <p className="text-[#666666] text-[16px] md:text-[18px] font-normal">
+                  Our network of verified, licensed psychologists is here to listen.
                 </p>
               </div>
-              <Link
-                href="/psychologists"
-                className="inline-flex items-center gap-1 text-[15px] font-medium text-[#62547F] hover:text-[#29272C] transition-colors"
-              >
-                <span>View all psychologists</span>
-                <MoveRight className="w-4 h-4" />
-              </Link>
+
+              <div className="flex items-center gap-6 pb-2">
+                <Link href="/psychologists" className="text-[#7856A4] font-bold text-[14px] hover:text-[#63458A] transition-colors flex items-center gap-1">
+                  View all psychologists <ArrowRight className="w-4 h-4" />
+                </Link>
+                <div className="hidden sm:flex gap-2">
+                  <button className="w-10 h-10 rounded-full border border-[#D1C4E9] flex items-center justify-center text-[#AFA1CE] hover:text-[#7856A4] hover:border-[#7856A4] transition-colors bg-white shadow-sm">
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button className="w-10 h-10 rounded-full border border-[#D1C4E9] flex items-center justify-center text-[#AFA1CE] hover:text-[#7856A4] hover:border-[#7856A4] transition-colors bg-white shadow-sm">
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {psychologists.map((psych) => (
-                <div
-                  key={psych.id}
-                  className="bg-[#FAF8F2] border border-[#EEEAF5] rounded-[1.5rem] overflow-hidden flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
-                >
-                  <div className="p-6 md:p-8 flex flex-col gap-6">
-                    <div className="flex items-start gap-4">
-                      <div className="relative w-20 h-20 rounded-full overflow-hidden flex-shrink-0 bg-white border border-[#EEEAF5]">
-                        {psych.profilePhotoUrl ? (
-                          <Image
-                            src={psych.profilePhotoUrl}
-                            alt={psych.fullName}
-                            fill
-                            className="object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-[#A99BC7]">
-                            <UserPlus className="w-7 h-7" />
-                          </div>
-                        )}
-                      </div>
-                      <div className="space-y-1 pt-1">
-                        <div className="flex items-center gap-1.5">
-                          <h3 className="text-[1.15rem] font-medium text-[#29272C]">
-                            {psych.fullName}
-                          </h3>
-                          {psych.isVerified && (
-                            <ShieldCheck className="w-4 h-4 text-[#AAB8A2]" />
-                          )}
-                        </div>
-                        <p className="text-[13px] text-[#62547F]">
-                          {psych.professionalTitle}
-                        </p>
-                        <p className="text-[12px] text-[#A99BC7]">
-                          {psych.yearsOfExperience} yrs exp
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="space-y-3 text-[13.5px]">
-                      <div className="flex items-start gap-2">
-                        <span className="text-[#A99BC7] w-[4.5rem] flex-shrink-0">Specialties</span>
-                        <span className="text-[#29272C] leading-snug">
-                          {psych.specializations?.map((s: any) => s.name).join(", ") || "General Practice"}
-                        </span>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <span className="text-[#A99BC7] w-[4.5rem] flex-shrink-0">Languages</span>
-                        <span className="text-[#29272C] leading-snug">
-                          {psych.languages?.map((l: any) => l.name).join(", ") || "English"}
-                        </span>
-                      </div>
+            {/* Carousel */}
+            <div className="flex overflow-x-auto gap-6 pb-8 pt-4 -mx-4 px-4 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory">
+              {[
+                { slug: "dr-roshna", name: "Dr. Roshna K", title: "Clinical Psychologist", rating: "4.9", sessions: "120+", tags: ["Anxiety", "Relationships", "Young Adults"], lang: "Malayalam, English", avail: "Available today", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=600" },
+                { slug: "dr-anjali", name: "Dr. Anjali Menon", title: "Counselling Psychologist", rating: "4.8", sessions: "95+", tags: ["Stress", "Self-esteem", "Life transitions"], lang: "English, Malayalam", avail: "Available today", image: "https://images.unsplash.com/photo-1594824813637-2804b494632b?auto=format&fit=crop&q=80&w=600" },
+                { slug: "dr-nikhil", name: "Dr. Nikhil Das", title: "Clinical Psychologist", rating: "4.9", sessions: "150+", tags: ["Anxiety", "Depression", "Men's mental health"], lang: "English, Malayalam", avail: "Available tomorrow", image: "https://images.unsplash.com/photo-1600804889194-e6fbf08ddb39?auto=format&fit=crop&q=80&w=600" },
+                { slug: "ms-fathima", name: "Ms. Fathima R", title: "Counselling Psychologist", rating: "4.7", sessions: "80+", tags: ["Relationships", "Family", "Self-growth"], lang: "Malayalam, English", avail: "Available today", image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600" },
+                { slug: "dr-meera", name: "Dr. Meera S", title: "Clinical Psychologist", rating: "4.9", sessions: "110+", tags: ["Trauma", "Anxiety", "Personal growth"], lang: "English, Malayalam", avail: "Available this week", image: "https://images.unsplash.com/photo-1618077360395-f3068be8e001?auto=format&fit=crop&q=80&w=600" },
+              ].map((psych, i) => (
+                <div key={i} className="min-w-[280px] sm:min-w-[310px] flex-shrink-0 snap-start bg-white rounded-[20px] shadow-[0_8px_30px_rgb(0,0,0,0.03)] border border-transparent hover:border-[#F4EFF9] hover:shadow-[0_8px_30px_rgb(120,86,164,0.08)] transition-all flex flex-col group">
+                  <div className="relative w-full h-44 rounded-t-[20px] overflow-hidden">
+                    <Image src={psych.image} alt={psych.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="absolute top-3 right-3 bg-white/95 backdrop-blur rounded-full px-2.5 py-1 flex items-center gap-1 shadow-sm">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#7856A4]" />
+                      <span className="text-[11px] font-bold text-[#7856A4]">Verified</span>
                     </div>
                   </div>
+                  <div className="p-5 flex-grow flex flex-col">
+                    <h3 className="text-[17px] font-bold text-[#1A1A1A] leading-tight">{psych.name}</h3>
+                    <p className="text-[13px] text-[#666666] mt-0.5">{psych.title}</p>
+                    
+                    <div className="flex items-center gap-1 mt-2.5">
+                      <Star className="w-3.5 h-3.5 fill-[#F59E0B] text-[#F59E0B]" />
+                      <span className="text-[13px] font-bold text-[#1A1A1A]">{psych.rating}</span>
+                      <span className="text-[12px] text-[#AFA1CE]">({psych.sessions})</span>
+                    </div>
 
-                  <div className="px-6 pb-6 pt-2 mt-auto">
-                    <Link
-                      href={`/psychologists/${psych.slug}`}
-                      className="w-full h-12 rounded-full bg-white border border-[#EEEAF5] hover:border-[#A99BC7] text-[#29272C] font-medium text-[14px] flex items-center justify-center transition-colors"
-                    >
-                      View Profile
-                    </Link>
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {psych.tags.map(tag => (
+                        <span key={tag} className="bg-[#F8F6FC] text-[#7856A4] text-[10px] font-semibold tracking-wide px-2.5 py-1 rounded-full">{tag}</span>
+                      ))}
+                    </div>
+
+                    <div className="flex flex-col gap-2 mt-5 pt-4 border-t border-[#F0EBF7]">
+                      <div className="flex items-center gap-2 text-[12px] text-[#666666]">
+                        <Globe className="w-3.5 h-3.5 text-[#AFA1CE]" />
+                        <span className="truncate">{psych.lang}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[12px] text-[#666666]">
+                        <Calendar className="w-3.5 h-3.5 text-[#AFA1CE]" />
+                        <span className="flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+                          {psych.avail}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2 mt-5">
+                      <Link href={`/psychologists/${psych.slug}`} className="flex-1 bg-[#7856A4] hover:bg-[#63458A] text-white text-[13px] font-semibold py-2.5 rounded-full text-center transition-colors shadow-sm">
+                        View profile &rarr;
+                      </Link>
+                      <Link href={`/psychologists/${psych.slug}/book`} className="flex-1 bg-white border border-[#D1C4E9] hover:border-[#7856A4] text-[#7856A4] text-[13px] font-semibold py-2.5 rounded-full text-center transition-colors">
+                        Book session
+                      </Link>
+                    </div>
                   </div>
                 </div>
               ))}
-              {psychologists.length === 0 && (
-                <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center py-16 bg-[#FAF8F2] border border-[#EEEAF5] rounded-[1.5rem] text-[#62547F]">
-                  No verified psychologists available at the moment.
-                </div>
-              )}
+            </div>
+
+            {/* Pagination Dots */}
+            <div className="flex justify-center gap-2 pt-2">
+              <div className="w-2 h-2 rounded-full bg-[#7856A4]" />
+              <div className="w-2 h-2 rounded-full bg-[#EAE6F0]" />
+              <div className="w-2 h-2 rounded-full bg-[#EAE6F0]" />
+              <div className="w-2 h-2 rounded-full bg-[#EAE6F0]" />
+              <div className="w-2 h-2 rounded-full bg-[#EAE6F0]" />
             </div>
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* 5. CONTENT / RESOURCES */}
+        {/* 5. EXPLORE RESOURCES */}
         {/* ========================================================================= */}
-        <section className="w-full py-20 bg-[#FAF8F2] border-t border-[#EEEAF5]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-              <div className="space-y-3 max-w-xl">
-                <h2 className="text-[2rem] md:text-[2.5rem] font-medium text-[#29272C] tracking-tight leading-tight">
-                  Explore resources.
+        <section className="relative w-full py-28 bg-[#F8F6FC] overflow-hidden">
+          {/* Subtle background blob */}
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#F4EFF9] rounded-tl-[100px] opacity-70 translate-x-1/4 translate-y-1/4 pointer-events-none" />
+
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10 relative z-10">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <div className="h-[1px] w-8 bg-[#D1C4E9]" />
+                  <span className="text-[11px] font-bold tracking-[0.2em] text-[#AFA1CE] uppercase">Learn � Reflect � Grow</span>
+                  <div className="h-[1px] w-8 bg-[#D1C4E9]" />
+                </div>
+                <h2 className="text-[2.5rem] md:text-[3.25rem] font-bold text-[#1A1A1A] tracking-tight leading-tight">
+                  Explore <span className="text-[#7856A4]">resources.</span>
                 </h2>
-                <p className="text-[16px] text-[#62547F] font-light">
+                <p className="text-[#666666] text-[16px] md:text-[18px] font-normal">
                   Articles, insights, and videos created directly by our professionals.
                 </p>
               </div>
-              <Link
-                href="/resources"
-                className="inline-flex items-center gap-1 text-[15px] font-medium text-[#62547F] hover:text-[#29272C] transition-colors"
-              >
-                <span>Browse all resources</span>
-                <MoveRight className="w-4 h-4" />
-              </Link>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-              {articles.length > 0 ? (
-                articles.map((article) => (
-                  <Link href={`/resources/${article.slug}`} key={article.id} className="group flex flex-col gap-4">
-                    <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-[#EEEAF5]">
-                      {article.coverImageUrl ? (
-                        <Image src={article.coverImageUrl} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-[#A99BC7]">
-                          <PlayCircle className="w-8 h-8 opacity-50" />
-                        </div>
-                      )}
-                    </div>
-                    <div className="space-y-2 px-1">
-                      <span className="text-[12px] font-medium text-[#62547F] uppercase tracking-wider">{article.category?.name || "Article"}</span>
-                      <h3 className="text-lg font-medium text-[#29272C] group-hover:text-[#62547F] transition-colors line-clamp-2">
-                        {article.title}
-                      </h3>
-                      <p className="text-[14px] text-[#62547F] line-clamp-2 font-light">
-                        {article.excerpt || "Read more about this topic..."}
-                      </p>
-                    </div>
-                  </Link>
-                ))
-              ) : (
-                <div className="col-span-1 md:col-span-3 text-center py-12 text-[#62547F]">
-                  Resources are currently being updated.
+              <div className="flex items-center gap-6 pb-2">
+                <Link href="/resources" className="text-[#7856A4] font-bold text-[14px] hover:text-[#63458A] transition-colors flex items-center gap-1">
+                  Browse all resources <ArrowRight className="w-4 h-4" />
+                </Link>
+                <div className="hidden sm:flex gap-2">
+                  <button className="w-10 h-10 rounded-full border border-[#D1C4E9] flex items-center justify-center text-[#AFA1CE] hover:text-[#7856A4] hover:border-[#7856A4] transition-colors bg-white shadow-sm">
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button className="w-10 h-10 rounded-full border border-[#D1C4E9] flex items-center justify-center text-[#AFA1CE] hover:text-[#7856A4] hover:border-[#7856A4] transition-colors bg-white shadow-sm">
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
                 </div>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* ========================================================================= */}
-        {/* 6. E-BOOKS / WORKBOOKS */}
-        {/* ========================================================================= */}
-        <section className="w-full py-20 bg-white border-t border-[#EEEAF5]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-              <div className="space-y-3 max-w-xl">
-                <h2 className="text-[2rem] md:text-[2.5rem] font-medium text-[#29272C] tracking-tight leading-tight">
-                  Guided Workbooks.
-                </h2>
-                <p className="text-[16px] text-[#62547F] font-light">
-                  In-depth digital products to help you reflect, process, and grow.
-                </p>
               </div>
-              <Link
-                href="/ebooks"
-                className="inline-flex items-center gap-1 text-[15px] font-medium text-[#62547F] hover:text-[#29272C] transition-colors"
-              >
-                <span>View all workbooks</span>
-                <MoveRight className="w-4 h-4" />
-              </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
-              {ebooks.length > 0 ? (
-                ebooks.map((ebook) => (
-                  <Link href={`/ebooks/${ebook.slug}`} key={ebook.id} className="group flex flex-col gap-4 p-4 rounded-2xl hover:bg-[#F7F5FA] transition-colors">
-                    <div className="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-[#EEEAF5] shadow-sm group-hover:shadow-md transition-shadow">
-                      {ebook.coverImageUrl ? (
-                        <Image src={ebook.coverImageUrl} alt={ebook.title} fill className="object-cover" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-[#A99BC7]">
-                          <BookOpen className="w-8 h-8 opacity-50" />
-                        </div>
-                      )}
+            {/* Carousel */}
+            <div className="flex overflow-x-auto gap-6 pb-8 pt-4 -mx-4 px-4 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory">
+              {[
+                { cat: "ARTICLES", title: "How to manage anxiety during uncertain times", icon: <FileText className="w-4 h-4"/>, image: "https://images.unsplash.com/photo-1517404215738-15263e9f9178?auto=format&fit=crop&q=80&w=600" },
+                { cat: "VIDEOS", title: "A gentle guide to self-compassion", icon: <PlayCircle className="w-4 h-4"/>, image: "https://images.unsplash.com/photo-1516302752625-fcc3c50ae61f?auto=format&fit=crop&q=80&w=600" },
+                { cat: "PRACTICE", title: "5 journaling prompts for emotional clarity", icon: <Leaf className="w-4 h-4"/>, image: "https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&q=80&w=600" },
+                { cat: "E-BOOKS", title: "The Anxiety Workbook", icon: <BookOpen className="w-4 h-4"/>, image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=600" },
+                { cat: "EVENTS", title: "Live Workshop: Building a calmer you", icon: <Users className="w-4 h-4"/>, image: "https://images.unsplash.com/photo-1528642474498-1af0c17fd8c3?auto=format&fit=crop&q=80&w=600" },
+              ].map((res, i) => (
+                <Link key={i} href="/resources" className="min-w-[260px] sm:min-w-[280px] flex-shrink-0 snap-start bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.03)] border border-transparent hover:shadow-[0_8px_30px_rgb(120,86,164,0.1)] transition-all flex flex-col group relative">
+                  <div className="relative w-full h-36 rounded-t-2xl overflow-hidden bg-gray-100">
+                    <Image src={res.image} alt={res.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                  
+                  {/* Floating Icon Badge */}
+                  <div className="absolute top-[120px] left-5 w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-sm z-20">
+                    <div className="w-9 h-9 bg-[#F8F6FC] rounded-full flex items-center justify-center text-[#7856A4]">
+                      {res.icon}
                     </div>
-                    <div className="space-y-1.5 px-1 pt-2">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-medium text-[#29272C] line-clamp-1">{ebook.title}</h3>
-                        <span className="text-[14px] font-medium text-[#62547F]">${ebook.price}</span>
+                  </div>
+
+                  <div className="px-5 pt-8 pb-5 flex-grow flex flex-col">
+                    <span className="text-[10px] font-bold tracking-widest text-[#AFA1CE] uppercase mb-1.5">{res.cat}</span>
+                    <h3 className="text-[15px] font-bold text-[#1A1A1A] leading-snug">{res.title}</h3>
+                    
+                    <div className="mt-auto pt-6 flex justify-end">
+                      <div className="w-8 h-8 rounded-full border border-[#EEEAF5] group-hover:border-[#7856A4] group-hover:text-[#7856A4] flex items-center justify-center text-[#AFA1CE] transition-colors">
+                        <ArrowRight className="w-3.5 h-3.5" />
                       </div>
-                      <p className="text-[13px] text-[#A99BC7]">By {ebook.author?.fullName || "Mind Refill Professional"}</p>
                     </div>
-                  </Link>
-                ))
-              ) : (
-                <div className="col-span-1 md:col-span-3 text-center py-12 text-[#62547F]">
-                  Workbooks are currently being updated.
-                </div>
-              )}
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
-
-        {/* ========================================================================= */}
+{/* ========================================================================= */}
         {/* 7. TRUST / PRIVACY */}
         {/* ========================================================================= */}
         <section className="w-full py-16 bg-[#FAF8F2] border-t border-[#EEEAF5]">
@@ -566,3 +524,4 @@ export default async function HomePage() {
     </div>
   );
 }
+

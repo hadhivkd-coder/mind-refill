@@ -1,8 +1,9 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
-import {
+import Image from "next/image";
+import { Users, Bell, Smile, ChevronDown, BarChart2, 
   Home,
   LayoutGrid,
   Plus,
@@ -410,297 +411,377 @@ export function PsychologistDashboardClient({
   return (
     <div className="min-h-screen bg-[#FAF8F2] text-[#29272C] selection:bg-[#EAE6F0] selection:text-white pb-24 md:pb-12">
       {/* Top Header Bar */}
-      <header className="sticky top-0 z-40 bg-[#FAF8F2]/95 backdrop-blur-md border-b border-[#EEEAF5] px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-40 bg-[#FCFBFA]/95 backdrop-blur-md border-b border-[#F0EBF7] px-6 lg:px-10 h-[76px] flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="h-9 w-9 rounded-xl bg-[#244F42] border border-[#EEEAF5] flex items-center justify-center font-bold text-sm text-white group-hover:border-[#9CAF91]/50 transition-colors">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="h-9 w-9 rounded-xl bg-[#F4EFF9] flex items-center justify-center font-serif text-[18px] text-[#7856A4] transition-colors">
               Ψ
             </div>
             <div>
-              <span className="font-sans tracking-tight text-lg font-normal tracking-tight text-[#29272C] block leading-none">
+              <span className="font-sans text-[1.25rem] font-bold tracking-tight text-[#1A1A1A] block leading-none">
                 Mind Refill
-              </span>
-              <span className="text-[10px] uppercase tracking-wider text-[#A99BC7] font-semibold">
-                Practitioner Studio
               </span>
             </div>
           </Link>
         </div>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1 bg-[#122C25]/80 p-1 rounded-full border border-[#EEEAF5]">
+        {/* Center Navigation Links */}
+        <nav className="hidden lg:flex items-center gap-2">
           <button
             onClick={() => setActiveTab("home")}
-            className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[14px] font-bold transition-all relative ${
               activeTab === "home"
-                ? "bg-[#F1EBDD] text-[#173C32] font-semibold shadow-sm"
-                : "text-[#C9D2BC] hover:text-white"
+                ? "text-[#7856A4]"
+                : "text-[#666666] hover:text-[#1A1A1A]"
             }`}
           >
-            Home
+            <Home className="w-[18px] h-[18px]" strokeWidth={2.5} /> Home
+            {activeTab === "home" && <div className="absolute -bottom-[22px] left-1/2 -translate-x-1/2 w-10 h-0.5 bg-[#7856A4] rounded-t-full" />} 
           </button>
+          
+          <button
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[14px] font-bold text-[#666666] hover:text-[#1A1A1A] transition-all`}
+          >
+            <Users className="w-[18px] h-[18px]" strokeWidth={2.5} /> Clients
+          </button>
+          
           <button
             onClick={() => setActiveTab("content")}
-            className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[14px] font-bold transition-all ${
               activeTab === "content"
-                ? "bg-[#F1EBDD] text-[#173C32] font-semibold shadow-sm"
-                : "text-[#C9D2BC] hover:text-white"
+                ? "text-[#7856A4]"
+                : "text-[#666666] hover:text-[#1A1A1A]"
             }`}
           >
-            Content
+            <FileText className="w-[18px] h-[18px]" strokeWidth={2.5} /> Content
+            {activeTab === "content" && <div className="absolute -bottom-[22px] left-1/2 -translate-x-1/2 w-10 h-0.5 bg-[#7856A4] rounded-t-full" />} 
           </button>
+
           <button
             onClick={() => setActiveTab("products")}
-            className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[14px] font-bold transition-all ${
               activeTab === "products"
-                ? "bg-[#F1EBDD] text-[#173C32] font-semibold shadow-sm"
-                : "text-[#C9D2BC] hover:text-white"
+                ? "text-[#7856A4]"
+                : "text-[#666666] hover:text-[#1A1A1A]"
             }`}
           >
-            Products
+            <Calendar className="w-[18px] h-[18px]" strokeWidth={2.5} /> Products
+            {activeTab === "products" && <div className="absolute -bottom-[22px] left-1/2 -translate-x-1/2 w-10 h-0.5 bg-[#7856A4] rounded-t-full" />} 
           </button>
+
           <button
-            onClick={() => setActiveTab("profile")}
-            className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${
-              activeTab === "profile"
-                ? "bg-[#F1EBDD] text-[#173C32] font-semibold shadow-sm"
-                : "text-[#C9D2BC] hover:text-white"
-            }`}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[14px] font-bold text-[#666666] hover:text-[#1A1A1A] transition-all`}
           >
-            Profile
+            <Sparkles className="w-[18px] h-[18px]" strokeWidth={2.5} /> Analytics
           </button>
         </nav>
 
-        {/* Desktop Header Actions */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => {
-              setCreateType("post");
-              setIsCreateOpen(true);
-            }}
-            className="hidden sm:inline-flex items-center gap-2 h-9 px-4 rounded-full bg-[#F1EBDD] hover:bg-white text-[#173C32] text-xs font-semibold shadow-sm transition-all"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Create</span>
+        {/* Right Header Actions */}
+        <div className="flex items-center gap-6">
+          <button className="text-[#AFA1CE] hover:text-[#7856A4] transition-colors relative">
+            <Bell className="w-[20px] h-[20px]" />
+            <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#7856A4] border-2 border-white" />
           </button>
 
-          <Link
-            href={`/psychologists/${profile.slug}`}
-            target="_blank"
-            className="text-xs font-medium text-[#C9D2BC] hover:text-white px-2.5 py-1.5 rounded-full bg-white/5 border border-[#EEEAF5] hidden lg:flex items-center gap-1.5 transition-colors"
-          >
-            <span>Live Profile</span>
-            <ExternalLink className="w-3 h-3" />
-          </Link>
+          <div className="flex items-center gap-3 pl-6 border-l border-[#F0EBF7] cursor-pointer group">
+            <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[#EEEAF5] shrink-0">
+              <img src={profile?.profilePhotoUrl || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=100"} alt="Avatar" className="w-full h-full object-cover" />
+            </div>
+            <div className="hidden lg:flex items-center gap-1.5">
+              <span className="text-[14px] font-bold text-[#1A1A1A] group-hover:text-[#7856A4] transition-colors">
+                Dr. Sarah Jenkins, Ph.D.
+              </span>
+              <svg className="w-4 h-4 text-[#AFA1CE]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </div>
         </div>
       </header>
 
       {/* Main Container */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-6">
+      <main className="max-w-[1300px] mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         {/* ============================== HOME TAB ============================== */}
         {activeTab === "home" && (
-          <div className="space-y-6">
-            {/* Welcome Greeting Card */}
-            <div className="atmospheric-card rounded-3xl p-6 sm:p-8 relative overflow-hidden">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="space-y-1">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAE6F0]/30 text-white border border-[#EEEAF5] text-[10px] font-semibold uppercase tracking-wider">
-                    <ShieldCheck className="w-3.5 h-3.5 text-[#A99BC7]" />
-                    <span>Verified Mind Refill Clinician</span>
+          <div className="space-y-8">
+            
+            {/* HERO & STATS SECTION */}
+            <div className="w-full relative rounded-[32px] bg-[#F8F6FC] overflow-hidden p-8 lg:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-[#EAE6F0]">
+              <div className="absolute inset-0 z-0 pointer-events-none">
+                 <div className="absolute top-0 right-0 w-[40%] h-full opacity-60">
+                   <Image src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?auto=format&fit=crop&q=80&w=1200" alt="" fill className="object-cover mix-blend-multiply rounded-bl-[100px]" />
+                 </div>
+                 <div className="absolute inset-0 bg-gradient-to-r from-[#FCFBFA] via-[#FCFBFA]/90 to-transparent z-10" />
+              </div>
+
+              <div className="relative z-20 flex flex-col xl:flex-row xl:items-start justify-between gap-8 mb-10">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                   <div className="relative w-28 h-28 rounded-full border-4 border-white shadow-sm shrink-0">
+                     <Image src={profile?.profilePhotoUrl || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300"} alt="Avatar" fill className="object-cover rounded-full" />
+                     <div className="absolute bottom-1 right-1 w-5 h-5 bg-[#10B981] border-2 border-white rounded-full" />
+                   </div>
+                   <div className="text-center sm:text-left space-y-2 pt-2">
+                     <div className="inline-flex items-center gap-1.5 bg-[#F4EFF9] border border-[#EAE6F0] rounded-full px-3 py-1 mb-1">
+                       <ShieldCheck className="w-3.5 h-3.5 text-[#7856A4]" />
+                       <span className="text-[10px] font-bold tracking-[0.05em] text-[#7856A4] uppercase">Verified Mind Refill Clinician</span>
+                     </div>
+                     <h1 className="text-[2rem] md:text-[2.5rem] font-bold text-[#1A1A1A] tracking-tight leading-tight">
+                       Welcome, Dr. Sarah Jenkins, Ph.D.
+                     </h1>
+                     <p className="text-[16px] text-[#666666] font-medium">Licensed Clinical Psychologist</p>
+                   </div>
+                </div>
+
+                <div className="flex items-center gap-6">
+                  {/* Handwritten script */}
+                  <div className="hidden lg:block text-[#7856A4] transform -rotate-6 pt-4 pr-4">
+                     <svg width="40" height="30" viewBox="0 0 40 30" fill="none" className="absolute -left-12 top-2 opacity-50"><path d="M5 25 Q 20 5 35 15" stroke="currentColor" strokeWidth="1" fill="none" strokeLinecap="round" /></svg>
+                     <span className="font-serif italic text-[18px] leading-tight block">Your work<br/>creates safer,<br/>brighter tomorrows.</span>
+                     <span className="font-serif italic text-[16px] leading-tight block text-right mt-1">Thank you<br/>for being here.</span>
+                     <Heart className="w-4 h-4 absolute bottom-0 -right-5 opacity-60" />
                   </div>
-                  <h1 className="font-sans tracking-tight text-2xl sm:text-3xl font-normal text-[#29272C] pt-1">
-                    Welcome, {profile.fullName}
-                  </h1>
-                  <p className="text-xs sm:text-sm text-[#C9D2BC] font-light">
-                    {profile.professionalTitle}
+                  <button className="bg-[#7856A4] hover:bg-[#63458A] text-white px-6 py-3.5 rounded-full font-bold text-[14px] flex items-center gap-2 shadow-[0_8px_20px_rgb(120,86,164,0.2)] transition-all">
+                    <Plus className="w-4 h-4" /> Share Reflection
+                  </button>
+                </div>
+              </div>
+
+              <div className="relative z-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="bg-white rounded-[20px] p-6 shadow-sm border border-[#EEEAF5] flex items-center gap-5 group hover:border-[#D1C4E9] transition-colors">
+                   <div className="w-12 h-12 rounded-full bg-[#F4EFF9] flex items-center justify-center text-[#7856A4] shrink-0">
+                     <Calendar className="w-5 h-5" />
+                   </div>
+                   <div className="flex-1">
+                     <p className="text-[10px] font-bold tracking-widest text-[#AFA1CE] uppercase mb-0.5">Active Sessions</p>
+                     <div className="flex items-center justify-between">
+                       <h3 className="text-[28px] font-bold text-[#1A1A1A] leading-none">0</h3>
+                       <ArrowRight className="w-4 h-4 text-[#AFA1CE] group-hover:text-[#7856A4]" />
+                     </div>
+                     <p className="text-[12px] text-[#666666] mt-1">Scheduled consultations</p>
+                   </div>
+                </div>
+                <div className="bg-white rounded-[20px] p-6 shadow-sm border border-[#EEEAF5] flex items-center gap-5 group hover:border-[#D1C4E9] transition-colors">
+                   <div className="w-12 h-12 rounded-full bg-[#F8F6FC] flex items-center justify-center text-[#7856A4] shrink-0">
+                     <Users className="w-5 h-5" />
+                   </div>
+                   <div className="flex-1">
+                     <p className="text-[10px] font-bold tracking-widest text-[#AFA1CE] uppercase mb-0.5">Client Inquiries</p>
+                     <div className="flex items-center justify-between">
+                       <h3 className="text-[28px] font-bold text-[#1A1A1A] leading-none">0</h3>
+                       <ArrowRight className="w-4 h-4 text-[#AFA1CE] group-hover:text-[#7856A4]" />
+                     </div>
+                     <p className="text-[12px] text-[#666666] mt-1">Guided matches</p>
+                   </div>
+                </div>
+                <div className="bg-white rounded-[20px] p-6 shadow-sm border border-[#EEEAF5] flex items-center gap-5 group hover:border-[#D1C4E9] transition-colors">
+                   <div className="w-12 h-12 rounded-full bg-[#F4EFF9] flex items-center justify-center text-[#7856A4] shrink-0">
+                     <FileText className="w-5 h-5" />
+                   </div>
+                   <div className="flex-1">
+                     <p className="text-[10px] font-bold tracking-widest text-[#AFA1CE] uppercase mb-0.5">Reflections & Posts</p>
+                     <div className="flex items-center justify-between">
+                       <h3 className="text-[28px] font-bold text-[#1A1A1A] leading-none">2</h3>
+                       <ArrowRight className="w-4 h-4 text-[#AFA1CE] group-hover:text-[#7856A4]" />
+                     </div>
+                     <p className="text-[12px] text-[#666666] mt-1">Published to profile</p>
+                   </div>
+                </div>
+                <div className="bg-white rounded-[20px] p-6 shadow-sm border border-[#EEEAF5] flex items-center gap-5 group hover:border-[#D1C4E9] transition-colors">
+                   <div className="w-12 h-12 rounded-full bg-[#F8F6FC] flex items-center justify-center text-[#7856A4] shrink-0">
+                     <BookOpen className="w-5 h-5" />
+                   </div>
+                   <div className="flex-1">
+                     <p className="text-[10px] font-bold tracking-widest text-[#AFA1CE] uppercase mb-0.5">Digital Guides</p>
+                     <div className="flex items-center justify-between">
+                       <h3 className="text-[28px] font-bold text-[#1A1A1A] leading-none">1</h3>
+                       <ArrowRight className="w-4 h-4 text-[#AFA1CE] group-hover:text-[#7856A4]" />
+                     </div>
+                     <p className="text-[12px] text-[#666666] mt-1">Active workbooks</p>
+                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* CONTENT CREATION ROW */}
+            <div className="flex flex-col lg:flex-row gap-6">
+               {/* Left Wide */}
+               <div className="flex-1 bg-white rounded-[32px] p-8 shadow-sm border border-[#EEEAF5]">
+                  <div className="flex items-center justify-between border-b border-[#F0EBF7] pb-4 mb-6">
+                     <div className="flex items-center gap-8">
+                       <button className="text-[14px] font-bold text-[#7856A4] relative">
+                         Create Post
+                         <div className="absolute -bottom-[18px] left-0 right-0 h-0.5 bg-[#7856A4]" />
+                       </button>
+                       <button className="text-[14px] font-semibold text-[#AFA1CE] hover:text-[#666666] transition-colors">
+                         Create Article
+                       </button>
+                       <button className="text-[14px] font-semibold text-[#AFA1CE] hover:text-[#666666] transition-colors">
+                         Share Resource
+                       </button>
+                     </div>
+                     <button className="text-[13px] font-semibold text-[#7856A4] flex items-center gap-1.5 hover:text-[#63458A]">
+                       Save Draft <ArrowRight className="w-3.5 h-3.5" />
+                     </button>
+                  </div>
+
+                  <div className="w-full bg-[#FCFBFA] rounded-[20px] p-5 border border-[#EEEAF5] mb-6 flex items-start gap-3">
+                     <input type="text" placeholder="Share a grounding thought, clinical reflection, or prompt..." className="flex-1 bg-transparent border-none outline-none text-[#1A1A1A] placeholder-[#AFA1CE] text-[15px]" />
+                     <Smile className="w-5 h-5 text-[#AFA1CE]" />
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3">
+                     <button className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#EEEAF5] bg-white text-[#666666] font-semibold text-[13px] hover:border-[#D1C4E9] transition-colors">
+                       <ImageIcon className="w-4 h-4" /> Photo
+                     </button>
+                     <button className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#F4EFF9] text-[#7856A4] font-semibold text-[13px] transition-colors">
+                       <Video className="w-4 h-4" /> Video
+                     </button>
+                     <button className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#EEEAF5] bg-white text-[#666666] font-semibold text-[13px] hover:border-[#D1C4E9] transition-colors">
+                       <FileText className="w-4 h-4" /> Post
+                     </button>
+                     <button className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#EEEAF5] bg-white text-[#666666] font-semibold text-[13px] hover:border-[#D1C4E9] transition-colors">
+                       <BookOpen className="w-4 h-4" /> Article
+                     </button>
+                     <button className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#EEEAF5] bg-white text-[#666666] font-semibold text-[13px] hover:border-[#D1C4E9] transition-colors">
+                       <Bookmark className="w-4 h-4" /> Resource
+                     </button>
+                  </div>
+               </div>
+
+               {/* Right Narrow */}
+               <div className="w-full lg:w-[320px] bg-gradient-to-br from-[#F8F6FC] to-[#F4EFF9] rounded-[32px] p-8 shadow-sm border border-[#EAE6F0] flex flex-col items-start justify-center relative overflow-hidden">
+                  <div className="absolute bottom-0 right-0 w-[200px] h-[200px] bg-[#EAE6F0] rounded-full blur-3xl opacity-60" />
+                  <div className="w-12 h-12 rounded-[16px] bg-white flex items-center justify-center shadow-sm text-[#7856A4] mb-5 relative z-10">
+                    <Video className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-[18px] font-bold text-[#1A1A1A] mb-2 relative z-10">Share a video</h3>
+                  <p className="text-[13px] text-[#666666] leading-relaxed mb-6 relative z-10">
+                    Record or upload a video from your device. Share insights, exercises, or quick tips.
                   </p>
+                  <button className="w-full bg-white text-[#7856A4] border border-[#EEEAF5] hover:border-[#D1C4E9] rounded-full py-3 text-[13px] font-bold flex items-center justify-center gap-2 shadow-sm transition-colors relative z-10">
+                    <UploadCloud className="w-4 h-4" /> Upload Video
+                  </button>
+               </div>
+            </div>
+
+            {/* PRACTICE MANAGEMENT */}
+            <div className="space-y-5 pt-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-[22px] font-bold text-[#1A1A1A] tracking-tight">Practice Management</h2>
+                <button className="text-[13px] font-bold text-[#7856A4] flex items-center gap-1 hover:text-[#63458A]">
+                  View all <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-white rounded-[24px] p-6 shadow-sm border border-[#EEEAF5] flex items-center gap-4 cursor-pointer hover:border-[#D1C4E9] transition-colors group">
+                   <div className="w-12 h-12 rounded-full bg-[#F4EFF9] flex items-center justify-center text-[#7856A4] shrink-0">
+                     <Calendar className="w-5 h-5" />
+                   </div>
+                   <div className="flex-1">
+                     <h4 className="text-[15px] font-bold text-[#1A1A1A]">Availability</h4>
+                     <p className="text-[13px] text-[#666666]">Manage consultation hours</p>
+                   </div>
+                   <div className="w-8 h-8 rounded-full border border-[#EEEAF5] group-hover:border-[#7856A4] flex items-center justify-center text-[#AFA1CE] group-hover:text-[#7856A4] transition-colors">
+                     <ArrowRight className="w-4 h-4" />
+                   </div>
                 </div>
-
-                <button
-                  onClick={() => {
-                    setCreateType("post");
-                    setIsCreateOpen(true);
-                  }}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#F1EBDD] hover:bg-white text-[#173C32] text-xs font-semibold shadow-sm transition-all"
-                >
-                  <Plus className="w-4 h-4" />
-                  <span>Share Reflection</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Quick Overview Metrics */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div className="atmospheric-card rounded-2xl p-4 text-center">
-                <span className="text-[10px] uppercase font-semibold text-[#A99BC7] tracking-wider block">
-                  Active Sessions
-                </span>
-                <span className="font-sans tracking-tight text-2xl font-normal text-[#29272C] block mt-1">
-                  {stats.activeSessionsCount}
-                </span>
-                <span className="text-[10px] text-[#C9D2BC] mt-0.5 block">Scheduled consultations</span>
-              </div>
-              <div className="atmospheric-card rounded-2xl p-4 text-center">
-                <span className="text-[10px] uppercase font-semibold text-[#A99BC7] tracking-wider block">
-                  Client Inquiries
-                </span>
-                <span className="font-sans tracking-tight text-2xl font-normal text-[#29272C] block mt-1">
-                  {stats.inquiriesCount}
-                </span>
-                <span className="text-[10px] text-[#C9D2BC] mt-0.5 block">Guided matches</span>
-              </div>
-              <div className="atmospheric-card rounded-2xl p-4 text-center">
-                <span className="text-[10px] uppercase font-semibold text-[#A99BC7] tracking-wider block">
-                  Reflections & Posts
-                </span>
-                <span className="font-sans tracking-tight text-2xl font-normal text-[#29272C] block mt-1">
-                  {contentList.length}
-                </span>
-                <span className="text-[10px] text-[#C9D2BC] mt-0.5 block">Published to profile</span>
-              </div>
-              <div className="atmospheric-card rounded-2xl p-4 text-center">
-                <span className="text-[10px] uppercase font-semibold text-[#A99BC7] tracking-wider block">
-                  Digital Guides
-                </span>
-                <span className="font-sans tracking-tight text-2xl font-normal text-[#29272C] block mt-1">
-                  {productList.length}
-                </span>
-                <span className="text-[10px] text-[#C9D2BC] mt-0.5 block">Active workbooks</span>
-              </div>
-            </div>
-
-            {/* Quick Share Prompt ("What's on your mind?") */}
-            <div className="atmospheric-card rounded-2xl p-4 sm:p-5">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-[#244F42] border border-[#EEEAF5] flex items-center justify-center font-bold text-xs text-white shrink-0">
-                  {profile.fullName.charAt(0)}
+                <div className="bg-[#FCFBFA] rounded-[24px] p-6 shadow-sm border border-[#F0EBF7] flex items-center gap-4 cursor-pointer hover:border-[#D1C4E9] transition-colors group">
+                   <div className="w-12 h-12 rounded-full bg-[#F4EFF9] flex items-center justify-center text-[#7856A4] shrink-0">
+                     <DollarSign className="w-5 h-5" />
+                   </div>
+                   <div className="flex-1">
+                     <h4 className="text-[15px] font-bold text-[#1A1A1A]">Earnings & Ledger</h4>
+                     <p className="text-[13px] text-[#666666]">Session fees & payouts</p>
+                   </div>
+                   <div className="w-8 h-8 rounded-full border border-[#EEEAF5] group-hover:border-[#7856A4] flex items-center justify-center text-[#AFA1CE] group-hover:text-[#7856A4] transition-colors">
+                     <ArrowRight className="w-4 h-4" />
+                   </div>
                 </div>
-                <button
-                  onClick={() => {
-                    setCreateType("post");
-                    setIsCreateOpen(true);
-                  }}
-                  className="flex-1 text-left px-4 py-2.5 rounded-full bg-white/5 border border-[#EEEAF5] text-xs text-[#A99BC7] hover:border-[#9CAF91]/40 hover:text-[#C9D2BC] transition-all"
-                >
-                  Share a grounding thought, clinical reflection, or prompt...
-                </button>
-              </div>
-
-              {/* 5 Fast Create Buttons */}
-              <div className="flex items-center justify-around gap-2 pt-4 mt-3 border-t border-[#EEEAF5]">
-                <button
-                  onClick={() => {
-                    setCreateType("photo");
-                    setIsCreateOpen(true);
-                  }}
-                  className="flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
-                >
-                  <ImageIcon className="w-4 h-4 text-[#A99BC7]" />
-                  <span className="text-[11px]">Photo</span>
-                </button>
-                <button
-                  onClick={() => {
-                    setCreateType("video");
-                    setIsCreateOpen(true);
-                  }}
-                  className="flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
-                >
-                  <Video className="w-4 h-4 text-[#A99BC7]" />
-                  <span className="text-[11px]">Video</span>
-                </button>
-                <button
-                  onClick={() => {
-                    setCreateType("post");
-                    setIsCreateOpen(true);
-                  }}
-                  className="flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
-                >
-                  <FileText className="w-4 h-4 text-[#A99BC7]" />
-                  <span className="text-[11px]">Post</span>
-                </button>
-                <button
-                  onClick={() => {
-                    setCreateType("article");
-                    setIsCreateOpen(true);
-                  }}
-                  className="flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
-                >
-                  <BookOpen className="w-4 h-4 text-[#A99BC7]" />
-                  <span className="text-[11px]">Article</span>
-                </button>
-                <button
-                  onClick={() => {
-                    setCreateType("resource");
-                    setIsCreateOpen(true);
-                  }}
-                  className="flex items-center gap-1.5 text-xs text-[#C9D2BC] hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
-                >
-                  <Bookmark className="w-4 h-4 text-[#A99BC7]" />
-                  <span className="text-[11px]">Resource</span>
-                </button>
+                <div className="bg-[#FCFBFA] rounded-[24px] p-6 shadow-sm border border-[#F0EBF7] flex items-center gap-4 cursor-pointer hover:border-[#D1C4E9] transition-colors group">
+                   <div className="w-12 h-12 rounded-full bg-[#F4EFF9] flex items-center justify-center text-[#7856A4] shrink-0">
+                     <Sparkles className="w-5 h-5" />
+                   </div>
+                   <div className="flex-1">
+                     <h4 className="text-[15px] font-bold text-[#1A1A1A]">AI Portfolio</h4>
+                     <p className="text-[13px] text-[#666666]">Practice styles & builder</p>
+                   </div>
+                   <div className="w-8 h-8 rounded-full border border-[#EEEAF5] group-hover:border-[#7856A4] flex items-center justify-center text-[#AFA1CE] group-hover:text-[#7856A4] transition-colors">
+                     <ArrowRight className="w-4 h-4" />
+                   </div>
+                </div>
               </div>
             </div>
 
-            {/* Practice Administration Shortcuts */}
-            <div className="space-y-3">
-              <span className="text-xs font-semibold text-[#A99BC7] uppercase tracking-widest block">
-                Practice Management
-              </span>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <Link
-                  href="/app/psychologist/availability"
-                  className="atmospheric-card rounded-2xl p-4 flex items-center justify-between hover:border-[#9CAF91]/50 transition-all group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-white/5 text-[#A99BC7]">
-                      <Calendar className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h3 className="text-xs font-semibold text-[#29272C]">Availability</h3>
-                      <p className="text-[11px] text-[#C9D2BC] font-light">Manage consultation hours</p>
-                    </div>
+            {/* RECENT ACTIVITY */}
+            <div className="flex flex-col lg:flex-row gap-8 pt-4">
+               {/* Left Wide */}
+               <div className="flex-1 space-y-5">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-[20px] font-bold text-[#1A1A1A] tracking-tight">Recent Activity</h2>
+                    <button className="text-[13px] font-bold text-[#7856A4] flex items-center gap-1 hover:text-[#63458A]">
+                      View all <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-[#A99BC7] group-hover:translate-x-0.5 transition-transform" />
-                </Link>
+                  
+                  <div className="space-y-3">
+                    <div className="bg-white rounded-[20px] p-5 shadow-sm border border-[#EEEAF5] flex items-center justify-between group">
+                       <div className="flex items-center gap-4">
+                         <div className="w-10 h-10 rounded-full bg-[#F8F6FC] border border-[#F0EBF7] flex items-center justify-center text-[#AFA1CE]">
+                           <FileText className="w-4 h-4" />
+                         </div>
+                         <div>
+                           <p className="text-[13.5px] font-bold text-[#1A1A1A]">You published a new reflection</p>
+                           <p className="text-[12px] text-[#AFA1CE]">2 days ago</p>
+                         </div>
+                       </div>
+                       <div className="flex items-center gap-3">
+                         <span className="text-[12px] text-[#AFA1CE] italic">&quot;Building Emotional Resilience&quot;</span>
+                         <ArrowRight className="w-4 h-4 text-[#EEEAF5] group-hover:text-[#AFA1CE]" />
+                       </div>
+                    </div>
 
-                <Link
-                  href="/app/psychologist/earnings"
-                  className="atmospheric-card rounded-2xl p-4 flex items-center justify-between hover:border-[#9CAF91]/50 transition-all group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-white/5 text-[#A99BC7]">
-                      <DollarSign className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h3 className="text-xs font-semibold text-[#29272C]">Earnings & Ledger</h3>
-                      <p className="text-[11px] text-[#C9D2BC] font-light">Session fees & payouts</p>
+                    <div className="bg-white rounded-[20px] p-5 shadow-sm border border-[#EEEAF5] flex items-center justify-between group">
+                       <div className="flex items-center gap-4">
+                         <div className="w-10 h-10 rounded-full bg-[#F8F6FC] border border-[#F0EBF7] flex items-center justify-center text-[#AFA1CE]">
+                           <BookOpen className="w-4 h-4" />
+                         </div>
+                         <div>
+                           <p className="text-[13.5px] font-bold text-[#1A1A1A]">You updated a digital guide</p>
+                           <p className="text-[12px] text-[#AFA1CE]">5 days ago</p>
+                         </div>
+                       </div>
+                       <div className="flex items-center gap-3">
+                         <span className="text-[12px] text-[#AFA1CE] italic">Mindful Breathing Exercises</span>
+                         <ArrowRight className="w-4 h-4 text-[#EEEAF5] group-hover:text-[#AFA1CE]" />
+                       </div>
                     </div>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-[#A99BC7] group-hover:translate-x-0.5 transition-transform" />
-                </Link>
+               </div>
 
-                <Link
-                  href="/app/psychologist/portfolio"
-                  className="atmospheric-card rounded-2xl p-4 flex items-center justify-between hover:border-[#9CAF91]/50 transition-all group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-white/5 text-[#A99BC7]">
-                      <Sparkles className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h3 className="text-xs font-semibold text-[#29272C]">AI Portfolio</h3>
-                      <p className="text-[11px] text-[#C9D2BC] font-light">Practice styles & builder</p>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-[#A99BC7] group-hover:translate-x-0.5 transition-transform" />
-                </Link>
-              </div>
+               {/* Right Narrow */}
+               <div className="w-full lg:w-[320px] bg-white rounded-[24px] p-6 shadow-sm border border-[#EEEAF5] flex flex-col justify-between mt-12 lg:mt-0">
+                 <div>
+                   <div className="flex items-center justify-between mb-4">
+                     <div className="flex items-center gap-2">
+                       <div className="w-7 h-7 rounded-full bg-[#FEF3C7] flex items-center justify-center text-[#D97706]">
+                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                       </div>
+                       <span className="text-[12px] font-bold text-[#1A1A1A]">Tips for your practice</span>
+                     </div>
+                     <div className="flex items-center gap-1.5 text-[#AFA1CE]">
+                       <span className="text-[11px] font-medium mr-1">1/3</span>
+                       <button className="w-6 h-6 rounded-full border border-[#EEEAF5] flex items-center justify-center hover:text-[#1A1A1A] transition-colors"><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/></svg></button>
+                       <button className="w-6 h-6 rounded-full border border-[#EEEAF5] flex items-center justify-center hover:text-[#1A1A1A] transition-colors"><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/></svg></button>
+                     </div>
+                   </div>
+                   <h4 className="text-[15px] font-bold text-[#1A1A1A] mb-2">Create short video insights</h4>
+                   <p className="text-[12.5px] text-[#666666] leading-relaxed">
+                     Short, authentic videos help more people discover your work. Share a quick tip, a mindset shift, or a simple exercise.
+                   </p>
+                 </div>
+               </div>
             </div>
+
           </div>
-        )}
-
-        {/* ============================== CONTENT TAB ============================== */}
-        {activeTab === "content" && (
+        )}{activeTab === "content" && (
           <div className="space-y-6">
             {/* Header + Filter Pills */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -1673,3 +1754,6 @@ export function PsychologistDashboardClient({
     </div>
   );
 }
+
+
+

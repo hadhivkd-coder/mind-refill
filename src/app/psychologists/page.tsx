@@ -14,7 +14,10 @@ import {
   List,
   Globe,
   Calendar,
-  Star
+  Star,
+  Heart,
+  MessageCircle,
+  ShieldCheck
 } from "lucide-react";
 
 export const metadata = {
@@ -247,8 +250,125 @@ export default async function PsychologistsDirectoryPage({ searchParams }: Direc
           </div>
         </section>
 
+        {/* ========================================================================= */}
+        {/* 4. GUIDED MATCHING CTA */}
+        {/* ========================================================================= */}
+        <section className="w-full bg-[#FCFBFA] pb-24">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="w-full rounded-[40px] bg-gradient-to-br from-[#FCFBFA] via-[#F4EFF9] to-[#EAE6F0] relative overflow-hidden flex flex-col md:flex-row border border-[#F0EBF7] shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+              
+              {/* Decorative SVG Line with Heart (Desktop only) */}
+              <div className="hidden lg:block absolute top-[40%] left-[45%] -translate-y-1/2 w-[350px] z-10 text-[#7856A4]">
+                <svg viewBox="0 0 300 150" fill="none" className="w-full h-full overflow-visible">
+                  <path 
+                    d="M 0,100 C 50,100 80,110 100,100 C 130,80 110,30 90,50 C 70,70 110,80 120,40 C 130,10 160,20 170,40 C 180,60 140,80 145,100 C 150,120 180,120 200,100 C 230,70 280,60 320,50" 
+                    stroke="currentColor" 
+                    strokeWidth="1" 
+                    strokeLinecap="round" 
+                    fill="none" 
+                    className="opacity-60"
+                  />
+                  {/* Small heart shape forming the loop */}
+                  <path 
+                    d="M 120,40 C 110,20 90,30 95,50 C 100,70 130,80 145,100 C 160,80 190,70 195,50 C 200,30 180,20 170,40 C 160,60 145,100 145,100" 
+                    stroke="currentColor" 
+                    strokeWidth="1.2" 
+                    fill="none" 
+                    className="opacity-80"
+                  />
+                </svg>
+              </div>
+
+              {/* Left Content */}
+              <div className="w-full lg:w-[55%] p-10 md:p-16 lg:p-20 relative z-20 flex flex-col justify-center">
+                <div className="inline-flex items-center gap-2 bg-[#EAE6F0]/50 backdrop-blur-sm border border-[#D1C4E9] rounded-full px-4 py-1.5 w-max mb-8">
+                  <Heart className="w-3.5 h-3.5 text-[#7856A4] fill-[#7856A4]" />
+                  <span className="text-[11px] font-bold tracking-[0.15em] text-[#7856A4] uppercase">Guided Matching</span>
+                </div>
+                
+                <h2 className="text-[2.5rem] md:text-[3.25rem] font-bold text-[#1A1A1A] tracking-tight leading-[1.1] mb-5">
+                  Not sure which psychologist<br/>
+                  <span className="text-[#7856A4]">is right for you?</span>
+                </h2>
+                
+                <p className="text-[16px] md:text-[18px] text-[#666666] font-normal leading-relaxed max-w-lg mb-10">
+                  Take 3 minutes to share what you&apos;re going through. Our care coordinators will review your focus areas and connect you thoughtfully.
+                </p>
+
+                <Link
+                  href="/intake"
+                  className="w-full sm:w-max px-8 py-4 rounded-full bg-[#7856A4] hover:bg-[#63458A] text-white font-bold text-[15px] flex items-center justify-center gap-2 transition-all shadow-[0_8px_20px_rgb(120,86,164,0.25)] hover:shadow-[0_12px_25px_rgb(120,86,164,0.35)] hover:-translate-y-0.5 mb-12"
+                >
+                  <span>Start Guided Matching</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+
+                {/* Trust Indicators */}
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-0 sm:divide-x divide-[#D1C4E9]/70">
+                  <div className="flex items-center gap-4 sm:pr-6">
+                    <div className="w-11 h-11 rounded-full bg-[#F4EFF9] border border-[#EAE6F0] flex items-center justify-center shrink-0">
+                      <MessageCircle className="w-4 h-4 text-[#7856A4]" strokeWidth={2} />
+                    </div>
+                    <p className="text-[13px] text-[#666666] font-medium leading-snug">A simple<br/>3-minute process</p>
+                  </div>
+                  <div className="flex items-center gap-4 sm:px-6">
+                    <div className="w-11 h-11 rounded-full bg-[#F4EFF9] border border-[#EAE6F0] flex items-center justify-center shrink-0">
+                      <Users className="w-4 h-4 text-[#7856A4]" strokeWidth={2} />
+                    </div>
+                    <p className="text-[13px] text-[#666666] font-medium leading-snug">Reviewed by<br/>care coordinators</p>
+                  </div>
+                  <div className="flex items-center gap-4 sm:pl-6">
+                    <div className="w-11 h-11 rounded-full bg-[#F4EFF9] border border-[#EAE6F0] flex items-center justify-center shrink-0">
+                      <ShieldCheck className="w-4 h-4 text-[#7856A4]" strokeWidth={2} />
+                    </div>
+                    <p className="text-[13px] text-[#666666] font-medium leading-snug">Completely private<br/>and confidential</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Image Container */}
+              <div className="w-full lg:w-[45%] relative h-[400px] lg:h-auto min-h-[500px] overflow-hidden">
+                {/* Organic shape abstract blobs behind the woman */}
+                <div className="absolute top-[20%] left-[-10%] w-[400px] h-[400px] bg-[#EAE6F0] rounded-full mix-blend-multiply opacity-50 blur-3xl" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[300px] h-[300px] bg-[#D1C4E9] rounded-full mix-blend-multiply opacity-40 blur-2xl" />
+
+                <div 
+                  className="absolute inset-y-0 right-0 w-full h-full"
+                  style={{
+                    maskImage: "radial-gradient(ellipse 90% 100% at 70% 50%, black 40%, transparent 80%)",
+                    WebkitMaskImage: "radial-gradient(ellipse 90% 100% at 70% 50%, black 40%, transparent 80%)"
+                  }}
+                >
+                  <Image 
+                    src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=1000" 
+                    alt="Thoughtful woman" 
+                    fill 
+                    className="object-cover object-center transform -scale-x-100" 
+                  />
+                </div>
+
+                {/* Floating Chat Bubble */}
+                <div className="absolute top-16 right-8 lg:right-16 bg-white/95 backdrop-blur-md rounded-[20px] rounded-bl-sm p-4 flex items-center gap-4 shadow-[0_15px_40px_rgb(0,0,0,0.06)] border border-[#F4EFF9] rotate-3 max-w-[240px] animate-[float_6s_ease-in-out_infinite] z-20">
+                  {/* Decorative tiny swoosh */}
+                  <div className="absolute -top-3 -right-2 text-[#7856A4] rotate-12">
+                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2v4M4.93 4.93l2.83 2.83" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+                  </div>
+                  <div className="w-12 h-12 rounded-full bg-[#F4EFF9] flex items-center justify-center shrink-0 border border-[#EAE6F0]">
+                    <Users className="w-5 h-5 text-[#7856A4]" strokeWidth={1.5} />
+                  </div>
+                  <p className="text-[12.5px] font-bold text-[#666666] leading-snug tracking-tight">
+                    We&apos;ll connect you with the right support
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
       </main>
       <Footer />
     </div>
   );
 }
+

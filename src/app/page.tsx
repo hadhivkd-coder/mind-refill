@@ -480,43 +480,262 @@ export default async function HomePage() {
           </div>
         </section>
 {/* ========================================================================= */}
+        {/* 6. GUIDED WORKBOOKS */}
+        {/* ========================================================================= */}
+        <section className="relative w-full py-28 bg-[#FCFBFA] overflow-hidden">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10 relative z-10">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <div className="h-[1px] w-8 bg-[#D1C4E9]" />
+                  <span className="text-[11px] font-bold tracking-[0.2em] text-[#AFA1CE] uppercase">Practical Tools For Real Life</span>
+                  <div className="h-[1px] w-8 bg-[#D1C4E9]" />
+                </div>
+                <h2 className="text-[2.5rem] md:text-[3.25rem] font-bold text-[#1A1A1A] tracking-tight leading-tight">
+                  Guided <span className="text-[#7856A4]">Workbooks.</span>
+                </h2>
+                <p className="text-[#666666] text-[16px] md:text-[18px] font-normal">
+                  In-depth digital products to help you reflect, process, and grow.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-6 pb-2">
+                <Link href="/ebooks" className="text-[#7856A4] font-bold text-[14px] hover:text-[#63458A] transition-colors flex items-center gap-1">
+                  View all workbooks <ArrowRight className="w-4 h-4" />
+                </Link>
+                <div className="hidden sm:flex gap-2">
+                  <button className="w-10 h-10 rounded-full border border-[#D1C4E9] flex items-center justify-center text-[#AFA1CE] hover:text-[#7856A4] hover:border-[#7856A4] transition-colors bg-white shadow-sm">
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button className="w-10 h-10 rounded-full border border-[#D1C4E9] flex items-center justify-center text-[#AFA1CE] hover:text-[#7856A4] hover:border-[#7856A4] transition-colors bg-white shadow-sm">
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Carousel */}
+            <div className="flex overflow-x-auto gap-6 pb-8 pt-4 -mx-4 px-4 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory">
+              {[
+                { tag: "ANXIETY", title: "A Calmer You", desc: "A 30-day journey to less anxiety", author: "Dr. Roshna K", authorImage: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=150", rating: "4.8", reviews: "320", price: "₹499", image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=600" },
+                { tag: "RELATIONSHIPS", title: "Healing Relationships", desc: "A guided workbook for healthier connections", author: "Dr. Anjali Menon", authorImage: "https://images.unsplash.com/photo-1594824813637-2804b494632b?auto=format&fit=crop&q=80&w=150", rating: "4.7", reviews: "210", price: "₹399", image: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=600" },
+                { tag: "SELF-GROWTH", title: "Know Yourself Better", desc: "A reflective journal for clarity and self-awareness", author: "Dr. Nikhil Das", authorImage: "https://images.unsplash.com/photo-1600804889194-e6fbf08ddb39?auto=format&fit=crop&q=80&w=150", rating: "4.9", reviews: "180", price: "₹449", image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=600" },
+                { tag: "SLEEP & WELLNESS", title: "Better Sleep", desc: "Practical tools for restful nights", author: "Ms. Fathima R", authorImage: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=150", rating: "4.8", reviews: "275", price: "₹399", image: "https://images.unsplash.com/photo-1515814588531-10c73335520e?auto=format&fit=crop&q=80&w=600" },
+                { tag: "MINDFULNESS", title: "Mindful Living", desc: "Simple practices for a more balanced life", author: "Dr. Meera S", authorImage: "https://images.unsplash.com/photo-1618077360395-f3068be8e001?auto=format&fit=crop&q=80&w=150", rating: "4.7", reviews: "190", price: "₹499", image: "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&q=80&w=600" },
+              ].map((book, i) => (
+                <div key={i} className="min-w-[280px] sm:min-w-[320px] flex-shrink-0 snap-start bg-white rounded-[20px] shadow-[0_8px_30px_rgb(0,0,0,0.03)] border border-transparent hover:border-[#F4EFF9] transition-all flex flex-col group p-4">
+                  <div className="relative w-full h-56 rounded-[16px] overflow-hidden bg-[#F8F6FC]">
+                    <Image src={book.image} alt={book.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                  <div className="pt-5 flex-grow flex flex-col">
+                    <span className="text-[10px] font-bold tracking-widest text-[#AFA1CE] uppercase mb-1.5">{book.tag}</span>
+                    <h3 className="text-[17px] font-bold text-[#1A1A1A] leading-tight">{book.title}</h3>
+                    <p className="text-[13px] text-[#666666] mt-1 leading-snug">{book.desc}</p>
+                    
+                    <div className="flex items-center gap-2 mt-4">
+                      <Image src={book.authorImage} alt={book.author} width={24} height={24} className="rounded-full object-cover" />
+                      <span className="text-[12px] font-semibold text-[#1A1A1A]">{book.author}</span>
+                    </div>
+
+                    <div className="flex items-center justify-between mt-5">
+                      <div className="flex items-center gap-1">
+                        <Star className="w-3.5 h-3.5 fill-[#F59E0B] text-[#F59E0B]" />
+                        <span className="text-[13px] font-bold text-[#1A1A1A]">{book.rating}</span>
+                        <span className="text-[12px] text-[#AFA1CE]">({book.reviews})</span>
+                      </div>
+                      <div className="w-8 h-8 rounded-full border border-[#EEEAF5] group-hover:border-[#7856A4] group-hover:text-[#7856A4] flex items-center justify-center text-[#AFA1CE] transition-colors">
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </div>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-[#F0EBF7]">
+                      <span className="text-[16px] font-bold text-[#1A1A1A]">{book.price}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
         {/* 7. TRUST / PRIVACY */}
         {/* ========================================================================= */}
-        <section className="w-full py-16 bg-[#FAF8F2] border-t border-[#EEEAF5]">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6">
-            <ShieldCheck className="w-10 h-10 text-[#AAB8A2] mx-auto opacity-80" />
-            <h3 className="text-xl md:text-2xl font-medium text-[#29272C]">
-              Your privacy is fundamental
-            </h3>
-            <p className="text-[15px] md:text-[16px] text-[#62547F] font-light leading-relaxed max-w-2xl mx-auto">
-              We employ strict, bank-level encryption and do not sell your personal data. 
-              Our professionals are rigorously vetted, verified, and bound by confidentiality agreements. 
-              This is a safe space.
-            </p>
+        <section className="relative w-full py-24 bg-[#F8F6FC] overflow-hidden">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+            {/* Left Image with organic blob mask */}
+            <div className="w-full lg:w-[45%] relative flex justify-center">
+               <div className="absolute top-0 right-10 text-[#7856A4] opacity-50 rotate-12">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+               </div>
+               <div 
+                 className="relative w-full max-w-[420px] aspect-square overflow-hidden shadow-sm" 
+                 style={{ borderRadius: "40% 60% 70% 30% / 40% 50% 60% 50%" }}
+               >
+                 <Image src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?auto=format&fit=crop&q=80&w=800" alt="Trust" fill className="object-cover" />
+                 {/* Dark overlay specifically for this image to make it match the ref */}
+                 <div className="absolute inset-0 bg-black/10 mix-blend-multiply" />
+                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-20 bg-[#AFA1CE] rounded-[20px] rounded-t-[40px] flex items-center justify-center border-[6px] border-[#7856A4] opacity-90 shadow-2xl">
+                    <Heart className="w-6 h-6 text-[#7856A4] fill-[#7856A4]" />
+                 </div>
+               </div>
+            </div>
+
+            {/* Content */}
+            <div className="w-full lg:w-[55%] space-y-10">
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <div className="h-[1px] w-8 bg-[#D1C4E9]" />
+                  <span className="text-[11px] font-bold tracking-[0.2em] text-[#AFA1CE] uppercase">Your trust comes first</span>
+                  <div className="h-[1px] w-8 bg-[#D1C4E9]" />
+                </div>
+                <h2 className="text-[2.5rem] md:text-[3.25rem] font-bold text-[#1A1A1A] tracking-tight leading-tight">
+                  Your privacy is <span className="text-[#7856A4]">fundamental.</span>
+                </h2>
+                <p className="text-[#666666] text-[16px] md:text-[18px] font-normal leading-relaxed max-w-2xl">
+                  We employ strict, bank-level encryption and do not sell your personal data. Our professionals are rigorously vetted, verified, and bound by confidentiality agreements. This is a safe space.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 pt-4">
+                 <div className="flex gap-5">
+                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#7856A4] shrink-0 shadow-[0_4px_15px_rgb(0,0,0,0.04)]">
+                       <ShieldCheck className="w-5 h-5" />
+                    </div>
+                    <div>
+                       <h4 className="text-[15px] font-bold text-[#1A1A1A]">100% confidential</h4>
+                       <p className="text-[13px] text-[#666666] mt-1.5 leading-relaxed">Your conversations stay private.</p>
+                    </div>
+                 </div>
+                 <div className="flex gap-5">
+                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#7856A4] shrink-0 shadow-[0_4px_15px_rgb(0,0,0,0.04)]">
+                       <CheckCircle2 className="w-5 h-5" />
+                    </div>
+                    <div>
+                       <h4 className="text-[15px] font-bold text-[#1A1A1A]">Verified professionals</h4>
+                       <p className="text-[13px] text-[#666666] mt-1.5 leading-relaxed">Only qualified and licensed psychologists.</p>
+                    </div>
+                 </div>
+                 <div className="flex gap-5">
+                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#7856A4] shrink-0 shadow-[0_4px_15px_rgb(0,0,0,0.04)]">
+                       <FileText className="w-5 h-5" />
+                    </div>
+                    <div>
+                       <h4 className="text-[15px] font-bold text-[#1A1A1A]">Secure platform</h4>
+                       <p className="text-[13px] text-[#666666] mt-1.5 leading-relaxed">Bank-level encryption and data protection.</p>
+                    </div>
+                 </div>
+                 <div className="flex gap-5">
+                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#7856A4] shrink-0 shadow-[0_4px_15px_rgb(0,0,0,0.04)]">
+                       <User className="w-5 h-5" />
+                    </div>
+                    <div>
+                       <h4 className="text-[15px] font-bold text-[#1A1A1A]">Your control</h4>
+                       <p className="text-[13px] text-[#666666] mt-1.5 leading-relaxed">You decide what to share, at your own pace.</p>
+                    </div>
+                 </div>
+              </div>
+            </div>
           </div>
         </section>
 
         {/* ========================================================================= */}
         {/* 8. FINAL EMOTIONAL CTA */}
         {/* ========================================================================= */}
-        <section className="w-full py-24 md:py-32 bg-white border-t border-[#EEEAF5]">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center space-y-8">
-            <h2 className="text-[2.5rem] md:text-[3.5rem] font-medium text-[#29272C] tracking-tight leading-tight">
-              You don&apos;t need to have all the answers.
-            </h2>
-            <p className="text-xl md:text-2xl text-[#62547F] font-light">
-              You only need a next step.
-            </p>
-            <div className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/intake"
-                className="h-14 px-10 rounded-full bg-[#29272C] hover:bg-[#62547F] text-white font-medium text-[15px] flex items-center justify-center gap-2 transition-all shadow-md hover:-translate-y-0.5 duration-300 w-full sm:w-auto"
-              >
-                <span>Find my next step</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+        <section className="relative w-full py-32 overflow-hidden bg-[#FAF8F2]">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+             <Image src="https://images.unsplash.com/photo-1542359649-31e03cd4d909?auto=format&fit=crop&q=80&w=2000" alt="Sunrise landscape" fill className="object-cover object-center opacity-80" />
+             <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-transparent" />
+          </div>
+
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="max-w-2xl space-y-6">
+              <div className="flex items-center gap-4">
+                <div className="h-[1px] w-8 bg-[#D1C4E9]" />
+                <span className="text-[11px] font-bold tracking-[0.2em] text-[#7856A4] uppercase">Take the next step</span>
+                <div className="h-[1px] w-8 bg-[#D1C4E9]" />
+              </div>
+              <h2 className="text-[3rem] md:text-[4rem] font-bold text-[#1A1A1A] tracking-tight leading-[1.1]">
+                You don&apos;t need to have all <span className="text-[#7856A4]">the answers.</span>
+              </h2>
+              <p className="text-[18px] md:text-[20px] text-[#666666] font-normal">
+                You only need a next step.
+              </p>
+              
+              <div className="pt-6 flex flex-col sm:flex-row items-center gap-8 relative">
+                <Link
+                  href="/intake"
+                  className="px-8 py-4 rounded-full bg-[#7856A4] hover:bg-[#63458A] text-white font-bold text-[15px] flex items-center justify-center gap-2 transition-all shadow-[0_8px_20px_rgb(120,86,164,0.3)] hover:shadow-[0_12px_25px_rgb(120,86,164,0.4)] w-full sm:w-auto hover:-translate-y-0.5"
+                >
+                  <span>Find my next step</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+
+                {/* Handwritten text */}
+                <div className="hidden md:flex items-center text-[#AFA1CE] ml-2">
+                  <svg width="40" height="30" viewBox="0 0 40 30" fill="none" className="transform -scale-y-100 rotate-12 -mt-6 mr-3">
+                     <path d="M5 25 Q 20 5 35 15" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+                     <path d="M25 10 L 35 15 L 30 22" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+                  </svg>
+                  <span className="font-serif italic text-[18px] leading-tight transform -rotate-6">A kinder,<br/>brighter you<br/>is possible</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Floating Bubble Right */}
+            <div className="hidden lg:flex absolute top-10 right-[15%] w-48 h-48 bg-white/95 backdrop-blur-md rounded-full shadow-[0_20px_40px_rgb(0,0,0,0.08)] flex-col items-center justify-center p-8 text-center animate-[float_6s_ease-in-out_infinite]">
+               <Heart className="w-5 h-5 text-[#7856A4] mb-3" />
+               <span className="text-[15px] font-bold text-[#1A1A1A] leading-snug">Support today for a brighter tomorrow.</span>
             </div>
           </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* 9. NEWSLETTER BANNER */}
+        {/* ========================================================================= */}
+        <section className="relative w-full bg-[#FCFBFA] pt-12 pb-16 px-4 sm:px-6 lg:px-8 border-t border-b border-[#F0EBF7]">
+           <div className="max-w-[1200px] mx-auto bg-[#F4EFF9] rounded-[40px] p-10 md:p-14 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12 shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-[#EAE6F0]">
+              {/* Decorative florals */}
+              <div className="absolute top-0 left-0 w-64 h-full opacity-30 pointer-events-none">
+                 <svg viewBox="0 0 100 100" className="w-full h-full text-[#AFA1CE]" fill="currentColor"><path d="M0 100 C 20 80, 40 100, 60 70 C 80 40, 60 20, 100 0 L 0 0 Z" /></svg>
+              </div>
+              <div className="absolute top-0 right-0 w-64 h-full opacity-30 pointer-events-none">
+                 <svg viewBox="0 0 100 100" className="w-full h-full text-[#AFA1CE]" fill="currentColor"><path d="M100 100 C 80 80, 60 100, 40 70 C 20 40, 40 20, 0 0 L 100 0 Z" /></svg>
+              </div>
+
+              <div className="relative z-10 max-w-lg space-y-4 text-center md:text-left">
+                 <h2 className="text-[2rem] md:text-[2.25rem] font-bold text-[#1A1A1A] tracking-tight leading-[1.2]">
+                    Take the next step towards<br/>a <span className="text-[#7856A4]">brighter tomorrow.</span>
+                 </h2>
+                 <p className="text-[15px] text-[#666666]">
+                    Get gentle insights, resources, and updates — no spam, just support.
+                 </p>
+              </div>
+
+              <div className="relative z-10 w-full max-w-lg">
+                 <form className="flex flex-col sm:flex-row gap-3">
+                    <div className="relative flex-1">
+                       <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                          <svg className="w-5 h-5 text-[#AFA1CE]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                       </div>
+                       <input 
+                         type="email" 
+                         placeholder="Enter your email address" 
+                         className="w-full h-[54px] pl-12 pr-4 rounded-full bg-white border border-transparent focus:border-[#7856A4] focus:ring-1 focus:ring-[#7856A4] outline-none text-[#1A1A1A] placeholder-[#AFA1CE] shadow-[0_4px_15px_rgb(0,0,0,0.03)] transition-all"
+                         required 
+                       />
+                    </div>
+                    <button type="submit" className="h-[54px] px-8 rounded-full bg-[#7856A4] hover:bg-[#63458A] text-white font-bold text-[14px] flex items-center justify-center gap-2 transition-all shadow-[0_4px_15px_rgb(120,86,164,0.2)] shrink-0">
+                       Stay updated <ArrowRight className="w-4 h-4" />
+                    </button>
+                 </form>
+                 <div className="flex items-center justify-center md:justify-start gap-2 mt-5 text-[12px] font-medium text-[#AFA1CE]">
+                    <ShieldCheck className="w-4 h-4" />
+                    <span>We respect your privacy. Unsubscribe anytime.</span>
+                 </div>
+              </div>
+           </div>
         </section>
       </main>
 
@@ -524,4 +743,5 @@ export default async function HomePage() {
     </div>
   );
 }
+
 

@@ -1,102 +1,123 @@
-import Link from "next/link";
-import { HeartHandshake, Twitter, Instagram, Linkedin } from "lucide-react";
+﻿import Link from "next/link";
+import { Twitter, Instagram, Linkedin, Youtube, Heart } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-white text-[#62547F] pt-16 pb-12 font-sans border-t border-[#EEEAF5]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="relative bg-[#FCFBFA] pt-20 pb-10 font-sans overflow-hidden border-t border-[#F0EBF7]">
+      {/* Subtle floral background elements */}
+      <div className="absolute top-0 left-0 w-64 h-full opacity-30 pointer-events-none">
+         <svg viewBox="0 0 100 100" className="w-full h-full text-[#AFA1CE]" fill="currentColor"><path d="M0 100 C 20 80, 40 100, 60 70 C 80 40, 60 20, 100 0 L 0 0 Z" /></svg>
+      </div>
+      <div className="absolute bottom-0 right-0 w-64 h-full opacity-30 pointer-events-none">
+         <svg viewBox="0 0 100 100" className="w-full h-full text-[#AFA1CE]" fill="currentColor"><path d="M100 100 C 80 80, 60 100, 40 70 C 20 40, 40 20, 0 0 L 100 0 Z" /></svg>
+      </div>
+
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
         
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-[#EEEAF5]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-[#F0EBF7]">
           
-          {/* Brand & Statement Col */}
-          <div className="md:col-span-5 space-y-6">
-            <Link href="/" className="flex items-center gap-2 group focus:outline-none">
-              <div className="w-8 h-8 rounded-lg bg-[#FAF8F2] border border-[#EEEAF5] flex items-center justify-center text-[#62547F]">
-                <span className="font-sans tracking-tight text-sm font-medium">Ψ</span>
+          {/* Brand & Statement Col (col-span-4) */}
+          <div className="md:col-span-4 space-y-6">
+            <Link href="/" className="flex items-center gap-3 group focus:outline-none">
+              <div className="w-10 h-10 rounded-[12px] bg-[#F4EFF9] flex items-center justify-center text-[#7856A4] transition-colors">
+                <span className="font-serif text-[20px] font-medium leading-none">Ψ</span>
               </div>
-              <span className="font-sans text-[1.1rem] font-medium tracking-tight text-[#29272C]">
+              <span className="font-sans text-[1.25rem] font-bold tracking-tight text-[#1A1A1A]">
                 Mind Refill
               </span>
             </Link>
             
-            <p className="text-[15px] text-[#62547F] font-light leading-relaxed max-w-sm">
+            <p className="text-[14px] text-[#666666] font-normal leading-relaxed max-w-[280px]">
               A safe, simple space to find the right support — at your own pace.
             </p>
             
             <div className="flex items-center gap-3 pt-2">
-              <a href="#" className="w-10 h-10 rounded-full bg-[#FAF8F2] border border-[#EEEAF5] flex items-center justify-center text-[#A99BC7] hover:text-[#62547F] hover:bg-[#F7F5FA] transition-colors">
+              <a href="#" className="w-9 h-9 rounded-full bg-[#F4EFF9] flex items-center justify-center text-[#7856A4] hover:bg-[#EAE6F0] transition-colors">
                 <Instagram className="w-4 h-4" />
                 <span className="sr-only">Instagram</span>
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-[#FAF8F2] border border-[#EEEAF5] flex items-center justify-center text-[#A99BC7] hover:text-[#62547F] hover:bg-[#F7F5FA] transition-colors">
+              <a href="#" className="w-9 h-9 rounded-full bg-[#F4EFF9] flex items-center justify-center text-[#7856A4] hover:bg-[#EAE6F0] transition-colors">
                 <Twitter className="w-4 h-4" />
                 <span className="sr-only">Twitter</span>
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-[#FAF8F2] border border-[#EEEAF5] flex items-center justify-center text-[#A99BC7] hover:text-[#62547F] hover:bg-[#F7F5FA] transition-colors">
+              <a href="#" className="w-9 h-9 rounded-full bg-[#F4EFF9] flex items-center justify-center text-[#7856A4] hover:bg-[#EAE6F0] transition-colors">
                 <Linkedin className="w-4 h-4" />
                 <span className="sr-only">LinkedIn</span>
+              </a>
+              <a href="#" className="w-9 h-9 rounded-full bg-[#F4EFF9] flex items-center justify-center text-[#7856A4] hover:bg-[#EAE6F0] transition-colors">
+                <Youtube className="w-4 h-4" />
+                <span className="sr-only">YouTube</span>
               </a>
             </div>
           </div>
 
           {/* Spacer */}
-          <div className="hidden md:block md:col-span-3"></div>
+          <div className="hidden lg:block lg:col-span-1"></div>
 
-          {/* Navigation */}
-          <div className="md:col-span-2 space-y-4">
-            <h4 className="text-[12px] font-semibold tracking-wide text-[#29272C] uppercase">
-              Platform
-            </h4>
-            <ul className="space-y-3">
-              <li>
-                <Link href="/psychologists" className="text-[14px] text-[#62547F] hover:text-[#29272C] transition-colors">
-                  Find Support
-                </Link>
-              </li>
-              <li>
-                <Link href="/resources" className="text-[14px] text-[#62547F] hover:text-[#29272C] transition-colors">
-                  Resources
-                </Link>
-              </li>
-              <li>
-                <Link href="/login" className="text-[14px] text-[#62547F] hover:text-[#29272C] transition-colors">
-                  Sign In
-                </Link>
-              </li>
-            </ul>
+          {/* Navigation Columns */}
+          <div className="md:col-span-7 lg:col-span-7 grid grid-cols-2 md:grid-cols-4 gap-8">
+            
+            <div className="space-y-5">
+              <h4 className="text-[11px] font-bold tracking-widest text-[#AFA1CE] uppercase">
+                Platform
+              </h4>
+              <ul className="space-y-3.5">
+                <li><Link href="/intake" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">Find Support</Link></li>
+                <li><Link href="/psychologists" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">Psychologists</Link></li>
+                <li><Link href="/resources" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">Resources</Link></li>
+                <li><Link href="/ebooks" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">E-Books</Link></li>
+                <li><Link href="/register?role=PSYCHOLOGIST" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">For Psychologists</Link></li>
+              </ul>
+            </div>
+
+            <div className="space-y-5">
+              <h4 className="text-[11px] font-bold tracking-widest text-[#AFA1CE] uppercase">
+                Company
+              </h4>
+              <ul className="space-y-3.5">
+                <li><Link href="/about" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">About Us</Link></li>
+                <li><Link href="/mission" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">Our Mission</Link></li>
+                <li><Link href="/careers" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">Careers</Link></li>
+                <li><Link href="/contact" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">Contact Us</Link></li>
+              </ul>
+            </div>
+
+            <div className="space-y-5">
+              <h4 className="text-[11px] font-bold tracking-widest text-[#AFA1CE] uppercase">
+                Legal
+              </h4>
+              <ul className="space-y-3.5">
+                <li><Link href="/legal/privacy" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/legal/terms" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">Terms of Service</Link></li>
+                <li><Link href="/legal/refund" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">Refund Policy</Link></li>
+                <li><Link href="/legal/cookies" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">Cookie Policy</Link></li>
+              </ul>
+            </div>
+
+            <div className="space-y-5">
+              <h4 className="text-[11px] font-bold tracking-widest text-[#AFA1CE] uppercase">
+                Support
+              </h4>
+              <ul className="space-y-3.5">
+                <li><Link href="/help" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">Help Center</Link></li>
+                <li><Link href="/crisis" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">Safety & Crisis Support</Link></li>
+                <li><Link href="/report" className="text-[14px] text-[#444] hover:text-[#7856A4] transition-colors">Report a Concern</Link></li>
+              </ul>
+            </div>
+
           </div>
-
-          {/* Legal */}
-          <div className="md:col-span-2 space-y-4">
-            <h4 className="text-[12px] font-semibold tracking-wide text-[#29272C] uppercase">
-              Legal
-            </h4>
-            <ul className="space-y-3">
-              <li>
-                <Link href="/legal/privacy" className="text-[14px] text-[#62547F] hover:text-[#29272C] transition-colors">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/legal/terms" className="text-[14px] text-[#62547F] hover:text-[#29272C] transition-colors">
-                  Terms of Service
-                </Link>
-              </li>
-            </ul>
-          </div>
-
         </div>
 
         {/* Crisis Notice & Copyright */}
-        <div className="mt-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="p-4 rounded-xl bg-[#FAF8F2] border border-[#EEEAF5] text-[13px] text-[#62547F] flex items-center gap-3">
-            <HeartHandshake className="w-4 h-4 text-[#A99BC7] flex-shrink-0" />
+        <div className="mt-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="px-5 py-3 rounded-[12px] bg-[#FCEAEA] text-[#666666] text-[13px] flex items-center gap-3 shrink-0 border border-[#F5D5D5]">
+            <Heart className="w-4 h-4 text-[#D9534F] flex-shrink-0" />
             <p>
-              If you are in crisis, please call your local emergency services or the national crisis helpline <strong className="text-[#29272C] font-medium">988</strong> (or 112/911).
+              If you are in crisis, please call your local emergency services or the national crisis helpline <strong className="text-[#1A1A1A] font-semibold">988</strong> (or 112/911).
             </p>
           </div>
 
-          <p className="text-[13px] text-[#A99BC7]">
+          <p className="text-[12px] text-[#AFA1CE]">
             &copy; {new Date().getFullYear()} Mind Refill. All rights reserved.
           </p>
         </div>
